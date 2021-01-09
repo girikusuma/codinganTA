@@ -38,6 +38,9 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
+        <a href="{{ url ('/') }}" class="nav-link">Home</a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
         <a href="{{ url ('/browsing') }}" class="nav-link">Browsing</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
@@ -68,7 +71,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                Kriteria
+                Kriteria Sepeda Motor
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -76,37 +79,25 @@
               <li class="nav-item">
                 <a href="./index.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Kriteria 1</p>
+                  <p>Merek</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="./index.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Kriteria 2</p>
+                  <p>Transmisi</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="./index.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Kriteria 3</p>
+                  <p>Type Motor</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="./index.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Kriteria 4</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Kriteria 5</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Kriteria 6</p>
+                  <p>Sistem Bahan Bakar</p>
                 </a>
               </li>
             </ul>
