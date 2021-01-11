@@ -19,5 +19,8 @@ Route::get('/', 'PagesController@home');
 Route::get('/browsing', 'PagesController@browsing');
 Route::get('/searching', 'PagesController@searching');
 
-Route::get('/sepedamotor', 'MotorController@index');
+Route::get('/sepedamotor', 'MotorController@menu');
+Route::get('/listmotor', 'MotorController@index');
 Route::get('/contoh', 'MotorController@coba');
+
+Route::get('/listmerek', 'MerekController@index');

@@ -4,12 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class MotorController extends Controller
+class MerekController extends Controller
 {
-    public function menu()
-    {
-        return view ('sepedamotor/menu');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -17,12 +13,7 @@ class MotorController extends Controller
      */
     public function index()
     {
-        return view ('sepedamotor/index');
-    }
-
-    public function coba()
-    {
-        return view ('sepedamotor/detail');
+        return view('merekmotor/index');
     }
 
     /**

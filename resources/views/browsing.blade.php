@@ -25,13 +25,13 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>150</h3>
-                <p>Sepeda Motor</p>
+                <h3>Sepeda Motor</h3>
+                <p>I Made Cantiawan Giri Kusuma</p>
               </div>
               <div class="icon">
                 <i class="ion ion-android-bicycle"></i>
               </div>
-              <a href="{{ url ('/sepedamotor') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{ url ('/sepedamotor') }}" class="small-box-footer">Lihat <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -39,14 +39,13 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                <p>Dealer</p>
+                <h3>Dealer</h3>
+                <p>I Made Cantiawan Giri Kusuma</p>
               </div>
               <div class="icon">
                 <i class="ion ion-briefcase"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="#" class="small-box-footer">Lihat <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -54,14 +53,13 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>44</h3>
-
-                <p>Service Centre</p>
+                <h3>Service Centre</h3>
+                <p>I Made Cantiawan Giri Kusuma</p>
               </div>
               <div class="icon">
                 <i class="ion ion-ios-cog"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="#" class="small-box-footer">Lihat <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
         </div>
