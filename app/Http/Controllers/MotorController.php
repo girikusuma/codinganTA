@@ -20,10 +20,7 @@ class MotorController extends Controller
         return view ('sepedamotor/index');
     }
 
-    public function coba()
-    {
-        return view ('sepedamotor/detail');
-    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -54,7 +51,7 @@ class MotorController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('sepedamotor/detail', ['idmotor' => $id]);
     }
 
     /**
