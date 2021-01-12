@@ -89,21 +89,27 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./index.html" class="nav-link">
+                <a href="{{ url('/listtype') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Type Motor</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./index.html" class="nav-link">
+                <a href="{{ url('/listtahun') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Sistem Bahan Bakar</p>
+                  <p>Tahun Produksi</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ url('/listvolumesilinder') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Volume Silinder</p>
                 </a>
               </li>
             </ul>
           </li>
           <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link">
+            <a href="{{ url ('/browsing') }}" class="nav-link">
               <i class="nav-icon fas fa-globe"></i>
               <p>
                 Browsing

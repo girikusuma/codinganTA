@@ -33,7 +33,7 @@ $merek = $sparql->query("SELECT * WHERE {?s rdf:type motor:MerkMotor}");
             $hasilmerek = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->s->getUri());
         ?>
         <a href="{{ url('/listmerek/'.$hasilmerek.'/') }}" style="color: black;">
-          <div class="card d-inline-block mr-2 text-white bg-secondary mb-3" style="width: 18rem;">
+          <div class="card d-inline-block mr-2 text-white bg-dark mb-3" style="width: 18rem;">
             <div class="card-body">
                 <h3 class="card-title">{{ $hasilmerek }}</h3>
             </div>

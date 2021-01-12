@@ -28,3 +28,12 @@ Route::get('/listmerek/{hasilmerek}', 'MerekController@show');
 
 Route::get('/listtransmisi', 'TransmisiController@index');
 Route::get('/listtransmisi/{hasiltransmisi}', 'TransmisiController@show');
+
+Route::get('/listtype', 'TypeController@index');
+Route::get('/listtype/{hasiltype}', 'TypeController@show');
+
+Route::get('/listtahun', 'TahunController@index');
+Route::get('/listtahun/{hasiltahun}', 'TahunController@show');
+
+Route::get('/listvolumesilinder', 'VolumeController@index');
+Route::get('/listvolumesilinder/{hasilvolume}', 'VolumeController@show');

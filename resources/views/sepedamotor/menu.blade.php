@@ -12,6 +12,9 @@ $sparql = new Client('http://127.0.0.1:3030/motor/query');
 $motor = $sparql->query('SELECT * WHERE {?s rdf:type motor:NamaUnit. ?s motor:MemilikiNama ?o}');
 $merek = $sparql->query('SELECT * WHERE {?s rdf:type motor:MerkMotor}');
 $transmisi = $sparql->query('SELECT * WHERE {?s rdf:type motor:Transmisi}');
+$type = $sparql->query('SELECT * WHERE {?s rdf:type motor:JenisMotor}');
+$tahun = $sparql->query('SELECT * WHERE {?s rdf:type motor:TahunProduksi}');
+$volume = $sparql->query('SELECT * WHERE {?s rdf:type motor:VolumeSilinderr}');
 ?>
 @extends('layout/main')
 
@@ -20,9 +23,7 @@ $transmisi = $sparql->query('SELECT * WHERE {?s rdf:type motor:Transmisi}');
 @section('container')
 
 <?php
-    $i = 0;
-    $j = 0;
-    $k = 0;
+    $i = $j = $k = $t = $p = $v = 0;
     foreach ($motor as $item){
         $i = $i + 1;
     }
@@ -31,6 +32,15 @@ $transmisi = $sparql->query('SELECT * WHERE {?s rdf:type motor:Transmisi}');
     }
     foreach ($transmisi as $tr){
         $k = $k + 1;
+    }
+    foreach ($type as $ty){
+      $t = $t + 1;
+    }
+    foreach ($tahun as $th){
+      $p = $p + 1;
+    }
+    foreach ($volume as $vol){
+      $v = $v + 1;
     }
 ?>
 <div class="content-wrapper">
@@ -70,6 +80,36 @@ $transmisi = $sparql->query('SELECT * WHERE {?s rdf:type motor:Transmisi}');
                 <p>Jumlah : {{ $k }}</p>
               </div>
               <a href="{{ url('/listtransmisi') }}" class="small-box-footer">Lihat <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6 mt-4 ml-2">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3>Type Motor</h3>
+                <p>Jumlah : {{ $t }}</p>
+              </div>
+              <a href="{{ url('/listtype') }}" class="small-box-footer">Lihat <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6 mt-4 ml-2">
+            <!-- small box -->
+            <div class="small-box bg-ligth">
+              <div class="inner">
+                <h3>Tahun Produksi</h3>
+                <p>Jumlah : {{ $p }}</p>
+              </div>
+              <a href="{{ url('/listtahun') }}" class="small-box-footer" style="color: black;">Lihat <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6 mt-4 ml-2">
+            <!-- small box -->
+            <div class="small-box bg-dark">
+              <div class="inner">
+                <h3>Volume Silinder</h3>
+                <p>Jumlah : {{ $v }}</p>
+              </div>
+              <a href="{{ url('/listvolumesilinder') }}" class="small-box-footer">Lihat <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
         </div>
