@@ -10,12 +10,13 @@ RdfNamespace::set('owl', 'http://www.w3.org/2002/07/owl#');
 RdfNamespace::set('motor', 'http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#');
 $sparql = new Client('http://127.0.0.1:3030/motor/query');
 
-$merek = $sparql->query("SELECT * WHERE {?s rdf:type motor:MerkMotor}");
+$qr = "SELECT * WHERE {?s motor:AdalahMerkDari motor:".$merek.". ?s motor:MemilikiNama ?n}";
+$getnama = $sparql->query($qr);
 
 ?>
 @extends('layout/main')
 
-@section('title', 'Merek Sepeda Motor')
+@section('title', 'List Sepeda Motor {{ $merek }}')
 
 @section('container')
 <div class="content-wrapper">
@@ -24,23 +25,29 @@ $merek = $sparql->query("SELECT * WHERE {?s rdf:type motor:MerkMotor}");
   <div class="row">
     <div class="col">
       <div class="content-header">
-        <h1 class="m-0 text-dark">Merek Motor</h1>
+        <h1 class="m-0 text-dark">Sepeda Motor {{ $merek }}</h1>
         <hr>
       </div>
       <section class="content">
         <?php
-          foreach($merek as $item){
-            $hasilmerek = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->s->getUri());
+          $i = 0;
+          foreach($getnama as $item){
+            $nama = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->n->getValue());
+            $idmotor = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->s->getUri());
+            $i = $i + 1;
         ?>
-        <a href="{{ url('/listmerek/'.$hasilmerek.'/') }}" style="color: black;">
-          <div class="card d-inline-block mr-2 text-white bg-secondary mb-3" style="width: 18rem;">
+        <a href="{{ url('/listmotor/'.$idmotor.'/') }}" style="color: black;">
+          <div class="card d-inline-block mr-2" style="width: 18rem;">
             <div class="card-body">
-                <h3 class="card-title">{{ $hasilmerek }}</h3>
+              <p class="font-weight-normal ml-3">{{ $nama }}</p>
             </div>
           </div>
         </a>
         <?php
         }
+        if ($i == "0") {
+            echo "Tidak ada data Sepeda Motor ".$merek;
+          }
         ?>
       </section>
     </div>

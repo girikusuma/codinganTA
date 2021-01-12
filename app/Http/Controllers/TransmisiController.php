@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class MerekController extends Controller
+class TransmisiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +13,7 @@ class MerekController extends Controller
      */
     public function index()
     {
-        return view('merekmotor/index');
+        return view('transmisi/index');
     }
 
     /**
@@ -45,7 +45,7 @@ class MerekController extends Controller
      */
     public function show($id)
     {
-        return view('merekmotor/list', ['merek' => $id]);
+        return view('transmisi/list', ['transmisi' => $id]);
     }
 
     /**

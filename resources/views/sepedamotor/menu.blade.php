@@ -44,8 +44,8 @@ $transmisi = $sparql->query('SELECT * WHERE {?s rdf:type motor:Transmisi}');
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>{{ $i }}</h3>
-                <p>Daftar Sepeda Motor</p>
+                <h3>Daftar Motor</h3>
+                <p>Jumlah : {{ $i }}</p>
               </div>
               <a href="{{ url('/listmotor') }}" class="small-box-footer">Lihat <i class="fas fa-arrow-circle-right"></i></a>
             </div>
@@ -55,8 +55,8 @@ $transmisi = $sparql->query('SELECT * WHERE {?s rdf:type motor:Transmisi}');
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>{{ $j }}</h3>
-                <p>Daftar Merek</p>
+                <h3>Merek</h3>
+                <p>Jumlah : {{ $j }}</p>
               </div>
               <a href="{{ url('/listmerek') }}" class="small-box-footer">Lihat <i class="fas fa-arrow-circle-right"></i></a>
             </div>
@@ -66,10 +66,10 @@ $transmisi = $sparql->query('SELECT * WHERE {?s rdf:type motor:Transmisi}');
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>{{ $k }}</h3>
-                <p>Jenis Transmisi</p>
+                <h3>Jenis Transmisi</h3>
+                <p>Jumlah : {{ $k }}</p>
               </div>
-              <a href="#" class="small-box-footer">Lihat <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{ url('/listtransmisi') }}" class="small-box-footer">Lihat <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
         </div>

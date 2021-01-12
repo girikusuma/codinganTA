@@ -24,3 +24,7 @@ Route::get('/listmotor', 'MotorController@index');
 Route::get('/listmotor/{idmotor}', 'MotorController@show');
 
 Route::get('/listmerek', 'MerekController@index');
+Route::get('/listmerek/{hasilmerek}', 'MerekController@show');
+
+Route::get('/listtransmisi', 'TransmisiController@index');
+Route::get('/listtransmisi/{hasiltransmisi}', 'TransmisiController@show');

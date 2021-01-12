@@ -54,7 +54,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <div class="container">
-        <a href="index3.html" class="brand-link">
+        <a href="{{ url('/') }}" class="brand-link">
         <i class="nav-icon fas fa-motorcycle"></i>
         <span class="brand-text font-weight-light">Sepeda Motor</span>
         </a>
@@ -77,13 +77,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="./index.html" class="nav-link">
+                <a href="{{ url('/listmerek') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Merek</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./index.html" class="nav-link">
+                <a href="{{ url('/listtransmisi') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Transmisi</p>
                 </a>
