@@ -35,7 +35,7 @@ foreach($getnama as $i){
     <!-- Main content -->
     <section class="content">
         <?php
-        $sql = "SELECT * WHERE {motor:".$idmotor." motor:AdalahJenisTransmisi ?t. motor:".$idmotor." motor:AdalahMerkDari ?m. motor:".$idmotor." motor:MemilikiSistemBahanBakar ?sb. motor:".$idmotor." motor:MemilikiJenis ?j. motor:".$idmotor." motor:MemilikiVolumeSilinder ?v . motor:".$idmotor." motor:MemilikiTahunProduksi ?tp}";
+        $sql = "SELECT * WHERE {motor:".$idmotor." motor:AdalahJenisTransmisi ?t. motor:".$idmotor." motor:AdalahMerkDari ?m. motor:".$idmotor." motor:MemilikiSistemBahanBakar ?sb. motor:".$idmotor." motor:MemilikiJenis ?j. motor:".$idmotor." motor:MemilikiVolumeSilinder ?v . motor:".$idmotor." motor:MemilikiTahunProduksi ?tp. motor:".$idmotor." motor:MemilikiTingkatKonsumsiBahanBakar ?konsumsi. motor:".$idmotor." motor:MemilikiKecepatan ?kecepatan. motor:".$idmotor." motor:MemilikiKapasitasBahanBakar ?kapasitas. motor:".$idmotor." motor:MemilikiDimensiLebar ?L. motor:".$idmotor." motor:MemilikiDimensiTinggi ?T. motor:".$idmotor." motor:MemilikiDimensiPanjang ?P. motor:".$idmotor." motor:MemilikiHarga ?harga}";
         $hasil = $sparql->query($sql);
           foreach($hasil as $item){
             $transmisi = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->t->getUri());
@@ -44,6 +44,13 @@ foreach($getnama as $i){
             $jenis = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->j->getUri());
             $volume = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->v->getUri());
             $tahun = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->tp->getUri());
+            $konsumsi = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->konsumsi->getValue());
+            $kecepatan = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->kecepatan->getValue());
+            $kapasitas = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->kapasitas->getValue());
+            $lebar = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->L->getValue());
+            $tinggi = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->T->getValue());
+            $panjang = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->P->getValue());
+            $harga = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->harga->getValue());
         ?>
         <div class="container">
           <div class="row">
@@ -82,6 +89,37 @@ foreach($getnama as $i){
                     <td>Volume Silinder</td>
                     <td>:</td>
                     <td>{{ $volume }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-4">
+              <table class="table table-striped">
+                <tbody>
+                  <tr>
+                    <td>Konsumsi Bahan Bakar</td>
+                    <td>:</td>
+                    <td>{{ $konsumsi }} L/km</td>
+                  </tr>
+                  <tr>
+                    <td>Kecepatan</td>
+                    <td>:</td>
+                    <td>{{ $kecepatan }} km/j</td>
+                  </tr>
+                  <tr>
+                    <td>Kapasitas Bahan Bakar</td>
+                    <td>:</td>
+                    <td>{{ $kapasitas }} L</td>
+                  </tr>
+                  <tr>
+                    <td>Dimensi</td>
+                    <td>:</td>
+                    <td>{{ $panjang }} x {{ $tinggi }} x {{ $lebar }} mm</td>
+                  </tr>
+                  <tr>
+                    <td>Harga</td>
+                    <td>:</td>
+                    <td>Rp. {{ $harga }}</td>
                   </tr>
                 </tbody>
               </table>

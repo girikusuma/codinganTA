@@ -21,6 +21,6 @@ Route::get('/searching', 'PagesController@searching');
 
 Route::get('/sepedamotor', 'MotorController@menu');
 Route::get('/listmotor', 'MotorController@index');
-Route::get('/{idmotor}', 'MotorController@show');
+Route::get('/listmotor/{idmotor}', 'MotorController@show');
 
 Route::get('/listmerek', 'MerekController@index');

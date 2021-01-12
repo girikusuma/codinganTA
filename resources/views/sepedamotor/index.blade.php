@@ -33,7 +33,7 @@ $motor = $sparql->query("SELECT * WHERE {?s rdf:type motor:NamaUnit. ?s motor:Me
             $hasilmotor = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->o->getValue());
             $idmotor = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->s->getUri());
         ?>
-        <a href="/{{ $idmotor }}" style="color: black;">
+        <a href="{{ url('/listmotor/'.$idmotor.'/') }}" style="color: black;">
           <div class="card d-inline-block mr-2" style="width: 18rem;">
             <div class="card-body">
               <p class="font-weight-normal ml-3">{{ $hasilmotor }}</p>
