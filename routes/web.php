@@ -37,3 +37,7 @@ Route::get('/listtahun/{hasiltahun}', 'TahunController@show');
 
 Route::get('/listvolumesilinder', 'VolumeController@index');
 Route::get('/listvolumesilinder/{hasilvolume}', 'VolumeController@show');
+
+Route::get('/dealer', 'DealerController@index');
+Route::get('/dealer/{hasilprovinsi}', 'DealerController@location');
+Route::get('/dealer/{daerah}/{namakabupaten}', 'DealerController@show');

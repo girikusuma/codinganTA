@@ -45,7 +45,7 @@
               <div class="icon">
                 <i class="ion ion-briefcase"></i>
               </div>
-              <a href="#" class="small-box-footer">Lihat <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{ url('/dealer') }}" class="small-box-footer">Lihat <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
