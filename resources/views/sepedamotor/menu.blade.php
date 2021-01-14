@@ -14,7 +14,7 @@ $merek = $sparql->query('SELECT * WHERE {?s rdf:type motor:MerkMotor}');
 $transmisi = $sparql->query('SELECT * WHERE {?s rdf:type motor:Transmisi}');
 $type = $sparql->query('SELECT * WHERE {?s rdf:type motor:JenisMotor}');
 $tahun = $sparql->query('SELECT * WHERE {?s rdf:type motor:TahunProduksi}');
-$volume = $sparql->query('SELECT * WHERE {?s rdf:type motor:VolumeSilinderr}');
+$volume = $sparql->query('SELECT * WHERE {?s rdf:type motor:VolumeSilinder}');
 ?>
 @extends('layout/main')
 

@@ -9,8 +9,7 @@ RdfNamespace::set('rdfs', 'http://www.w3.org/2000/01/rdf-schema#');
 RdfNamespace::set('owl', 'http://www.w3.org/2002/07/owl#');
 RdfNamespace::set('motor', 'http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#');
 $sparql = new Client('http://127.0.0.1:3030/motor/query');
-
-$dealer = $sparql->query('SELECT * WHERE {?s rdf:type motor:NamaDealer. ?s motor:MemilikiLokasi motor:'.$lokasi.'}');
+$merek = $sparql->query('SELECT * WHERE {?merek rdf:type motor:MerkMotor}');
 
 ?>
 @extends('layout/main')
@@ -28,20 +27,40 @@ $dealer = $sparql->query('SELECT * WHERE {?s rdf:type motor:NamaDealer. ?s motor
         <hr>
       </div>
       <section class="content">
-        <?php
-          foreach($dealer as $item){
-            $hasildealer = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->s->getUri());
-        ?>
-        <a href="{{ url('/') }}" style="color: black;">
-          <div class="card d-inline-block mr-2" style="width: 18rem;">
-            <div class="card-body">
-              <p class="font-weight-normal ml-3">{{ $hasildealer }}</p>
-            </div>
+      <div class="container">
+        <div class="row">
+          <?php
+          $merekarray = array();
+          $m = 0;
+          foreach($merek as $mr){
+            $merekarray[$m] = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$mr->merek->getUri());
+            $namamerek = $merekarray[$m];
+            $m = $m + 1;
+          ?>
+          <div class="col">
+            <h4>{{ $namamerek }}</h4>
           </div>
-        </a>
-        <?php
-        }
-        ?>
+          <?php } ?>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <?php
+            for($n = 0; $n < $m; $n++){
+              $dealer = $sparql->query('SELECT * WHERE {?s rdf:type motor:NamaDealer. ?s motor:MemilikiLokasi motor:'.$lokasi.'. ?s motor:AdalahDealerDari motor:'.$merekarray[$n].'}');
+          ?>
+          <div class="col">
+            <?php
+              foreach($dealer as $dl){
+                $namadealer = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$dl->s->getUri());
+            ?>
+            <a href="{{ url('/') }}" class="text-decoration-none text-muted">
+              <p>{{ $namadealer }}</p>
+            </a>
+          </div>
+          <?php } } ?>
+        </div>
+      </div>
       </section>
     </div>
   </div>

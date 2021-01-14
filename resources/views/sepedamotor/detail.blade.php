@@ -55,7 +55,7 @@ foreach($getnama as $i){
         <div class="container">
           <div class="row">
             <div class="col-4">
-              1 of 2
+              <img src="/images/motor/cbr150r.jpg" class="img-thumbnail rounded"> 
             </div>
             <div class="col-4">
               <table class="table table-striped">
