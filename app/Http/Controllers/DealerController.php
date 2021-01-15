@@ -18,6 +18,11 @@ class DealerController extends Controller
 
     public function show($id, $id2)
     {
-        return view('dealer/list', ['lokasi' => $id2]);
+        return view('dealer/list', ['kab' => $id2, 'prov' => $id]);
+    }
+
+    public function detail($id, $id2, $id3)
+    {
+        return view('dealer/detail', ['provinsi' => $id, 'kabupaten' => $id2, 'dealer' => $id3]);
     }
 }

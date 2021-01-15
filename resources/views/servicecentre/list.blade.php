@@ -16,7 +16,7 @@ $merek = $sparql->query('SELECT * WHERE {?merek rdf:type motor:MerkMotor}');
 ?>
 @extends('layout/main')
 
-@section('title', 'Dealer Sepeda Motor')
+@section('title', 'Service Centre Sepeda Motor')
 
 @section('container')
 <div class="content-wrapper">
@@ -25,7 +25,7 @@ $merek = $sparql->query('SELECT * WHERE {?merek rdf:type motor:MerkMotor}');
   <div class="row">
     <div class="col">
       <div class="content-header">
-        <h1 class="m-0 text-dark">Daftar Dealer Motor</h1>
+        <h1 class="m-0 text-dark">Daftar Service Centre Motor</h1>
         <hr>
       </div>
       <section class="content">
@@ -49,15 +49,15 @@ $merek = $sparql->query('SELECT * WHERE {?merek rdf:type motor:MerkMotor}');
         <div class="row">
           <?php
             for($n = 0; $n < $m; $n++){
-              $dealer = $sparql->query('SELECT * WHERE {?s rdf:type motor:NamaDealer. ?s motor:MemilikiLokasi motor:'.$kabupaten.'. ?s motor:AdalahDealerDari motor:'.$merekarray[$n].'}');
+              $service = $sparql->query('SELECT * WHERE {?s rdf:type motor:NamaServiceCentre. ?s motor:MemilikiLokasi motor:'.$kabupaten.'}');
           ?>
           <div class="col">
             <?php
-              foreach($dealer as $dl){
-                $iddealer = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$dl->s->getUri());
+              foreach($service as $dl){
+                $idservice = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$dl->s->getUri());
             ?>
-            <a href="{{ url('/dealer/'.$provinsi.'/'.$kabupaten.'/'.$iddealer.'/') }}" class="text-decoration-none text-muted">
-              <p>{{ $iddealer }}</p>
+            <a href="{{ url('/servicecentre/'.$provinsi.'/'.$kabupaten.'/'.$idservice.'/') }}" class="text-decoration-none text-muted">
+              <p>{{ $idservice }}</p>
             </a>
           </div>
           <?php } } ?>
