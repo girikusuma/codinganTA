@@ -44,7 +44,7 @@
         <a href="{{ url ('/browsing') }}" class="nav-link">Browsing</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Searching</a>
+        <a href="{{ url ('/searching') }}" class="nav-link">Searching</a>
       </li>
     </ul>
   </nav>
@@ -117,7 +117,7 @@
             </a>
           </li>
           <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link">
+            <a href="{{ url ('/searching') }}" class="nav-link">
               <i class="nav-icon fas fa-search-plus"></i>
               <p>
                 Searching

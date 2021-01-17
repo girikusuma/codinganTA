@@ -48,19 +48,22 @@ $merek = $sparql->query('SELECT * WHERE {?merek rdf:type motor:MerkMotor}');
       <div class="container">
         <div class="row">
           <?php
+            $n = 0;
             for($n = 0; $n < $m; $n++){
-              $dealer = $sparql->query('SELECT * WHERE {?s rdf:type motor:NamaDealer. ?s motor:MemilikiLokasi motor:'.$kabupaten.'. ?s motor:AdalahDealerDari motor:'.$merekarray[$n].'}');
           ?>
           <div class="col">
             <?php
+              $merekdealer = $merekarray[$n];
+              $dealer = $sparql->query('SELECT * WHERE {?s rdf:type motor:NamaDealer. ?s motor:MemilikiLokasi motor:'.$kabupaten.'. ?s motor:AdalahDealerDari motor:'.$merekdealer.'}');
               foreach($dealer as $dl){
                 $iddealer = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$dl->s->getUri());
             ?>
             <a href="{{ url('/dealer/'.$provinsi.'/'.$kabupaten.'/'.$iddealer.'/') }}" class="text-decoration-none text-muted">
               <p>{{ $iddealer }}</p>
             </a>
+            <?php } ?>
           </div>
-          <?php } } ?>
+          <?php } ?>
         </div>
       </div>
       </section>

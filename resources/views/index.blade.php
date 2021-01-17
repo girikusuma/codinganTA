@@ -24,7 +24,7 @@
         <div class="card" style="width: 18rem;">
             <img class="card-img-top" src="images/searchingcard.jpg" alt="Card image cap">
             <div class="card-body">
-              <a href="{{ url ('/browsing') }}"><h5 class="card-title btn btn-success btn-lg btn-block">Searching</h5></a>
+              <a href="{{ url ('/searching') }}"><h5 class="card-title btn btn-success btn-lg btn-block">Searching</h5></a>
             </div>
           </div>
         </div>

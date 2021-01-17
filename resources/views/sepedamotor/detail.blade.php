@@ -51,11 +51,12 @@ foreach($getnama as $i){
             $tinggi = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->T->getValue());
             $panjang = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->P->getValue());
             $harga = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->harga->getValue());
+            $namagambar = "cbr150r.jpg";
         ?>
         <div class="container">
           <div class="row">
             <div class="col-4">
-              <img src="/images/motor/cbr150r.jpg" class="img-thumbnail rounded"> 
+              <img src="/images/motor/<?php echo $namagambar ?>" class="img-thumbnail rounded"> 
             </div>
             <div class="col-4">
               <table class="table table-striped">
