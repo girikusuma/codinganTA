@@ -148,11 +148,13 @@ $volume = $sparql->query('SELECT * WHERE {?volume rdf:type motor:VolumeSilinder}
             </thead>
             <tbody>
               <?php
+              $iteration = 0;
               foreach($querydata as $item){
                 $hasilmotor = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->nama->getValue());
+                $iteration = $iteration + 1;
               ?>
               <tr>
-                <th scope="row">1</th>
+                <th scope="row">{{ $iteration }}</th>
                 <td>{{ $hasilmotor }}</td>
               </tr>
               <?php } ?>
