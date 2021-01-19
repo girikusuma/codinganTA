@@ -184,10 +184,12 @@ $volume = $sparql->query('SELECT * WHERE {?volume rdf:type motor:VolumeSilinder}
               <?php
                   }
                 } 
-              } else {
-                echo "Tidak ada motor dengan kriteria tersebut";
-              }
-              ?>
+              } else { ?>
+              <tr>
+                <th scope="row"></th>
+                <td>Data sepeda motor dengan kriteria tersebut tidak ada.</td>
+              </tr>
+              <?php } ?>
             </tbody>
           </table>
         </div>
