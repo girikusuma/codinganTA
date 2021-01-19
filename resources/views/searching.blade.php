@@ -99,7 +99,7 @@ $volume = $sparql->query('SELECT * WHERE {?volume rdf:type motor:VolumeSilinder}
               </select>
           </div>
           <input type="submit" name="cari" value="Cari" class="btn btn-primary">
-          <input type="submit" name="reset" value="Reset" class="btn btn-danger">
+          <input type="submit" name="reset" value="Reset" class="btn btn-danger" onclick="resetPage()">
         </form>
         <?php
         if (isset($_GET['cari']))
@@ -135,7 +135,21 @@ $volume = $sparql->query('SELECT * WHERE {?volume rdf:type motor:VolumeSilinder}
             $hasilvolume = 'motor:'.$hasilvolume;
           }
 
-          $querydata = $sparql->query("SELECT * WHERE {?motor motor:AdalahMerkDari ".$hasilmerek.". ?motor motor:AdalahJenisTransmisi ".$hasiltransmisi.". ?motor motor:MemilikiTahunProduksi ".$hasiltahun.". ?motor motor:MemilikiJenis ".$hasiltypemotor.". ?motor motor:MemilikiVolumeSilinder ".$hasilvolume.". ?motor motor:MemilikiNama ?nama}")
+          $querydata = $sparql->query("SELECT * WHERE {?motor motor:AdalahMerkDari ".$hasilmerek.". ?motor motor:AdalahJenisTransmisi ".$hasiltransmisi.". ?motor motor:MemilikiTahunProduksi ".$hasiltahun.". ?motor motor:MemilikiJenis ".$hasiltypemotor.". ?motor motor:MemilikiVolumeSilinder ".$hasilvolume.". ?motor motor:MemilikiNama ?nama}");
+          $jumlah = 0;
+          foreach($querydata as $getjumlah){
+            $jumlah = $jumlah + 1;
+          }
+          $arraymotor = array();
+          $arrayid = array();
+          $iterasimotor = 0;
+          foreach($querydata as $item){
+            $idmotor = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->motor->getUri());
+            $hasilmotor = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->nama->getValue());
+            $arraymotor[$iterasimotor] = $hasilmotor;
+            $arrayid[$iterasimotor] = $idmotor;
+            $iterasimotor = $iterasimotor + 1;
+          }
         ?>
         <div class="container-fluid">
           <div class="text-nowrap font-weight-bold mt-3"><h2>Hasil</h2></div>
@@ -149,15 +163,31 @@ $volume = $sparql->query('SELECT * WHERE {?volume rdf:type motor:VolumeSilinder}
             <tbody>
               <?php
               $iteration = 0;
-              foreach($querydata as $item){
-                $hasilmotor = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->nama->getValue());
-                $iteration = $iteration + 1;
+              if($jumlah > 0){
+                for($motor = 1; $motor <= $jumlah; $motor++){
+                  if($motor < $jumlah){
+                    if($arraymotor[$motor - 1] != $arraymotor[$motor]){
+                      $iteration = $iteration + 1;
+                      $id = $arrayid[$motor - 1];
               ?>
               <tr>
                 <th scope="row">{{ $iteration }}</th>
-                <td>{{ $hasilmotor }}</td>
+                <td><a href="{{ url('/listmotor/'.$id.'/') }}" class="text-decoration-none text-muted"><?php echo $arraymotor[$motor - 1]; ?></a></td>
               </tr>
-              <?php } ?>
+              <?php
+                    }
+                  } else { $iteration = $iteration + 1; $id = $arrayid[$motor - 1]; ?>
+              <tr>
+                <th scope="row">{{ $iteration }}</th>
+                <td><a href="{{ url('/listmotor/'.$id.'/') }}" class="text-decoration-none text-muted"><?php echo $arraymotor[$motor - 1]; ?></a></td>
+              </tr>
+              <?php
+                  }
+                } 
+              } else {
+                echo "Tidak ada motor dengan kriteria tersebut";
+              }
+              ?>
             </tbody>
           </table>
         </div>
@@ -166,4 +196,9 @@ $volume = $sparql->query('SELECT * WHERE {?volume rdf:type motor:VolumeSilinder}
     </section>
     <!-- /.content -->
   </div>
+<script>
+  function resetPage(){
+    location.reload();
+  }
+</script>
 @endsection

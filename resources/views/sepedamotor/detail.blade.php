@@ -37,11 +37,11 @@ foreach($getnama as $i){
         <?php
         $sql = "SELECT * WHERE {motor:".$idmotor." motor:AdalahJenisTransmisi ?t. motor:".$idmotor." motor:AdalahMerkDari ?m. motor:".$idmotor." motor:MemilikiSistemBahanBakar ?sb. motor:".$idmotor." motor:MemilikiJenis ?j. motor:".$idmotor." motor:MemilikiVolumeSilinder ?v . motor:".$idmotor." motor:MemilikiTahunProduksi ?tp. motor:".$idmotor." motor:MemilikiTingkatKonsumsiBahanBakar ?konsumsi. motor:".$idmotor." motor:MemilikiKecepatan ?kecepatan. motor:".$idmotor." motor:MemilikiKapasitasBahanBakar ?kapasitas. motor:".$idmotor." motor:MemilikiDimensiLebar ?L. motor:".$idmotor." motor:MemilikiDimensiTinggi ?T. motor:".$idmotor." motor:MemilikiDimensiPanjang ?P. motor:".$idmotor." motor:MemilikiHarga ?harga}";
         $hasil = $sparql->query($sql);
+          $jumlah = 0;
           foreach($hasil as $item){
             $transmisi = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->t->getUri());
             $merek = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->m->getUri());
             $sistem = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->sb->getUri());
-            $jenis = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->j->getUri());
             $volume = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->v->getUri());
             $tahun = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->tp->getUri());
             $konsumsi = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->konsumsi->getValue());
@@ -52,6 +52,8 @@ foreach($getnama as $i){
             $panjang = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->P->getValue());
             $harga = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->harga->getValue());
             $namagambar = "cbr150r.jpg";
+            $jumlah = $jumlah + 1;
+          }
         ?>
         <div class="container">
           <div class="row">
@@ -79,7 +81,29 @@ foreach($getnama as $i){
                   <tr>
                     <td>Type</td>
                     <td>:</td>
-                    <td>{{ $jenis }}</td>
+                    <td>
+                    <?php 
+                    $temp = 0;
+                    if($jumlah > 1) { 
+                        foreach ($hasil as $item ){ 
+                          $jenis = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->j->getUri());
+                          $temp = $temp + 1;
+                    ?> {{ $jenis }} 
+                    <?php
+                          if (($temp + 1) == $jumlah){
+                            echo " dan ";
+                          } else if(($temp + 1) < $jumlah){
+                            echo " , ";
+                          }
+                        }
+                      } 
+                      else {
+                        $jenis = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->j->getUri());
+                      ?> {{ $jenis }} 
+                      <?php 
+                      } 
+                      ?>
+                    </td>
                   </tr>
                   <tr>
                     <td>Sistem Bahan Bakar</td>
@@ -127,9 +151,6 @@ foreach($getnama as $i){
             </div>
           </div>
         </div>
-        <?php
-        }
-        ?>
     </section>
     <!-- /.content -->
   </div>
