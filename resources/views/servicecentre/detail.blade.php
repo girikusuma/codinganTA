@@ -1,15 +1,3 @@
-<?php
-require_once '../vendor/autoload.php';
-
-use EasyRdf\RdfNamespace;
-use EasyRdf\Sparql\Client;
-
-RdfNamespace::set('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
-RdfNamespace::set('rdfs', 'http://www.w3.org/2000/01/rdf-schema#');
-RdfNamespace::set('owl', 'http://www.w3.org/2002/07/owl#');
-RdfNamespace::set('motor', 'http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#');
-$sparql = new Client('http://127.0.0.1:3030/motor/query');
-?>
 @extends('layout/main')
 
 @section('title', 'Detail Motor')
@@ -31,21 +19,16 @@ $sparql = new Client('http://127.0.0.1:3030/motor/query');
     <!-- /.content-header -->
     <!-- Main content -->
     <section class="content">
-        <?php
-        $sql = "SELECT * WHERE {motor:".$service." motor:AdalahDealerDari ?merek}";
-        $hasil = $sparql->query($sql);
-          foreach($hasil as $item){
-            $merek = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->merek->getUri());
-        ?>
-        <div class="container">
-          <div class="row">
-            <div class="col">
-              <table class="table table-striped">
-                <tbody>
+    <div class="container">
+        <div class="row">
+          <div class="col">
+            <table class="table table-striped">
+              <tbody>
+                @foreach($service as $item)
                   <tr>
                     <td>Merek</td>
                     <td>:</td>
-                    <td>{{ $merek }}</td>
+                    <td>{{ $item['merek'] }}</td>
                   </tr>
                   <tr>
                     <td>Alamat</td>
@@ -62,19 +45,17 @@ $sparql = new Client('http://127.0.0.1:3030/motor/query');
                     <td>:</td>
                     <td>21:00 WITA</td>
                   </tr>
-                  <tr>
+                    <tr>
                     <td>Telepon</td>
                     <td>:</td>
                     <td>(0361) 242002</td>
                   </tr>
-                </tbody>
-              </table>
-            </div>
+                @endforeach
+              </tbody>
+            </table>
           </div>
         </div>
-        <?php
-        }
-        ?>
+      </div>
     </section>
     <!-- /.content -->
   </div>

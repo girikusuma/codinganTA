@@ -72,8 +72,19 @@ class ServiceController extends Controller
         return view('servicecentre/list', $data);
     }
 
-    public function detail($id, $id2, $id3)
+    public function detail($provinsi, $kabupaten, $id)
     {
-        return view('servicecentre/detail', ['provinsi' => $id, 'kabupaten' => $id2, 'service' => $id3]);
+        $getDetail = $this->sparql->query("SELECT * WHERE {motor:".$id." motor:AdalahServiceCentreDari ?merek}");
+        $result = [];
+        foreach($getDetail as $item){
+            array_push($result, [
+                'merek' => $this->parseData($item->merek->getUri())
+            ]);
+        }
+        $data = [
+            'service'    => $result,
+            'id'        => $id
+        ];
+        return view('servicecentre/detail', $data);
     }
 }
