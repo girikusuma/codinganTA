@@ -1,19 +1,3 @@
-<?php
-require_once '../vendor/autoload.php';
-
-use EasyRdf\RdfNamespace;
-use EasyRdf\Sparql\Client;
-
-RdfNamespace::set('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
-RdfNamespace::set('rdfs', 'http://www.w3.org/2000/01/rdf-schema#');
-RdfNamespace::set('owl', 'http://www.w3.org/2002/07/owl#');
-RdfNamespace::set('motor', 'http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#');
-$sparql = new Client('http://127.0.0.1:3030/motor/query');
-$provinsi = $prov;
-$kabupaten = $kab;
-$merek = $sparql->query('SELECT * WHERE {?merek rdf:type motor:MerkMotor}');
-
-?>
 @extends('layout/main')
 
 @section('title', 'Service Centre Sepeda Motor')
@@ -31,39 +15,26 @@ $merek = $sparql->query('SELECT * WHERE {?merek rdf:type motor:MerkMotor}');
       <section class="content">
       <div class="container">
         <div class="row">
-          <?php
-          $merekarray = array();
-          $m = 0;
-          foreach($merek as $mr){
-            $merekarray[$m] = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$mr->merek->getUri());
-            $namamerek = $merekarray[$m];
-            $m = $m + 1;
-          ?>
-          <div class="col">
-            <h4>{{ $namamerek }}</h4>
-          </div>
-          <?php } ?>
+          @foreach($getMerek as $item)
+            <div class="col">
+              <h4>{{ $item['merek'] }}</h4>
+            </div>
+          @endforeach
         </div>
       </div>
       <div class="container">
-      <div class="row">
-          <?php
-            $n = 0;
-            for($n = 0; $n < $m; $n++){
-          ?>
-          <div class="col">
-            <?php
-              $merekservice = $merekarray[$n];
-              $service = $sparql->query('SELECT * WHERE {?s rdf:type motor:NamaDealer. ?s motor:MemilikiLokasi motor:'.$kabupaten.'. ?s motor:AdalahServiceCentreDari motor:'.$merekservice.'}');
-              foreach($service as $sv){
-                $idservice = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$sv->s->getUri());
-            ?>
-            <a href="{{ url('/servicecentre/'.$provinsi.'/'.$kabupaten.'/'.$idservice.'/') }}" class="text-decoration-none text-muted">
-              <p>{{ $idservice }}</p>
-            </a>
-            <?php } ?>
-          </div>
-          <?php } ?>
+        <div class="row">
+          @foreach($getMerek as $count)
+            <div class="col">
+              @foreach($getService as $item)
+                @if($item['merekService'] == $count['merek'])
+                  <a href="{{ url('/servicecentre/'.$provinsi.'/'.$kabupaten.'/'.$item['id'].'/') }}" class="text-decoration-none text-muted">
+                    <p>{{ $item['id'] }}</p>
+                  </a>
+                @endif
+              @endforeach
+            </div>
+          @endforeach
         </div>
       </div>
       </section>

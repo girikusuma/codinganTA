@@ -1,19 +1,3 @@
-<?php
-require_once '../vendor/autoload.php';
-
-use EasyRdf\RdfNamespace;
-use EasyRdf\Sparql\Client;
-
-RdfNamespace::set('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
-RdfNamespace::set('rdfs', 'http://www.w3.org/2000/01/rdf-schema#');
-RdfNamespace::set('owl', 'http://www.w3.org/2002/07/owl#');
-RdfNamespace::set('motor', 'http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#');
-$sparql = new Client('http://127.0.0.1:3030/motor/query');
-
-$qr = "SELECT * WHERE {?s motor:MemilikiJenis motor:".$type.". ?s motor:MemilikiNama ?n}";
-$getnama = $sparql->query($qr);
-
-?>
 @extends('layout/main')
 
 @section('title', 'List Sepeda Motor dengan Type {{ $type }}')
@@ -29,26 +13,19 @@ $getnama = $sparql->query($qr);
         <hr>
       </div>
       <section class="content">
-        <?php
-          $i = 0;
-          foreach($getnama as $item){
-            $nama = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->n->getValue());
-            $idmotor = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->s->getUri());
-            $i = $i + 1;
-        ?>
-        <a href="{{ url('/listmotor/'.$idmotor.'/') }}" style="color: black;">
-          <div class="card d-inline-block mr-2" style="width: 18rem;">
-            <div class="card-body">
-              <p class="font-weight-normal ml-3">{{ $nama }}</p>
-            </div>
-          </div>
-        </a>
-        <?php
-        }
-        if ($i == "0") {
-            echo "Tidak ada data Sepeda Motor dengan Type ".$type;
-          }
-        ?>
+        @if($jumlah > 0)
+          @foreach($motor as $item)
+            <a href="{{ url('/listmotor/'.$item['id'].'/') }}" style="color: black;">
+              <div class="card d-inline-block mr-2" style="width: 18rem;">
+                <div class="card-body">
+                  <p class="font-weight-normal ml-3">{{ $item['nama'] }}</p>
+                </div>
+              </div>
+            </a>
+          @endforeach
+        @else
+          <p class="font-weight-normal ml-3">Tidak ada data Sepeda Motor dengan Type {{ $type }}</p>
+        @endif
       </section>
     </div>
   </div>

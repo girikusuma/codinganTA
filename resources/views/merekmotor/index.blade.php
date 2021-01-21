@@ -1,18 +1,3 @@
-<?php
-require_once '../vendor/autoload.php';
-
-use EasyRdf\RdfNamespace;
-use EasyRdf\Sparql\Client;
-
-RdfNamespace::set('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
-RdfNamespace::set('rdfs', 'http://www.w3.org/2000/01/rdf-schema#');
-RdfNamespace::set('owl', 'http://www.w3.org/2002/07/owl#');
-RdfNamespace::set('motor', 'http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#');
-$sparql = new Client('http://127.0.0.1:3030/motor/query');
-
-$merek = $sparql->query("SELECT * WHERE {?s rdf:type motor:MerkMotor}");
-
-?>
 @extends('layout/main')
 
 @section('title', 'Merek Sepeda Motor')
@@ -28,20 +13,15 @@ $merek = $sparql->query("SELECT * WHERE {?s rdf:type motor:MerkMotor}");
         <hr>
       </div>
       <section class="content">
-        <?php
-          foreach($merek as $item){
-            $hasilmerek = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->s->getUri());
-        ?>
-        <a href="{{ url('/listmerek/'.$hasilmerek.'/') }}" style="color: black;">
+      @foreach($merek as $item)
+        <a href="{{ url('/listmerek/'.$item['namamerek'].'/') }}" style="color: black;">
           <div class="card d-inline-block mr-2 text-white bg-dark mb-3" style="width: 18rem;">
             <div class="card-body">
-                <h3 class="card-title">{{ $hasilmerek }}</h3>
+                <h3 class="card-title">{{ $item['namamerek'] }}</h3>
             </div>
           </div>
         </a>
-        <?php
-        }
-        ?>
+        @endforeach
       </section>
     </div>
   </div>

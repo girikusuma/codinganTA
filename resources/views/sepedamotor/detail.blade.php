@@ -1,20 +1,3 @@
-<?php
-require_once '../vendor/autoload.php';
-
-use EasyRdf\RdfNamespace;
-use EasyRdf\Sparql\Client;
-
-RdfNamespace::set('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
-RdfNamespace::set('rdfs', 'http://www.w3.org/2000/01/rdf-schema#');
-RdfNamespace::set('owl', 'http://www.w3.org/2002/07/owl#');
-RdfNamespace::set('motor', 'http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#');
-$sparql = new Client('http://127.0.0.1:3030/motor/query');
-$qr = "SELECT * WHERE {motor:".$idmotor." motor:MemilikiNama ?n}";
-$getnama = $sparql->query($qr);
-foreach($getnama as $i){
-  $nama = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$i->n->getValue());
-}
-?>
 @extends('layout/main')
 
 @section('title', 'Detail Motor')
@@ -34,31 +17,11 @@ foreach($getnama as $i){
     <!-- /.content-header -->
     <!-- Main content -->
     <section class="content">
-        <?php
-        $sql = "SELECT * WHERE {motor:".$idmotor." motor:AdalahJenisTransmisi ?t. motor:".$idmotor." motor:AdalahMerkDari ?m. motor:".$idmotor." motor:MemilikiSistemBahanBakar ?sb. motor:".$idmotor." motor:MemilikiJenis ?j. motor:".$idmotor." motor:MemilikiVolumeSilinder ?v . motor:".$idmotor." motor:MemilikiTahunProduksi ?tp. motor:".$idmotor." motor:MemilikiTingkatKonsumsiBahanBakar ?konsumsi. motor:".$idmotor." motor:MemilikiKecepatan ?kecepatan. motor:".$idmotor." motor:MemilikiKapasitasBahanBakar ?kapasitas. motor:".$idmotor." motor:MemilikiDimensiLebar ?L. motor:".$idmotor." motor:MemilikiDimensiTinggi ?T. motor:".$idmotor." motor:MemilikiDimensiPanjang ?P. motor:".$idmotor." motor:MemilikiHarga ?harga}";
-        $hasil = $sparql->query($sql);
-          $jumlah = 0;
-          foreach($hasil as $item){
-            $transmisi = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->t->getUri());
-            $merek = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->m->getUri());
-            $sistem = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->sb->getUri());
-            $volume = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->v->getUri());
-            $tahun = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->tp->getUri());
-            $konsumsi = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->konsumsi->getValue());
-            $kecepatan = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->kecepatan->getValue());
-            $kapasitas = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->kapasitas->getValue());
-            $lebar = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->L->getValue());
-            $tinggi = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->T->getValue());
-            $panjang = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->P->getValue());
-            $harga = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->harga->getValue());
-            $namagambar = "cbr150r.jpg";
-            $jumlah = $jumlah + 1;
-          }
-        ?>
+      @if($jumlah > 0)
         <div class="container">
           <div class="row">
             <div class="col-4">
-              <img src="/images/motor/<?php echo $namagambar ?>" class="img-thumbnail rounded"> 
+              <img src="/images/motor/{{  $motor[0]['namagambar'] }}" class="img-thumbnail rounded"> 
             </div>
             <div class="col-4">
               <table class="table table-striped">
@@ -66,54 +29,43 @@ foreach($getnama as $i){
                   <tr>
                     <td>Merek</td>
                     <td>:</td>
-                    <td>{{ $merek }}</td>
+                    <td>{{ $motor[0]['merek'] }}</td>
                   </tr>
                   <tr>
                     <td>Tahun Produksi</td>
                     <td>:</td>
-                    <td>{{ $tahun }}</td>
+                    <td>{{ $motor[0]['tahun'] }}</td>
                   </tr>
                   <tr>
                     <td>Jenis Transmisi</td>
                     <td>:</td>
-                    <td>{{ $transmisi }}</td>
+                    <td>{{ $motor[0]['transmisi'] }}</td>
                   </tr>
                   <tr>
-                    <td>Type</td>
+                    <td>Type Motor</td>
                     <td>:</td>
                     <td>
-                    <?php 
-                    $temp = 0;
-                    if($jumlah > 1) { 
-                        foreach ($hasil as $item ){ 
-                          $jenis = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->j->getUri());
-                          $temp = $temp + 1;
-                    ?> {{ $jenis }} 
-                    <?php
-                          if (($temp + 1) == $jumlah){
-                            echo " dan ";
-                          } else if(($temp + 1) < $jumlah){
-                            echo " , ";
-                          }
-                        }
-                      } 
-                      else {
-                        $jenis = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->j->getUri());
-                      ?> {{ $jenis }} 
-                      <?php 
-                      } 
-                      ?>
+                    @for($n = 0; $n < $jumlah; $n++)
+                      {{ $motor[$n]['type'] }}
+                      @if($jumlah > 1)
+                        @if(($n + 1) == ($jumlah - 1))
+                          dan
+                        @elseif(($n + 1) < ($jumlah - 1))
+                          ,
+                        @endif
+                      @endif
+                    @endfor
                     </td>
                   </tr>
                   <tr>
                     <td>Sistem Bahan Bakar</td>
                     <td>:</td>
-                    <td>{{ $sistem }}</td>
+                    <td>{{ $motor[0]['sistem'] }}</td>
                   </tr>
                   <tr>
                     <td>Volume Silinder</td>
                     <td>:</td>
-                    <td>{{ $volume }}</td>
+                    <td>{{ $motor[0]['volume'] }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -124,33 +76,44 @@ foreach($getnama as $i){
                   <tr>
                     <td>Konsumsi Bahan Bakar</td>
                     <td>:</td>
-                    <td>{{ $konsumsi }} L/km</td>
+                    <td>{{ $motor[0]['konsumsi'] }} L/km</td>
                   </tr>
                   <tr>
                     <td>Kecepatan</td>
                     <td>:</td>
-                    <td>{{ $kecepatan }} km/j</td>
+                    <td>{{ $motor[0]['kecepatan'] }} km/j</td>
                   </tr>
                   <tr>
                     <td>Kapasitas Bahan Bakar</td>
                     <td>:</td>
-                    <td>{{ $kapasitas }} L</td>
+                    <td>{{ $motor[0]['kapasitas'] }} L</td>
                   </tr>
                   <tr>
                     <td>Dimensi</td>
                     <td>:</td>
-                    <td>{{ $panjang }} x {{ $tinggi }} x {{ $lebar }} mm</td>
+                    <td>{{ $motor[0]['panjang']}} x {{ $motor[0]['tinggi'] }} x {{ $motor[0]['lebar'] }} mm</td>
                   </tr>
                   <tr>
                     <td>Harga</td>
                     <td>:</td>
-                    <td>Rp. {{ $harga }}</td>
+                    <td>Rp. {{ $motor[0]['harga'] }}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
         </div>
+      @else
+      <table>
+        <thead>
+          <tr>
+            <td>Transmisi</td>
+            <td>:</td>
+            <td>{{ $motor[0]['transmisi'] }}</td>
+          </tr>
+        </thead>
+      </table>
+      @endif
     </section>
     <!-- /.content -->
   </div>

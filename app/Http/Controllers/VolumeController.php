@@ -9,11 +9,36 @@ class VolumeController extends Controller
     
     public function index()
     {
-        return view('volumesilinder/index');
+        $volume = $this->sparql->query("SELECT * WHERE {?s rdf:type motor:VolumeSilinder}");
+        $result = [];
+        foreach($volume as $item){
+            array_push($result, [
+                'volume' => $this->parseData($item->s->getUri())
+            ]);
+        }
+        $data = [
+            'hasilvolume' => $result
+        ];
+        return view('volumesilinder/index', $data);
     }
 
-    public function show($id)
+    public function show($volume)
     {
-        return view('volumesilinder/list', ['volume' => $id]);
+        $getnama = $this->sparql->query("SELECT * WHERE {?s motor:MemilikiVolumeSilinder motor:".$volume.". ?s motor:MemilikiNama ?n}");
+        $result = [];
+        $jumlah = 0;
+        foreach($getnama as $item){
+            array_push($result, [
+                'id'    => $this->parseData($item->s->getUri()),
+                'nama'  => $this->parseData($item->n->getValue())
+            ]);
+            $jumlah = $jumlah + 1;
+        }
+        $data = [
+            'motor'      => $result,
+            'jumlah'     => $jumlah,
+            'volume'     => $volume
+        ];
+        return view('volumesilinder/list', $data);
     }
 }

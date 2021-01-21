@@ -1,17 +1,3 @@
-<?php
-require_once '../vendor/autoload.php';
-
-use EasyRdf\RdfNamespace;
-use EasyRdf\Sparql\Client;
-
-RdfNamespace::set('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
-RdfNamespace::set('rdfs', 'http://www.w3.org/2000/01/rdf-schema#');
-RdfNamespace::set('owl', 'http://www.w3.org/2002/07/owl#');
-RdfNamespace::set('motor', 'http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#');
-$sparql = new Client('http://127.0.0.1:3030/motor/query');
-
-$volume = $sparql->query("SELECT * WHERE {?s rdf:type motor:VolumeSilinder}");
-?>
 @extends('layout/main')
 
 @section('title', 'Volume Silinder Sepeda Motor')
@@ -27,20 +13,15 @@ $volume = $sparql->query("SELECT * WHERE {?s rdf:type motor:VolumeSilinder}");
         <hr>
       </div>
       <section class="content">
-        <?php
-          foreach($volume as $item){
-            $hasilvolume = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->s->getUri());
-        ?>
-        <a href="{{ url('/listvolumesilinder/'.$hasilvolume.'/') }}" style="color: black;">
-          <div class="card d-inline-block mr-2 text-white bg-dark mb-3" style="width: 18rem;">
-            <div class="card-body">
-                <h3 class="card-title">{{ $hasilvolume }}</h3>
+        @foreach($hasilvolume as $item)
+          <a href="{{ url('/listvolumesilinder/'.$item['volume'].'/') }}" style="color: black;">
+            <div class="card d-inline-block mr-2 text-white bg-dark mb-3" style="width: 18rem;">
+              <div class="card-body">
+                  <h3 class="card-title">{{ $item['volume'] }}</h3>
+              </div>
             </div>
-          </div>
-        </a>
-        <?php
-        }
-        ?>
+          </a>
+        @endforeach
       </section>
     </div>
   </div>
