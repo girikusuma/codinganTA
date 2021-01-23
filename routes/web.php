@@ -17,7 +17,6 @@
 
 Route::get('/', 'PagesController@home');
 Route::get('/browsing', 'PagesController@browsing');
-Route::get('/searching', 'PagesController@searching');
 
 Route::get('/sepedamotor', 'MotorController@menu');
 Route::get('/listmotor', 'MotorController@index');
@@ -47,3 +46,9 @@ Route::get('/servicecentre', 'ServiceController@index');
 Route::get('/servicecentre/{hasilprovinsi}', 'ServiceController@location');
 Route::get('/servicecentre/{daerah}/{namakabupaten}', 'ServiceController@show');
 Route::get('/servicecentre/{provinsi}/{kabupaten}/{namadealer}', 'ServiceController@detail');
+
+Route::get('/searching', 'SearchingController@index')->name('searching.index');
+Route::get('/searching/getdata', 'SearchingController@getData')->name('searching.getData');
+
+Route::get('/coba', 'CobaController@index')->name('coba.index');
+Route::get('/coba/getdata', 'CobaController@filterData')->name('coba.getData');

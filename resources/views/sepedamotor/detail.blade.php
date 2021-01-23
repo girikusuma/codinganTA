@@ -104,15 +104,9 @@
           </div>
         </div>
       @else
-      <table>
-        <thead>
-          <tr>
-            <td>Transmisi</td>
-            <td>:</td>
-            <td>{{ $motor[0]['transmisi'] }}</td>
-          </tr>
-        </thead>
-      </table>
+        <div class="container-fluid">
+          <h5 style="color: red;">Data Sepeda Motor {{ $nama }} tidak ada</h5>
+        </div>
       @endif
     </section>
     <!-- /.content -->

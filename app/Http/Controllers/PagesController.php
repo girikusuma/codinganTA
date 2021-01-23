@@ -13,8 +13,4 @@ class PagesController extends Controller
     public function browsing(){
         return view ('browsing');
     }
-    
-    public function searching(){
-        return view ('searching');
-    }
 }
