@@ -50,5 +50,9 @@ Route::get('/servicecentre/{provinsi}/{kabupaten}/{namadealer}', 'ServiceControl
 Route::get('/searching', 'SearchingController@index')->name('searching.index');
 Route::get('/searching/getdata', 'SearchingController@getData')->name('searching.getData');
 
+Route::get('/rekomendasi', 'RekomendasiController@index');
+Route::post('/rekomendasi/result', 'RekomendasiController@getSAW');
+
 Route::get('/coba', 'CobaController@index')->name('coba.index');
-Route::get('/coba/getdata', 'CobaController@filterData')->name('coba.getData');
+Route::get('/coba/getdata', 'CobaController@getData')->name('coba.getData');
+Route::post('/coba/filterdata', 'CobaController@filterData')->name('coba.filterData');

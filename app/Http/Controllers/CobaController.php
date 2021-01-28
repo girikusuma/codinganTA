@@ -56,27 +56,8 @@ class CobaController extends Controller
         return view ('coba', $data);
     }
 
-    public function filterData(Request $request)
+    public function getData()
     {
-        $orderBy = "motor.merek";
-        switch($request->input('order.0.column')){
-            case "0" :
-                $orderBy = "motor.merek";
-                break;
-            case "1" :
-                $orderBy = "motor.transmisi";
-                break;
-            case "2" :
-                $orderBy = "motor.type";
-                break;
-            case "3" :
-                $orderBy = "motor.tahun";
-                break;
-            case "4" :
-                $orderBy = "motor.volume";
-                break;
-        }
-
         $merek = '?merek';
         $transmisi = '?transmisi';
         $typemotor = '?typemotor';
@@ -95,9 +76,37 @@ class CobaController extends Controller
                 'volume'    => $this->parseData($item->volume->getUri())
             ]);
         }
-
         return response()->json([
-            'data' => $data
+            'error'   => false,
+            'data'    => $data
         ]);
+    }
+
+    public function filterData(Request $request)
+    {
+        if($request()->ajax()){
+            $merek = 'motor:'.$request->cari_merek;
+            $transmisi = 'motor:'.$request->cari_transmisi;
+            $typemotor = 'motor:'.$request->cari_typemotor;
+            $tahun = 'motor:'.$request->cari_tahun;
+            $volume = 'motor:'.$request->cari_volume;
+
+            $query = $this->sparql->query("SELECT * WHERE {?motor motor:AdalahMerkDari ".$merek.". ?motor motor:AdalahJenisTransmisi ".$transmisi.". ?motor motor:MemilikiTahunProduksi ".$tahun.". ?motor motor:MemilikiJenis ".$typemotor.". ?motor motor:MemilikiVolumeSilinder ".$volume.". ?motor motor:MemilikiNama ?nama}");
+            $data = [];
+            foreach($query as $item){
+                array_push($data, [
+                    'nama'      => $this->parseData($item->nama->getValue()),
+                    'merek'     => $this->parseData($item->merek->getUri()),
+                    'transmisi' => $this->parseData($item->transmisi->getUri()),
+                    'type'      => $this->parseData($item->typemotor->getUri()),
+                    'tahun'     => $this->parseData($item->tahun->getUri()),
+                    'volume'    => $this->parseData($item->volume->getUri())
+                ]);
+            }
+            return response()->json([
+                'error'   => false,
+                'data'    => $data
+            ]);
+        }
     }
 }

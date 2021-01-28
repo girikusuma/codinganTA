@@ -74,11 +74,15 @@ class DealerController extends Controller
 
     public function detail($provinsi, $kabupaten, $id)
     {
-        $getDetail = $this->sparql->query("SELECT * WHERE {motor:".$id." motor:AdalahDealerDari ?merek}");
+        $getDetail = $this->sparql->query("SELECT * WHERE {motor:".$id." motor:AdalahDealerDari ?merek. motor:".$id." motor:MemilikiAlamat ?alamat. motor:".$id." motor:MemilikiJamBuka ?jamBuka. motor:".$id." motor:MemilikiJamTutup ?jamTutup. motor:".$id." motor:MemilikiNoTelp ?noTelp}");
         $result = [];
         foreach($getDetail as $item){
             array_push($result, [
-                'merek' => $this->parseData($item->merek->getUri())
+                'merek'     => $this->parseData($item->merek->getUri()),
+                'alamat'    => $this->parseData($item->alamat->getValue()),
+                'jamBuka'   => $this->parseData($item->jamBuka->getValue()),
+                'jamTutup'  => $this->parseData($item->jamTutup->getValue()),
+                'noTelp'    => $this->parseData($item->noTelp->getValue())
             ]);
         }
         $data = [

@@ -33,22 +33,22 @@
                   <tr>
                     <td>Alamat</td>
                     <td>:</td>
-                    <td>Jl. Teuku Umar No.52-54, Dauh Puri Kauh, Kec. Denpasar Bar., Kota Denpasar, Bali 80114</td>
+                    <td>{{ $item['alamat'] }}</td>
                   </tr>
                   <tr>
                     <td>Jam Buka</td>
                     <td>:</td>
-                    <td>07:30 WITA</td>
+                    <td>{{ $item['jamBuka'] }} WITA</td>
                   </tr>
                   <tr>
                     <td>Jam Tutup</td>
                     <td>:</td>
-                    <td>21:00 WITA</td>
+                    <td>{{ $item['jamTutup'] }} WITA</td>
                   </tr>
                     <tr>
                     <td>Telepon</td>
                     <td>:</td>
-                    <td>(0361) 242002</td>
+                    <td>{{ $item['noTelp'] }}</td>
                   </tr>
                 @endforeach
               </tbody>

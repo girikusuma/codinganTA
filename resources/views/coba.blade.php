@@ -13,7 +13,6 @@
         </div>
       </div>
     </div>
-    
     <section class="content">
       <div class="container-fluid">
           <div class="row">
@@ -29,6 +28,8 @@
                     </select>
                 </div>
               </div>
+            </div>
+            <div class="col">
               <div class="form-group">
                 <div class="text-nowrap font-weight-bold" style="width: 8rem;">Jenis Transmisi</div>
                 <div class="input-group mb-3">
@@ -53,6 +54,8 @@
                     </select>
                 </div>
               </div>
+            </div>
+            <div class="col">
               <div class="form-group">
                 <div class="text-nowrap font-weight-bold" style="width: 8rem;">Tahun Produksi</div>
                 <div class="input-group mb-3">
@@ -77,10 +80,11 @@
                     </select>
                 </div>
               </div>
-              <div class="py-4">
-                <input type="submit" name="cari" value="Filter" class="btn btn-primary" id="cari">
-                <input type="submit" name="reset" value="Reset" class="btn btn-danger" id="reset">
-              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <input type="submit" id="cari" name="cari" class="btn btn-primary" value="Filter"></input>
             </div>
           </div>
           <div class="divider"></div>
@@ -106,47 +110,120 @@
 
 @section('js')
 <script type="text/javascript">
-    
-    let merek = $('#cari_merek').val();
-    let transmisi = $('#cari_transmisi').val();
-    let typemotor = $('#cari_typemotor').val();
-    let tahun = $('#cari_tahun').val();
-    let volume = $('#cari_volume').val();
 
   $(document).ready(function() {
-    const table = $('#dataTable').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax:"{{ route('searching.getData')}}",
-        type:"POST",
-        data: function(d){
-          d.merek = merek;
-          d.transmisi = transmisi;
-          d.typemotor = typemotor;
-          d.tahun = tahun;
-          d.volume = volume;
-
-          return d;
-        }
-        columns : [
-          {data: 'nama'},
-          {data: 'merek'},
-          {data: 'transmisi'},
-          {data: 'type'},
-          {data: 'tahun'},
-          {data: 'volume'}
-        ],
-      });
-  });
-
-  $(".cari").on('change', function(){
-    merek = $('#cari_merek').val();
-    transmisi = $('#cari_transmisi').val();
-    typemotor = $('#cari_typemotor').val();
-    tahun = $('#cari_tahun').val();
-    volume = $('#cari_volume').val();
     
-    table.ajax.reload(null,false);
+    alert("Masuk document ready");
+    
+    fill_datatable();
+    
+    function fill_datatable(){
+      alert("Masik fill data");
+        $('#dataTable').DataTable({
+          response: false,
+          processing: true,
+          ajax:"{{ route('coba.getData')}}",
+          columns : [
+            {
+              data: 'nama',
+              name: 'nama'  
+            },
+            {
+              data: 'merek',
+              name: 'merek'
+            },
+            {
+              data: 'transmisi',
+              name: 'transmisi'
+            },
+            {
+              data: 'type',
+              name: 'type'  
+            },
+            {
+              data: 'tahun',
+              name: 'tahun'  
+            },
+            {
+              data: 'volume',
+              name: 'volume'  
+            }
+          ],
+          order: [
+            [0, 'asc']
+          ]
+      });
+    }
+
+    function filter_datatable(cari_merek, cari_transmisi, cari_typemotor, cari_tahun, cari_volume){
+      $('#dataTable').Datatable({
+            response: false,
+            processing: true,
+            ajax:{
+              url: "{{ route('coba.filterData')}}",
+              data: {
+                cari_merek:cari_merek,
+                cari_transmisi:cari_transmisi,
+                cari_typemotor:cari_typemotor,
+                cari_tahun:cari_tahun,
+                cari_volume:cari_volume
+              }
+            },
+            columns : [
+              {
+                data: 'nama',
+                name: 'nama'  
+              },
+              {
+                data: 'merek',
+                name: 'merek'
+              },
+              {
+                data: 'transmisi',
+                name: 'transmisi'
+              },
+              {
+                data: 'type',
+                name: 'type'  
+              },
+              {
+                data: 'tahun',
+                name: 'tahun'  
+              },
+              {
+                data: 'volume',
+                name: 'volume'  
+              }
+            ],
+            order: [
+              [0, 'asc']
+            ]
+      });
+    }
+
+    $("#cari").click(function(){
+      alert("Masuk Filter 1");
+      var cari_merek = $('#cari_merek').val();
+      var cari_transmisi = $('#cari_transmisi').val();
+      var cari_typemotor = $('#cari_typemotor').val();
+      var cari_tahun = $('#cari_tahun').val();
+      var cari_volume = $('#cari_volume').val();
+
+      table.destroy();
+      //filter_datatable(cari_merek, cari_transmisi, cari_typemotor, cari_tahun, cari_volume);
+    });
+  });
+  
+  $("#cari").click(function(){
+    alert("Masuk Filter 1");
+    var cari_merek = $('#cari_merek').val();
+    var cari_transmisi = $('#cari_transmisi').val();
+    var cari_typemotor = $('#cari_typemotor').val();
+    var cari_tahun = $('#cari_tahun').val();
+    var cari_volume = $('#cari_volume').val();
+
+    $('#dataTable').Datatable().destroy();
+    // filter_datatable(cari_merek, cari_transmisi, cari_typemotor, cari_tahun, cari_volume);
   });
 </script>
 @endsection

@@ -56,6 +56,9 @@
       <li class="nav-item d-none d-sm-inline-block">
         <a href="{{ url ('/searching') }}" class="nav-link">Searching</a>
       </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="{{ url ('/rekomendasi') }}" class="nav-link">Rekomendasi</a>
+      </li>
     </ul>
   </nav>
   <!-- /.navbar -->
