@@ -4,7 +4,6 @@
 
 @section('container')
 <div class="content-wrapper">
-<!-- Content Header (Page header) -->
 <div class="container-fluid">
   <div class="row">
     <div class="col">

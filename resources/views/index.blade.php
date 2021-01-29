@@ -8,7 +8,7 @@
     <div class="jumbotron">
       <h1 class="display-4">Sistem Rekomendasi Pemilihan</h1>
       <h1 class="display-4">Sepeda Motor</h1>
-      <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+      <p class="lead">Metode yang digunakan dalam melakukan sistem rekomendasi ini adalah menggunakan metode Sistem Pendukung Keputusan Simple Additive Weighting (SAW). Sistem ini menggunakan ontologi sebagai tulang punggungnya dimana terdapat 19 classes, 16 Object properties, 16 Data properties dan beberapa individual yang menjadi objek dalam sistem ini.</p>
     </div>
     <div class="container">
       <div class="row">

@@ -99,12 +99,13 @@ class RekomendasiController extends Controller
             ]);
         }
 
-        $query = $this->sparql->query("SELECT * WHERE {?kriteria rdf:type motor:NamaKriteria. ?kriteria motor:MemilikiBobot ?bobot}");
+        $query = $this->sparql->query("SELECT * WHERE {?kriteria rdf:type motor:NamaKriteria. ?kriteria motor:MemilikiBobot ?bobot. ?kriteria motor:AdalahJenisKriteria ?jenis}");
         
         $bobotKriteria = [];
         foreach($query as $item){
             array_push($bobotKriteria, [
                 'kriteria'  => $this->parseData($item->kriteria->getUri()),
+                'jenis'     => $this->parseData($item->jenis->getUri()),
                 'bobot'     => floatval($this->parseData($item->bobot->getValue()))
             ]);
         }

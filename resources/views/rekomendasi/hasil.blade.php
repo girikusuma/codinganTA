@@ -4,21 +4,19 @@
 
 @section('container')
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0 text-dark">Hasil Rekomendasi</h1>
-          </div><!-- /.col -->
+          </div>
           <div class="divider"></div>
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
+        </div>
+      </div>
     </div>
-    <!-- /.content-header -->
     <div class="container-fluid">
         <h5>Data Motor</h5>
-        <table class="table table-striped mb-5">
+        <table class="table table-striped mb-5 col-8">
             <thead>
                 <tr>
                     <th scope="col">Nama Motor</th>
@@ -40,8 +38,29 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="divider"></div>
+        <h5>Data Kriteria</h5>
+        <table class="table table-striped mb-5 col-4">
+            <thead>
+                <tr>
+                    <th scope="col">Nama Kriteria</th>
+                    <th scope="col">Jenis</th>
+                    <th scope="col">Bobot</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($bobot as $item)
+                <tr>
+                    <td>{{ $item['kriteria'] }}</td>
+                    <td>{{ $item['jenis'] }}</td>
+                    <td>{{ $item['bobot'] }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <div class="divider"></div>
         <h5>Hasil Normalisasi</h5>
-        <table class="table table-striped mb-5">
+        <table class="table table-striped mb-5 col-8">
             <thead>
                 <tr>
                     <th scope="col">Nama Motor</th>
@@ -63,8 +82,9 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="divider"></div>
         <h5>Nilai Pembobotan</h5>
-        <table class="table table-striped mb-5">
+        <table class="table table-striped mb-5 col-8">
             <thead>
                 <tr>
                     <th scope="col">Nama Motor</th>
@@ -86,8 +106,9 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="divider"></div>
         <h5>Hasil Pembobotan</h5>
-        <table class="table table-striped mb-5">
+        <table class="table table-striped mb-5 col-4">
             <thead>
                 <tr>
                     <th scope="col">Nama Motor</th>
@@ -104,13 +125,4 @@
             </tbody>
         </table>
     </div>
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
-        
-      </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
-  </div>
 @endsection

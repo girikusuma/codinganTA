@@ -4,22 +4,18 @@
 
 @section('container')
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0 text-dark">Pilih Kriteria</h1>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- /.content-header -->
 
-    <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
         <form action="{{ url('/rekomendasi/result') }}" method="POST">
           @csrf
           <div class="text-nowrap font-weight-bold" style="width: 8rem;">Merek Motor</div>
@@ -69,8 +65,7 @@
           </div>
           <input type="submit" name="cari" value="Lihat Rekomendasi" class="btn btn-primary">
         </form>
-      </div><!-- /.container-fluid -->
+      </div>
     </section>
-    <!-- /.content -->
   </div>
 @endsection
