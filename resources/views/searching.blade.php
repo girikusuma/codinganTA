@@ -101,6 +101,7 @@ $sparql = new Client('http://127.0.0.1:3030/motor/query');
             </div>
           </div>
         </form>
+      </div>
         <?php
         if (isset($_GET['cari']))
         {
@@ -149,52 +150,61 @@ $sparql = new Client('http://127.0.0.1:3030/motor/query');
           }
         ?>
         <div class="container-fluid">
-          <div class="text-nowrap font-weight-bold mt-3"><h2>Hasil</h2></div>
+          <div class="text-nowrap font-weight-bold mt-3"><h2>Hasil Pencarian</h2></div>
             <div class="row">
               <div class="col">
-                <table class="table mt-3">
-                  <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Nama Motor</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php
-                    $iteration = 0;
-                    if($jumlah > 0){
-                      for($motor = 1; $motor <= $jumlah; $motor++){
-                        if($motor < $jumlah){
-                          if($arraymotor[$motor - 1] != $arraymotor[$motor]){
-                            $iteration = $iteration + 1;
-                            $id = $arrayid[$motor - 1];
-                    ?>
-                    <tr>
-                      <th scope="row">{{ $iteration }}</th>
-                      <td><a href="{{ url('/listmotor/'.$id.'/') }}" class="text-decoration-none text-muted"><?php echo $arraymotor[$motor - 1]; ?></a></td>
-                    </tr>
-                    <?php
-                          }
-                        } else { $iteration = $iteration + 1; $id = $arrayid[$motor - 1]; ?>
-                    <tr>
-                      <th scope="row">{{ $iteration }}</th>
-                      <td><a href="{{ url('/listmotor/'.$id.'/') }}" class="text-decoration-none text-muted"><?php echo $arraymotor[$motor - 1]; ?></a></td>
-                    </tr>
-                    <?php
-                        }
-                      } 
-                    } else { ?>
-                    <tr>
-                      <th scope="row"></th>
-                      <td>Data sepeda motor dengan kriteria tersebut tidak ada.</td>
-                    </tr>
-                    <?php } ?>
-                  </tbody>
-                </table>
+                <div class="card border-warning mb-3">
+                  <div class="card-header">Sepeda Motor</div>
+                  <div class="card-body text-decoration-none">
+                    <table class="table mt-n2 table-sm">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Nama Motor</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php
+                        $iteration = 0;
+                        if($jumlah > 0){
+                          for($motor = 1; $motor <= $jumlah; $motor++){
+                            if($motor < $jumlah){
+                              if($arraymotor[$motor - 1] != $arraymotor[$motor]){
+                                $iteration = $iteration + 1;
+                                $id = $arrayid[$motor - 1];
+                        ?>
+                        <tr>
+                          <th scope="row">{{ $iteration }}</th>
+                          <td><a href="{{ url('/listmotor/'.$id.'/') }}" class="text-decoration-none text-muted"><?php echo $arraymotor[$motor - 1]; ?></a></td>
+                        </tr>
+                        <?php
+                              }
+                            } else { $iteration = $iteration + 1; $id = $arrayid[$motor - 1]; ?>
+                        <tr>
+                          <th scope="row">{{ $iteration }}</th>
+                          <td><a href="{{ url('/listmotor/'.$id.'/') }}" class="text-decoration-none text-muted"><?php echo $arraymotor[$motor - 1]; ?></a></td>
+                        </tr>
+                        <?php
+                            }
+                          } 
+                        } else { ?>
+                        <tr>
+                          <th scope="row"></th>
+                          <td>Data sepeda motor dengan kriteria tersebut tidak ada.</td>
+                        </tr>
+                        <?php } ?>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
               <div class="col">
-                <h5>SPARQL QUERY</h5>
-                <p>{{ $sql }}</p>
+                <div class="card text-white bg-info mb-3">
+                  <div class="card-header">SPARQL QUERY</div>
+                  <div class="card-body">
+                    <p class="card-text">{{ $sql }}</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
