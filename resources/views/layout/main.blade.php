@@ -114,6 +114,14 @@
               </p>
             </a>
           </li>
+          <li class="nav-item has-treeview menu-open">
+            <a href="{{ url ('/rekomendasi') }}" class="nav-link">
+              <i class="nav-icon fa fa-thumbs-up"></i>
+              <p>
+                Rekomendasi
+              </p>
+            </a>
+          </li>
         </ul>
       </nav>
     </div>

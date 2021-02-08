@@ -59,35 +59,29 @@ class RekomendasiController extends Controller
 
     public function getSAW(Request $request)
     {
-        if($request->merek == 'semua'){
-            $merek = '?merek';
-        } else {
-            $merek = 'motor:'.$request->merek;
+        $sql = "SELECT * WHERE {?motor rdf:type motor:NamaUnit";
+
+        if($request->merek != 'semua'){
+            $sql = $sql." .?motor motor:AdalahMerkDari motor:".$request->merek;
         }
-        if($request->transmisi == 'semua'){
-            $transmisi = '?transmisi';
-        } else {
-            $transmisi = 'motor:'.$request->transmisi;
+        if($request->transmisi != 'semua'){
+            $sql = $sql." .?motor motor:AdalahJenisTransmisi motor:".$request->transmisi;
         }
-        if($request->typemotor == 'semua'){
-            $typemotor = '?typemotor';
-        } else {
-            $typemotor = 'motor:'.$request->typemotor;
+        if($request->typemotor != 'semua'){
+            $sql = $sql." .?motor motor:MemilikiJenis motor:".$request->typemotor;
         }
-        if($request->tahun == 'semua'){
-            $tahun = '?tahun';
-        } else {
-            $tahun = 'motor:'.$request->tahun;
+        if($request->tahun != 'semua'){
+            $sql = $sql." .?motor motor:MemilikiTahunProduksi motor:".$request->tahun;
         }
-        if($request->volume == 'semua'){
-            $volume = '?volume';
-        } else {
-            $volume = 'motor:'.$request->volume;
+        if($request->volume != 'semua'){
+            $sql = $sql." .?motor motor:MemilikiVolumeSilinder motor:".$request->volume;
         }
         
+        $sql = $sql.". ?motor motor:MemilikiHarga ?harga. ?motor motor:MemilikiTingkatKonsumsiBahanBakar ?tingkatbbm. ?motor motor:MemilikiKecepatan ?kecepatan. ?motor motor:MemilikiKapasitasBahanBakar ?kapasitas. ?motor motor:MemilikiNama ?nama}";
+
         $resultMotor = [];
         
-        $query = $this->sparql->query("SELECT * WHERE{?motor rdf:type motor:NamaUnit. ?motor motor:AdalahMerkDari ".$merek.". ?motor motor:AdalahJenisTransmisi ".$transmisi.". ?motor motor:MemilikiJenis ".$typemotor.". ?motor motor:MemilikiTahunProduksi ".$tahun.". ?motor motor:MemilikiVolumeSilinder ".$volume.". ?motor motor:MemilikiHarga ?harga. ?motor motor:MemilikiTingkatKonsumsiBahanBakar ?tingkatbbm. ?motor motor:MemilikiKecepatan ?kecepatan. ?motor motor:MemilikiKapasitasBahanBakar ?kapasitas. ?motor motor:MemilikiNama ?nama}");
+        $query = $this->sparql->query($sql);
 
         foreach($query as $item){
             array_push($resultMotor, [

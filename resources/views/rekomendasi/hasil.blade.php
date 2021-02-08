@@ -19,6 +19,7 @@
         <table class="table table-striped mb-5 col-8">
             <thead>
                 <tr>
+                    <th scope="col">#</th>
                     <th scope="col">Nama Motor</th>
                     <th scope="col">Harga</th>
                     <th scope="col">Kapasitas Bahan Bakar</th>
@@ -29,6 +30,7 @@
             <tbody>
                 @foreach($motor as $item)
                 <tr>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $item[0] }}</td>
                     <td>Rp. {{ $item[1] }}</td>
                     <td>{{ $item[2] }} Liter</td>
@@ -43,6 +45,7 @@
         <table class="table table-striped mb-5 col-4">
             <thead>
                 <tr>
+                    <th scope="col">#</th>
                     <th scope="col">Nama Kriteria</th>
                     <th scope="col">Jenis</th>
                     <th scope="col">Bobot</th>
@@ -51,6 +54,7 @@
             <tbody>
                 @foreach($bobot as $item)
                 <tr>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $item['kriteria'] }}</td>
                     <td>{{ $item['jenis'] }}</td>
                     <td>{{ $item['bobot'] }}</td>
@@ -63,6 +67,7 @@
         <table class="table table-striped mb-5 col-8">
             <thead>
                 <tr>
+                    <th scope="col">#</th>
                     <th scope="col">Nama Motor</th>
                     <th scope="col">Kriteria 1</th>
                     <th scope="col">Kriteria 2</th>
@@ -73,6 +78,7 @@
             <tbody>
                 @foreach($normalisasi as $item)
                 <tr>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $item[4] }}</td>
                     <td>{{ $item[0] }}</td>
                     <td>{{ $item[1] }}</td>
@@ -87,6 +93,7 @@
         <table class="table table-striped mb-5 col-8">
             <thead>
                 <tr>
+                    <th scope="col">#</th>
                     <th scope="col">Nama Motor</th>
                     <th scope="col">Kriteria 1</th>
                     <th scope="col">Kriteria 2</th>
@@ -97,6 +104,7 @@
             <tbody>
                 @foreach($ranking as $item)
                 <tr>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $item[4] }}</td>
                     <td>{{ $item[0] }}</td>
                     <td>{{ $item[1] }}</td>
@@ -108,21 +116,30 @@
         </table>
         <div class="divider"></div>
         <h5>Hasil Pembobotan</h5>
-        <table class="table table-striped mb-5 col-4">
-            <thead>
-                <tr>
-                    <th scope="col">Nama Motor</th>
-                    <th scope="col">Nilai</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($hasilSAW as $item)
-                <tr>
-                    <td>{{ $item['nama'] }}</td>
-                    <td>{{ $item['nilai'] }}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+        <div class="row">
+            <div class="col">
+                <table class="table table-striped mb-5">
+                    <thead>
+                        <tr>
+                            <td scope="col">#</td>
+                            <th scope="col">Nama Motor</th>
+                            <th scope="col">Nilai</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($hasilSAW as $item)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $item['nama'] }}</td>
+                            <td>{{ $item['nilai'] }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="col">
+                <p>Sepeda Motor yang memiliki nilai pembobotan tertinggi adalah Sepeda Motor <b>{{ $hasilSAW[0]['nama'] }}</b> dengan nilai pembobotan <b>{{ $hasilSAW[0]['nilai'] }}</b>.</p>
+            </div>
+        </div>
     </div>
 @endsection

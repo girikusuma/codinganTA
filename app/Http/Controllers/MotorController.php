@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class MotorController extends Controller
 {
@@ -45,20 +48,36 @@ class MotorController extends Controller
     
     public function index()
     {
-        $motor = $this->sparql->query("SELECT * WHERE {?s rdf:type motor:NamaUnit. ?s motor:MemilikiNama ?o}");
+        $motor = $this->sparql->query("SELECT * WHERE {?s rdf:type motor:NamaUnit. ?s motor:MemilikiNama ?o. ?s motor:MemilikiGambar ?gambar}");
 
         $result = [];
         foreach($motor as $item){
             array_push($result, [
                 'hasilmotor' => $this->parseData($item->o->getValue()),
-                'idmotor'    => $this->parseData($item->s->getUri())
+                'idmotor'    => $this->parseData($item->s->getUri()),
+                'gambar'     => $this->parseData($item->gambar->getValue())
             ]);
         }
 
         $data = [
             'motor' => $result
         ];
+
+        // parsing $result ke fungsi getPagination
+        // $data = $this->getPagination($result);
+
         return view ('sepedamotor/index', $data);
+        
+        // return view untuk pagination
+        // return view ('sepedamotor/index', compact('data'));
+    }
+
+    // fungsi getPagination untuk melakukan paging
+    public function getPagination($items, $perPage = 5, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 
     public function show($idmotor)
@@ -69,12 +88,11 @@ class MotorController extends Controller
             $nama = $this->parseData($i->n->getValue());
         }
 
-        $sql = $this->sparql->query("SELECT * WHERE {motor:".$idmotor." motor:AdalahJenisTransmisi ?t. motor:".$idmotor." motor:AdalahMerkDari ?m. motor:".$idmotor." motor:MemilikiSistemBahanBakar ?sb. motor:".$idmotor." motor:MemilikiJenis ?j. motor:".$idmotor." motor:MemilikiVolumeSilinder ?v . motor:".$idmotor." motor:MemilikiTahunProduksi ?tp. motor:".$idmotor." motor:MemilikiTingkatKonsumsiBahanBakar ?konsumsi. motor:".$idmotor." motor:MemilikiKecepatan ?kecepatan. motor:".$idmotor." motor:MemilikiKapasitasBahanBakar ?kapasitas. motor:".$idmotor." motor:MemilikiDimensiLebar ?L. motor:".$idmotor." motor:MemilikiDimensiTinggi ?T. motor:".$idmotor." motor:MemilikiDimensiPanjang ?P. motor:".$idmotor." motor:MemilikiHarga ?harga}");
+        $sql = $this->sparql->query("SELECT * WHERE {motor:".$idmotor." motor:AdalahJenisTransmisi ?t. motor:".$idmotor." motor:AdalahMerkDari ?m. motor:".$idmotor." motor:MemilikiSistemBahanBakar ?sb. motor:".$idmotor." motor:MemilikiJenis ?j. motor:".$idmotor." motor:MemilikiVolumeSilinder ?v . motor:".$idmotor." motor:MemilikiTahunProduksi ?tp. motor:".$idmotor." motor:MemilikiTingkatKonsumsiBahanBakar ?konsumsi. motor:".$idmotor." motor:MemilikiKecepatan ?kecepatan. motor:".$idmotor." motor:MemilikiKapasitasBahanBakar ?kapasitas. motor:".$idmotor." motor:MemilikiDimensiLebar ?L. motor:".$idmotor." motor:MemilikiDimensiTinggi ?T. motor:".$idmotor." motor:MemilikiDimensiPanjang ?P. motor:".$idmotor." motor:MemilikiHarga ?harga. motor:".$idmotor." motor:MemilikiGambar ?gambar}");
         $jumlah = 0;
         foreach($sql as $item){
             $jumlah = $jumlah + 1;
         }
-        $namagambar = "cbr150r.jpg";
         $result = [];
         foreach($sql as $item){
             array_push($result, [
@@ -91,7 +109,7 @@ class MotorController extends Controller
                 'tinggi'        => $this->parseData($item->T->getValue()),
                 'panjang'       => $this->parseData($item->P->getValue()),
                 'harga'         => $this->parseData($item->harga->getValue()),
-                'namagambar'    => $namagambar
+                'namagambar'    => $this->parseData($item->gambar->getValue())
             ]);
         }
 

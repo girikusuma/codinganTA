@@ -19,7 +19,7 @@ Route::get('/', 'PagesController@home');
 Route::get('/browsing', 'PagesController@browsing');
 
 Route::get('/sepedamotor', 'MotorController@menu');
-Route::get('/listmotor', 'MotorController@index');
+Route::get('/listmotor', 'MotorController@index')->name('listmotor.index');
 Route::get('/listmotor/{idmotor}', 'MotorController@show');
 
 Route::get('/listmerek', 'MerekController@index');

@@ -25,13 +25,14 @@ class MerekController extends Controller
     
     public function show($merek)
     {
-        $getnama = $this->sparql->query("SELECT * WHERE {?s motor:AdalahMerkDari motor:".$merek.". ?s motor:MemilikiNama ?n}");
+        $getnama = $this->sparql->query("SELECT * WHERE {?s motor:AdalahMerkDari motor:".$merek.". ?s motor:MemilikiNama ?n. ?s motor:MemilikiGambar ?gambar}");
         $result = [];
         $jumlah = 0;
         foreach($getnama as $item){
             array_push($result, [
-                'id'    => $this->parseData($item->s->getUri()),
-                'nama'  => $this->parseData($item->n->getValue())
+                'id'        => $this->parseData($item->s->getUri()),
+                'nama'      => $this->parseData($item->n->getValue()),
+                'gambar'     => $this->parseData($item->gambar->getValue())
             ]);
             $jumlah = $jumlah + 1;
         }

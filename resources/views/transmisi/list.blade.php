@@ -13,15 +13,18 @@
       </div>
       <section class="content">
         @if($jumlah > 0)
-          @foreach($motor as $item)
-            <a href="{{ url('/listmotor/'.$item['id'].'/') }}" style="color: black;">
-              <div class="card d-inline-block mr-2" style="width: 18rem;">
-                <div class="card-body">
-                  <p class="font-weight-normal ml-3">{{ $item['nama'] }}</p>
-                </div>
+          <div class="row">
+            @foreach($motor as $item)
+              <div class="card ml-4" style="width: 18rem;">
+                <img src="/images/motor/{{ $item['gambar'] }}" class="card-img-top" style="height : 12rem; width : 17.9rem;">
+                <a href="{{ url('/listmotor/'.$item['id'].'/') }}" style="color: black;">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ $item['nama'] }}</h5>
+                  </div>
+                </a>
               </div>
-            </a>
-          @endforeach
+            @endforeach
+          </div>
         @else
           <p class="font-weight-normal ml-3">Tidak ada data Sepeda Motor dengan Transmisi {{ $transmisi }}</p>
         @endif
