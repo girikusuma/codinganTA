@@ -73,22 +73,22 @@
                       <table class="table">
                         <tbody>
                           <tr>
-                            <td>Merek</td>
+                            <td class="col">Merek</td>
                             <td>:</td>
                             <td><a href="{{ url('/listmerek/'.$motor[0]['merek'].'/') }}">{{ $motor[0]['merek'] }}</a></td>
                           </tr>
                           <tr>
-                            <td>Tahun Produksi</td>
+                            <td class="col">Tahun Produksi</td>
                             <td>:</td>
                             <td><a href="{{ url('/listtahun/'.$motor[0]['tahun'].'/') }}">{{ $motor[0]['tahun'] }}</a></td>
                           </tr>
                           <tr>
-                            <td>Jenis Transmisi</td>
+                            <td class="col">Jenis Transmisi</td>
                             <td>:</td>
                             <td><a href="{{ url('/listtransmisi/'.$motor[0]['transmisi'].'/') }}">{{ $motor[0]['transmisi'] }}</a></td>
                           </tr>
                           <tr>
-                            <td>Type Motor</td>
+                            <td class="col">Type Motor</td>
                             <td>:</td>
                             <td>
                             @for($n = 0; $n < $jumlah; $n++)
@@ -104,12 +104,12 @@
                             </td>
                           </tr>
                           <tr>
-                            <td>Sistem Bahan Bakar</td>
+                            <td class="col">Sistem Bahan Bakar</td>
                             <td>:</td>
                             <td>{{ $motor[0]['sistem'] }}</td>
                           </tr>
                           <tr>
-                            <td>Volume Silinder</td>
+                            <td class="col">Volume Silinder</td>
                             <td>:</td>
                             <td><a href="{{ url('/listvolumesilinder/'.$motor[0]['volume'].'/') }}">{{ $motor[0]['volume'] }}</a></td>
                           </tr>

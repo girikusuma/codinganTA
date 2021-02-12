@@ -1,14 +1,3 @@
-<?php
-use EasyRdf\RdfNamespace;
-use EasyRdf\Sparql\Client;
-
-RdfNamespace::set('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
-RdfNamespace::set('rdfs', 'http://www.w3.org/2000/01/rdf-schema#');
-RdfNamespace::set('owl', 'http://www.w3.org/2002/07/owl#');
-RdfNamespace::set('motor', 'http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#');
-
-$sparql = new Client('http://127.0.0.1:3030/motor/query');
-?>
 @extends('layout/main')
 
 @section('title', 'Searching')
@@ -26,7 +15,7 @@ $sparql = new Client('http://127.0.0.1:3030/motor/query');
     </div>
     <section class="content">
       <div class="container-fluid">
-        <form action="" method="GET">
+        <form action="{{ url('/searching') }}" method="GET">
           <div class="row">
               <div class="col">
                 <div class="form-group">
@@ -97,131 +86,97 @@ $sparql = new Client('http://127.0.0.1:3030/motor/query');
               </div>
             <div class="col mt-4">
               <input type="submit" name="cari" value="Cari" class="btn btn-primary">
-              <input type="submit" name="reset" value="Reset" class="btn btn-danger" onclick="resetPage()">
+              <input type="submit" name="reset" value="Reset" class="btn btn-danger">
             </div>
           </div>
         </form>
-      </div>
-        <?php
-        if (isset($_GET['cari']))
-        {
-          $hasilmerek = $_GET['cari_merek'];
-          $hasiltransmisi = $_GET['cari_transmisi'];
-          $hasiltypemotor = $_GET['cari_typemotor'];
-          $hasiltahun = $_GET['cari_tahun'];
-          $hasilvolume = $_GET['cari_volume'];
-          
-          $sql = "SELECT * WHERE {?motor rdf:type motor:NamaUnit";
-
-          if($hasilmerek != 'semua'){
-              $sql = $sql.". ?motor motor:AdalahMerkDari motor:".$hasilmerek;
-          }
-          if($hasiltransmisi != 'semua'){
-              $sql = $sql.". ?motor motor:AdalahJenisTransmisi motor:".$hasiltransmisi;
-          }
-          if($hasiltypemotor != 'semua'){
-              $sql = $sql.". ?motor motor:MemilikiJenis motor:".$hasiltypemotor;
-          }
-          if($hasiltahun != 'semua'){
-              $sql = $sql.". ?motor motor:MemilikiTahunProduksi motor:".$hasiltahun;
-          }
-          if($hasilvolume != 'semua'){
-              $sql = $sql.". ?motor motor:MemilikiVolumeSilinder motor:".$hasilvolume;
-          }
-
-          $sql = $sql.". ?motor motor:MemilikiNama ?nama}";
-
-          $querydata = $sparql->query($sql);
-
-          $jumlah = 0;
-          foreach($querydata as $getjumlah){
-            $jumlah = $jumlah + 1;
-          }
-
-          $arraymotor = array();
-          $arrayid = array();
-          $iterasimotor = 0;
-          foreach($querydata as $item){
-            $idmotor = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->motor->getUri());
-            $hasilmotor = str_replace('http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#','',$item->nama->getValue());
-            $arraymotor[$iterasimotor] = $hasilmotor;
-            $arrayid[$iterasimotor] = $idmotor;
-            $iterasimotor = $iterasimotor + 1;
-          }
-        ?>
-        <div class="container-fluid">
+        @if($status != 0)
           <div class="text-nowrap font-weight-bold mt-3"><h2>Hasil Pencarian</h2></div>
-            <div class="row">
-              <div class="col">
-                <div class="card border-warning mb-3">
-                  <div class="card-header">Sepeda Motor</div>
-                  <div class="card-body text-decoration-none">
-                    <table class="table mt-n2 table-sm">
-                      <thead>
-                        <tr>
-                          <th scope="col">#</th>
-                          <th scope="col">Nama Motor</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php
-                        $iteration = 0;
-                        if($jumlah > 0){
-                          for($motor = 1; $motor <= $jumlah; $motor++){
-                            if($motor < $jumlah){
-                              if($arraymotor[$motor - 1] != $arraymotor[$motor]){
-                                $iteration = $iteration + 1;
-                                $id = $arrayid[$motor - 1];
-                        ?>
-                        <tr>
-                          <th scope="row">{{ $iteration }}</th>
-                          <td><a href="{{ url('/listmotor/'.$id.'/') }}" class="text-decoration-none text-muted"><?php echo $arraymotor[$motor - 1]; ?></a></td>
-                        </tr>
-                        <?php
-                              }
-                            } else { $iteration = $iteration + 1; $id = $arrayid[$motor - 1]; ?>
-                        <tr>
-                          <th scope="row">{{ $iteration }}</th>
-                          <td><a href="{{ url('/listmotor/'.$id.'/') }}" class="text-decoration-none text-muted"><?php echo $arraymotor[$motor - 1]; ?></a></td>
-                        </tr>
-                        <?php
-                            }
-                          } 
-                        } else { ?>
-                        <tr>
-                          <th scope="row"></th>
-                          <td>Data sepeda motor dengan kriteria tersebut tidak ada.</td>
-                        </tr>
-                        <?php } ?>
-                      </tbody>
-                    </table>
+              <div class="row">
+                  <div class="col">
+                      @if($jumlah > 0)
+                      <div class="card border-warning mb-3">
+                          <div class="card-header">Sepeda Motor</div>
+                          <div class="card-body text-decoration-none">
+                              <table class="table mt-n2 table-sm">
+                                  <thead>
+                                      <tr>
+                                      <th scope="col">#</th>
+                                      <th scope="col">Nama Motor</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      @foreach($getMotor as $item)
+                                      <tr>
+                                          <th scope="row">{{ $loop->iteration }}</th>
+                                          <td><a href="{{ url('/listmotor/'.$item['id'].'/') }}" class="text-decoration-none text-muted">{{ $item['nama'] }}</a></td>
+                                      </tr>
+                                      @endforeach
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                      @else
+                          <div class="card text-white bg-danger mb-3">
+                              <div class="card-body">
+                                  <h6>Data sepeda motor dengan kriteria tersebut tidak ada.</h6>
+                              </div>
+                          </div>
+                      @endif
                   </div>
+                  <div class="col">
+                      <div class="card text-white bg-info mb-3">
+                          <div class="card-header">SPARQL QUERY</div>
+                          <div class="card-body">
+                              <p class="card-text">{{ $query }}</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <input type="hidden" id="merek" value="{{ $merek }}">
+                  <input type="hidden" id="transmisi" value="{{ $transmisi }}">
+                  <input type="hidden" id="typemotor" value="{{ $jenis }}">
+                  <input type="hidden" id="tahun" value="{{ $tahun }}">
+                  <input type="hidden" id="volume" value="{{ $volume }}">
                 </div>
               </div>
-              <div class="col">
-                <div class="card text-white bg-info mb-3">
-                  <div class="card-header">SPARQL QUERY</div>
-                  <div class="card-body">
-                    <p class="card-text">{{ $sql }}</p>
-                  </div>
-                </div>
-              </div>
+          </div>
+        @elseif($status == 0)
+          <div class="row">
+            <div class="col">
+              <input type="hidden" id="merek" value="semua">
+              <input type="hidden" id="transmisi" value="semua">
+              <input type="hidden" id="typemotor" value="semua">
+              <input type="hidden" id="tahun" value="semua">
+              <input type="hidden" id="volume" value="semua">
             </div>
           </div>
-        <?php } 
-        if (isset($_GET['reset']))
-        {
-        ?>
-        <h5>Silahkan pilih kriteria sepeda motor untuk melakukan pencarian</h5>
-        <?php } ?>
+        @endif
       </div>
     </section>
   </div>
 @endsection
 @section('js')
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 <script>
-  function resetPage(){
-    location.reload();
-  }
+  $(document).ready(function() {
+      $('.select2').select2();
+  });
+  
+  var merek = document.getElementById("merek").value;
+  var transmisi = document.getElementById("transmisi").value;
+  var typemotor = document.getElementById("typemotor").value;
+  var tahun = document.getElementById("tahun").value;
+  var volume = document.getElementById("volume").value;
+
+  document.getElementById("cari_merek").value = merek;
+  document.getElementById("cari_transmisi").value = transmisi;
+  document.getElementById("cari_typemotor").value = typemotor;
+  document.getElementById("cari_tahun").value = tahun;
+  document.getElementById("cari_volume").value = volume;
 </script>
 @endsection

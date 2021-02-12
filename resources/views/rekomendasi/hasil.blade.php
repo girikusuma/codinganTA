@@ -53,9 +53,9 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Nama Motor</th>
                                     <th scope="col">Harga</th>
-                                    <th scope="col">Kapasitas Bahan Bakar</th>
+                                    <th scope="col">KapasitasBBM</th>
                                     <th scope="col">Kecepatan</th>
-                                    <th scope="col">Konsumsi Bahan Bakar</th>
+                                    <th scope="col">KonsumsiBBM</th>
                                 </tr>
                             </thead>
                             <tbody>

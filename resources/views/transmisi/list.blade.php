@@ -1,6 +1,6 @@
 @extends('layout/main')
 
-@section('title', 'List Sepeda Motor dengan Transmisi {{ $transmisi }}')
+@section('title', 'List Sepeda Motor dengan Transmisi')
 
 @section('container')
 <div class="content-wrapper">

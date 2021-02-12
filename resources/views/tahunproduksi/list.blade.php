@@ -1,6 +1,6 @@
 @extends('layout/main')
 
-@section('title', 'List Sepeda Motor dengan Tahun Produksi {{ $tahun }}')
+@section('title', 'List Sepeda Motor dengan Tahun Produksi')
 
 @section('container')
 <div class="content-wrapper">

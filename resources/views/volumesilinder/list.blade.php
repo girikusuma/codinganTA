@@ -1,6 +1,6 @@
 @extends('layout/main')
 
-@section('title', 'List Sepeda Motor dengan Volume Silinder {{ $volume }}')
+@section('title', 'List Sepeda Motor dengan Volume Silinder')
 
 @section('container')
 <div class="content-wrapper">

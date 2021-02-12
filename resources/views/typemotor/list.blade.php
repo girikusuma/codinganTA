@@ -1,6 +1,6 @@
 @extends('layout/main')
 
-@section('title', 'List Sepeda Motor dengan Type {{ $type }}')
+@section('title', 'List Sepeda Motor dengan Type')
 
 @section('container')
 <div class="content-wrapper">
