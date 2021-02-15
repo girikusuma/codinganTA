@@ -16,15 +16,14 @@
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-6">
+            <div class="col-4">
                 <div class="card border-primary mb-3">
-                    <div class="card-header text-bold">Data Kriteria</div>
+                    <div class="card-header">Data Kriteria</div>
                     <div class="card-body text-primary">
                         <table class="table table-striped mb-5">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Kode Kriteria</th>
                                     <th scope="col">Nama Kriteria</th>
                                     <th scope="col">Jenis</th>
                                     <th scope="col">Bobot</th>
@@ -34,7 +33,6 @@
                                 @foreach($bobot as $item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item['kode'] }}</td>
                                     <td>{{ $item['kriteria'] }}</td>
                                     <td>{{ $item['jenis'] }}</td>
                                     <td>{{ $item['bobot'] }}</td>
@@ -45,46 +43,9 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="divider"></div>
-        <div class="row">
             <div class="col-8">
-                <div class="card border-warning mb-3">
-                    <div class="card-header text-bold">Data Crips</div>
-                    <div class="card-body  text-decoration-none">
-                        <table class="table table-striped mb-5">
-                            <thead>
-                                <tr>
-                                    <th scope="cole">#</th>
-                                    <th scope="cole">Kode Kriteria</th>
-                                    <th scope="cole">Nama Kriteria</th>
-                                    <th scope="cole">Crips</th>
-                                    <th scope="cole">Nilai</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($crips as $item)
-                                    @foreach($item as $key)
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $key['kode'] }}</td>
-                                            <td>{{ $key['nama'] }}</td>
-                                            <td><= {{ $key['crips'] }}</td>
-                                            <td>{{ $key['nilai'] }}</td>
-                                        </tr>
-                                    @endforeach
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="divider"></div>
-        <div class="row">
-            <div class="col">
                 <div class="card border-secondary mb-3">
-                    <div class="card-header text-bold">Data Alternatif</div>
+                    <div class="card-header">Data Motor</div>
                     <div class="card-body text-secondary">
                         <table class="table table-striped mb-5">
                             <thead>
@@ -116,43 +77,9 @@
         </div>
         <div class="divider"></div>
         <div class="row">
-            <div class="col-6">
-                <div class="card border-success mb-3">
-                    <div class="card-header text-bold">Data Nilai Alternatif</div>
-                    <div class="card-body text-success">
-                        <table class="table table-striped mb-5">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nama Motor</th>
-                                    <th scope="col">C1</th>
-                                    <th scope="col">C2</th>
-                                    <th scope="col">C3</th>
-                                    <th scope="col">C4</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($alternatif as $item)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item['nama'] }}</td>
-                                    <td>{{ $item[0] }}</td>
-                                    <td>{{ $item[1] }}</td>
-                                    <td>{{ $item[2] }}</td>
-                                    <td>{{ $item[3] }}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="divider"></div>
-        <div class="row">
             <div class="col">
                 <div class="card border-danger mb-3">
-                    <div class="card-header text-bold">Hasil Normalisasi</div>
+                    <div class="card-header">Hasil Normalisasi</div>
                     <div class="card-body text-danger">
                         <table class="table table-striped mb-5">
                             <thead>
@@ -186,7 +113,7 @@
         <div class="row">
             <div class="col">
                 <div class="card border-info mb-3">
-                    <div class="card-header text-bold">Nilai Pembobotan</div>
+                    <div class="card-header">Nilai Pembobotan</div>
                     <div class="card-body text-info">
                         <table class="table table-striped mb-5">
                             <thead>
@@ -220,7 +147,7 @@
         <div class="row">
             <div class="col">
                 <div class="card border-dark mb-3">
-                    <div class="card-header text-bold">Hasil Simple Additive Weighting</div>
+                    <div class="card-header">Hasil Simple Additive Weighting</div>
                     <div class="card-body text-dark">
                         <table class="table table-striped mb-5">
                             <thead>

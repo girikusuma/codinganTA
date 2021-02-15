@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class RekomendasiController extends Controller
+class RekomendasiWithoutCripsController extends Controller
 {
     public function index()
     {
-        //query untuk mengambil data dari fuseki untuk select option
         $merek = $this->sparql->query('SELECT * WHERE {?merek rdf:type motor:MerkMotor}');
         $transmisi = $this->sparql->query('SELECT * WHERE {?transmisi rdf:type motor:Transmisi}');
         $typemotor = $this->sparql->query('SELECT * WHERE {?typemotor rdf:type motor:JenisMotor}');
@@ -21,7 +20,6 @@ class RekomendasiController extends Controller
         $resultTahun = [];
         $resultVolume = [];
         
-        //mengambl data dari fuseki server
         foreach($merek as $item){
             array_push($resultMerek, [
                 'hasilMerek' => $this->parseData($item->merek->getUri())
@@ -48,7 +46,6 @@ class RekomendasiController extends Controller
             ]);
         }
 
-        //menyimpan nilai pada satu variabel data
         $data = [
             'getMerek'      => $resultMerek,
             'getTransmisi'  => $resultTransmisi,
@@ -62,7 +59,6 @@ class RekomendasiController extends Controller
 
     public function getSAW(Request $request)
     {
-        //query untuk mengambil data sepeda motor dari fuseki server berdasarkan kriteria yang dipilih
         $sql = "SELECT * WHERE {?motor rdf:type motor:NamaUnit";
 
         if($request->merek != 'semua'){
@@ -87,7 +83,6 @@ class RekomendasiController extends Controller
         
         $query = $this->sparql->query($sql);
 
-        //menyimpan data sepeda motor pada variabel $resultMotor
         foreach($query as $item){
             array_push($resultMotor, [
                 0 => $this->parseData($item->nama->getValue()),
@@ -97,189 +92,52 @@ class RekomendasiController extends Controller
                 4 => floatval($this->parseData($item->tingkatbbm->getValue()))
             ]);
         }
-        $jumlah = count($resultMotor);
 
-        //query untuk mengambil data kriteria dari fuseki server
         $query = $this->sparql->query("SELECT * WHERE {?kriteria rdf:type motor:NamaKriteria. ?kriteria motor:MemilikiBobot ?bobot. ?kriteria motor:AdalahJenisKriteria ?jenis}");
         
-        //menyimpan data kriteria pada variabel $getKriteria
-        $getKriteria = [];
-        $kode = 1;
+        $bobotKriteria = [];
         foreach($query as $item){
-            array_push($getKriteria, [
+            array_push($bobotKriteria, [
                 'kriteria'  => $this->parseData($item->kriteria->getUri()),
                 'jenis'     => $this->parseData($item->jenis->getUri()),
-                'bobot'     => floatval($this->parseData($item->bobot->getValue())),
-                'kode'      => "C".($kode)
+                'bobot'     => floatval($this->parseData($item->bobot->getValue()))
             ]);
-            $kode += 1;
         }
 
-        //memanggil fungsi getCrips untuk memberi nilai pada table Data Crips
-        $cripsData = $this->getCrips($getKriteria);
-
-        //memanggil fungsi getNilaiLaternatif untuk memberi nilai pada tabel Data Nilai Alternatif
-        $nilaiAlternatif = $this->getNilaiAlternatif($getKriteria, $resultMotor, $cripsData);
+        $jumlah = count($resultMotor);
         
-        //memanggil fungsi getNormalisasi untuk memberi nilai pada tabel Hasil Normalisasi
-        $normalisasi = $this->getNormalisasi($getKriteria, $nilaiAlternatif, $jumlah);
+        $normalisasi = $this->getNormalisasi($resultMotor, $jumlah);
 
-        //memanggil fungsi getRanking untuk memberi nilai pada tabel Nilai Pembobotan
         $rankingData = $this->getRanking($normalisasi);
 
-        //memanggil fungsi getResultSAW untuk memberi nilai pada tabel Hasil Simple Additive Weighting
         $hasilSAW = $this->getResultSAW($rankingData);
 
-        //menyimpan semua variabel pada variabel $data
         $data = [
             'motor'         => $resultMotor,
             'normalisasi'   => $normalisasi,
             'ranking'       => $rankingData,
             'hasilSAW'      => $hasilSAW,
-            'bobot'         => $getKriteria,
-            'crips'         => $cripsData,
-            'alternatif'    => $nilaiAlternatif
+            'bobot'         => $bobotKriteria
         ];
 
-        return view('rekomendasi/hasil', $data);
+        return view('rekomendasi/hasilwithoutcrips', $data);
     }
 
-    public function getCrips($kriteria)
+    public function getNormalisasi ($data, $jumlahMotor)
     {
-        //query untuk mengambil data seluruh sepeda motor
-        $query = $this->sparql->query("SELECT * WHERE {?motor rdf:type motor:NamaUnit. ?motor motor:MemilikiHarga ?harga. ?motor motor:MemilikiTingkatKonsumsiBahanBakar ?tingkatbbm. ?motor motor:MemilikiKecepatan ?kecepatan. ?motor motor:MemilikiKapasitasBahanBakar ?kapasitas}");
-        $motor = [];
-        //meyimpan data sepeda motor pada variabel $motor
+        $query = $this->sparql->query("SELECT * WHERE {?kriteria rdf:type motor:NamaKriteria. ?kriteria motor:AdalahJenisKriteria ?jenis}");
+        $kriteriaResult = [];
         foreach($query as $item){
-            array_push($motor, [
-                'motor'     => $this->parseData($item->motor->getUri()),
-                'harga'     => intval($this->parseData($item->harga->getValue())),
-                'kapasitas' => floatval($this->parseData($item->kapasitas->getValue())),
-                'kecepatan' => floatval($this->parseData($item->kecepatan->getValue())),
-                'konsumsi'  => floatval($this->parseData($item->tingkatbbm->getValue()))
+            array_push($kriteriaResult, [
+                'kriteria'  => $this->parseData($item->kriteria->getUri()),
+                'jenis'     => $this->parseData($item->jenis->getUri())
             ]);
         }
-
-        //menghitung jumlah motor dan kriteria
-        $jumlahKriteria = count($kriteria);
-        $jumlahMotor = count($motor);
-
-        //inisialisasi variabel array $crips
-        $crips = [];
-        //cek maxmin harga harga dan mencari nilai crips harga => $crips[0]
-        $arrayHarga = [];
-        for($x = 0; $x < $jumlahMotor; $x++){
-            $arrayHarga[$x] = $motor[$x]['harga'];
-        }
-        $maxHarga = max($arrayHarga);
-        $minHarga = min($arrayHarga);
-        $rasio = ($maxHarga - $minHarga)/4;
-
-        $tempHarga = $minHarga;
-        for($x = 0; $x < 4; $x++){
-            $crips[0][$x] = $tempHarga + $rasio;
-            $tempHarga = $crips[0][$x];
-        }
-
-        //cek maxmin kapasitas dan mencari nilai crips kapasitas => $crips[1]
-        $arrayKapasitas = [];
-        for($x = 0; $x < $jumlahMotor; $x++){
-            $arrayKapasitas[$x] = $motor[$x]['kapasitas'];
-        }
-        $maxKapasitas = max($arrayKapasitas);
-        $minKapasitas = min($arrayKapasitas);
-        $rasio = ($maxKapasitas - $minKapasitas)/4;
-
-        $tempKapasitas = $minKapasitas;
-        for($x = 0; $x < 4; $x++){
-            $crips[1][$x] = $tempKapasitas + $rasio;
-            $tempKapasitas = $crips[1][$x];
-        }
-
-        //cek maxmin kecepatan dan mencari nilai crips kecepatan => $crips[2]
-        $arrayKecepatan = [];
-        for($x = 0; $x < $jumlahMotor; $x++){
-            $arrayKecepatan[$x] = $motor[$x]['kecepatan'];
-        }
-        $maxKecepatan = max($arrayKecepatan);
-        $minKecepatan = min($arrayKecepatan);
-        $rasio = ($maxKecepatan - $minKecepatan)/4;
-
-        $tempKecepatan = $minKecepatan;
-        for($x = 0; $x < 4; $x++){
-            $crips[2][$x] = $tempKecepatan + $rasio;
-            $tempKecepatan = $crips[2][$x];
-        }
-
-        //cek maxmin konsumsi dan mencari nilai crips konsumsi => $crips[3]
-        $arrayKonsumsi = [];
-        for($x = 0; $x < $jumlahMotor; $x++){
-            $arrayKonsumsi[$x] = $motor[$x]['konsumsi'];
-        }
-        $maxKonsumsi = max($arrayKonsumsi);
-        $minKonsumsi = min($arrayKonsumsi);
-        $rasio = ($maxKonsumsi - $minKonsumsi)/4;
-
-        $tempKonsumsi = $minKonsumsi;
-        for($x = 0; $x < 4; $x++){
-            $crips[3][$x] = $tempKonsumsi + $rasio;
-            $tempKonsumsi = $crips[3][$x];
-        }
-
-        //memberi nilai crips
-        $arrayValueCrips = array(
-            array(25, 50, 75, 100),
-            array(25, 50, 75, 100),
-            array(25, 50, 75, 100),
-            array(25, 50, 75, 100)
-        );
-
-        //menyimpan nilai crips total
-        $getCripsData = [];
-        for($i = 0; $i <$jumlahKriteria; $i++){
-            for($j = 0; $j < 4; $j++){
-                $getCripsData[$i][$j]['kode'] = $kriteria[$i]['kode'];
-                $getCripsData[$i][$j]['nama'] = $kriteria[$i]['kriteria'];
-                $getCripsData[$i][$j]['crips'] = $crips[$i][$j];
-                $getCripsData[$i][$j]['nilai'] = $arrayValueCrips[$i][$j];
-            }
-        }
-        return $getCripsData;
-    }
-
-    public function getNilaiAlternatif($kriteria, $motor, $crips)
-    {
-        //dd($crips);
-        //menghitung jumlah motor dan kriteria
-        $jumlahMotor = count($motor);
-        $jumlahKriteria = count($kriteria);
-
-        //memberi nilai nilai alternatif sepeda motor
-        $getNilaiLaternatif = [];
-        for($i = 0; $i < $jumlahMotor; $i++){
-            $getNilaiLaternatif[$i]['nama'] = $motor[$i][0];
-            for($j = 0; $j < $jumlahKriteria; $j++){
-                for($k = 0; $k < 4; $k++){
-                    if($motor[$i][$j+1] <= $crips[$j][$k]['crips'])
-                    {
-                        $getNilaiLaternatif[$i][$j] = $crips[$j][$k]['nilai'];
-                        break;
-                    }
-                }
-            }
-        }
-        
-        return $getNilaiLaternatif;
-    }
-
-    public function getNormalisasi ($kriteria, $data, $jumlahMotor)
-    {
-        //menghitung jumlah kriteria
-        $jumlahKriteria = count($kriteria);
+        $jumlahKriteria = count($kriteriaResult);
 
         //inisilalisasi nilai maxmin
         $MaxMin = [];
-        foreach($kriteria as $item){
+        foreach($kriteriaResult as $item){
             if($item['jenis'] == 'Cost'){
                 array_push($MaxMin, 99999999);
             } else {
@@ -288,19 +146,19 @@ class RekomendasiController extends Controller
         }
         //memberi nilai minimal dan maksimal dari kriteria
         for($x = 0; $x < $jumlahKriteria; $x++){
-            if($kriteria[$x]['jenis'] == 'Cost'){
+            if($kriteriaResult[$x]['jenis'] == 'Cost'){
                 for($i = 0; $i < $jumlahMotor; $i++){
                     for($j = 0; $j < $jumlahMotor; $j++){
-                        if($data[$j][$x] < $MaxMin[$x]){
-                            $MaxMin[$x] = $data[$i][$x];
+                        if($data[$j][$x+1] < $MaxMin[$x]){
+                            $MaxMin[$x] = $data[$i][$x+1];
                         }   
                     }
                 }
             }
             else {
                 for($j = 0; $j < $jumlahMotor; $j++){
-                    if($data[$j][$x] > $MaxMin[$x]){
-                        $MaxMin[$x] = $data[$j][$x];
+                    if($data[$j][$x+1] > $MaxMin[$x]){
+                        $MaxMin[$x] = $data[$j][$x+1];
                     }   
                 }
             }
@@ -311,18 +169,18 @@ class RekomendasiController extends Controller
 
         for($i = 0; $i < $jumlahKriteria; $i++){
             for($j = 0; $j < $jumlahMotor; $j++){
-                if($kriteria[$i]['jenis'] == 'Cost'){
-                    $ratingNormalisasi[$j][$i] = $MaxMin[$i] / $data[$j][$i];
+                if($kriteriaResult[$i]['jenis'] == 'Cost'){
+                    $ratingNormalisasi[$j][$i] = $MaxMin[$i] / $data[$j][$i+1];
                 }
                 else {
-                    $ratingNormalisasi[$j][$i] = $data[$j][$i] / $MaxMin[$i];
+                    $ratingNormalisasi[$j][$i] = $data[$j][$i+1] / $MaxMin[$i];
                 }
             }
         }
 
         //menambahkan nama motor pada array ratingNormalisasi
         for($x = 0; $x < $jumlahMotor; $x++){
-            $ratingNormalisasi[$x][$jumlahKriteria] = $data[$x]['nama'];
+            $ratingNormalisasi[$x][$jumlahKriteria] = $data[$x][0];
         }
         return $ratingNormalisasi;
     }
