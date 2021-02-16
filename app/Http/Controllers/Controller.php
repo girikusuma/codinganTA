@@ -22,7 +22,7 @@ class Controller extends BaseController
         RdfNamespace::set('owl', 'http://www.w3.org/2002/07/owl#');
         RdfNamespace::set('motor', 'http://www.semanticweb.org/girikusuma/OntologiSepedaMotor#');
 
-        $this->sparql = new Client('http://127.0.0.1:3030/motor/query');
+        $this->sparql = new Client('https://jena.balidigitalheritage.com/fuseki/motor/query');
     }
 
     public function parseData($str){
