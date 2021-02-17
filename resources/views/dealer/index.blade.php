@@ -14,7 +14,7 @@
                 <div class="inner">
                   <h3>{{{ $item['provinsi'] }}}</h3>
                 </div>
-                <a href="{{ url('/dealer/'.$item['provinsi'].'/') }}" class="small-box-footer">Lihat <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('dealer.location', [$item['provinsi']]) }}" class="small-box-footer">Lihat <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
           @endforeach

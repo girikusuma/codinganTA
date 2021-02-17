@@ -15,7 +15,7 @@
                 <h3>{{ $item['namaKabupaten'] }}</h3>
                 <p>Jumlah : {{ $item['jumlah'] }}</p>
               </div>
-              <a href="{{ url('/servicecentre/'.$provinsi.'/'.$item['namaKabupaten'].'/') }}" class="small-box-footer" style="color: black;">Lihat <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{ route('service.show', [$provinsi, $item['namaKabupaten']]) }}" class="small-box-footer" style="color: black;">Lihat <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
         @endforeach

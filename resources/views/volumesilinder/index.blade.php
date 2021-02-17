@@ -13,7 +13,7 @@
       </div>
       <section class="content">
         @foreach($hasilvolume as $item)
-          <a href="{{ url('/listvolumesilinder/'.$item['volume'].'/') }}" style="color: black;">
+          <a href="{{ route('listvolume.show', [$item['volume']]) }}" style="color: black;">
             <div class="card d-inline-block mr-2 text-white bg-dark mb-3" style="width: 18rem;">
               <div class="card-body">
                   <h3 class="card-title">{{ $item['volume'] }}</h3>

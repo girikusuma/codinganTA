@@ -27,7 +27,7 @@
             <div class="col">
               @foreach($getService as $item)
                 @if($item['merekService'] == $count['merek'])
-                  <a href="{{ url('/servicecentre/'.$provinsi.'/'.$kabupaten.'/'.$item['id'].'/') }}" class="text-decoration-none text-muted">
+                  <a href="{{ route('service.detail', [$provinsi, $kabupaten, $item['id']]) }}" class="text-decoration-none text-muted">
                     <p>{{ $item['id'] }}</p>
                   </a>
                 @endif

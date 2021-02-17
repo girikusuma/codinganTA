@@ -13,7 +13,7 @@
       </div>
       <section class="content">
         @foreach($hasiltransmisi as $item)
-          <a href="{{ url('/listtransmisi/'.$item['transmisi'].'/') }}" style="color: black;">
+          <a href="{{ route('listtransmisi.show', [$item['transmisi']]) }}" style="color: black;">
             <div class="card d-inline-block mr-2 text-white bg-dark mb-3" style="width: 18rem;">
               <div class="card-body">
                   <h3 class="card-title">{{ $item['transmisi'] }}</h3>

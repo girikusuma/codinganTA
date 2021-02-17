@@ -17,7 +17,7 @@
             @foreach($motor as $item)
               <div class="card ml-4" style="width: 18rem;">
                 <img src="/images/motor/{{ $item['gambar'] }}" class="card-img-top" style="height : 12rem; width : 17.9rem;">
-                <a href="{{ url('/listmotor/'.$item['id'].'/') }}" style="color: black;">
+                <a href="{{ route('listmotor.show', [$item['id']]) }}" style="color: black;">
                   <div class="card-body">
                     <h5 class="card-title">{{ $item['nama'] }}</h5>
                   </div>
