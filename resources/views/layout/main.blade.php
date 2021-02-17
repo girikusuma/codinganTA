@@ -7,15 +7,15 @@
   <title>@yield('title')</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
+  <link rel="stylesheet" href="{{ URL::asset('plugins/fontawesome-free/css/all.min.css') }}">
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <link rel="stylesheet" href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('plugins/jqvmap/jqvmap.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
-  <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.css') }}">
+  <link rel="stylesheet" href="{{ URL::asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
+  <link rel="stylesheet" href="{{ URL::asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ URL::asset('plugins/jqvmap/jqvmap.min.css') }}">
+  <link rel="stylesheet" href="{{ URL::asset('dist/css/adminlte.min.css') }}">
+  <link rel="stylesheet" href="{{ URL::asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+  <link rel="stylesheet" href="{{ URL::asset('plugins/daterangepicker/daterangepicker.css') }}">
+  <link rel="stylesheet" href="{{ URL::asset('plugins/summernote/summernote-bs4.css') }}">
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
@@ -135,25 +135,25 @@
   </aside>
 </div>
 
-<script src="plugins/jquery/jquery.min.js"></script>
-<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="{{ URL::asset('plugins/jquery/jquery.min.js') }}"></script>
+<script src="{{ URL::asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 <script>
   $.widget.bridge('uibutton', $.ui.button)
 </script>
-<script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
-<script src="{{ asset('plugins/sparklines/sparkline.js') }}"></script>
-<script src="{{ asset('plugins/jqvmap/jquery.vmap.min.js') }}"></script>
-<script src="{{ asset('plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
-<script src="{{ asset('plugins/jquery-knob/jquery.knob.min.js') }}"></script>
-<script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
-<script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
-<script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
-<script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
-<script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
-<script src="{{ asset('dist/js/adminlte.js') }}"></script>
-<script src="{{ asset('dist/js/pages/dashboard.js') }}"></script>
-<script src="{{ asset('dist/js/demo.js') }}"></script>
+<script src="{{ URL::asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ URL::asset('plugins/chart.js/Chart.min.js') }}"></script>
+<script src="{{ URL::asset('plugins/sparklines/sparkline.js') }}"></script>
+<script src="{{ URL::asset('plugins/jqvmap/jquery.vmap.min.js') }}"></script>
+<script src="{{ URL::asset('plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
+<script src="{{ URL::asset('plugins/jquery-knob/jquery.knob.min.js') }}"></script>
+<script src="{{ URL::asset('plugins/moment/moment.min.js') }}"></script>
+<script src="{{ URL::asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
+<script src="{{ URL::asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+<script src="{{ URL::asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
+<script src="{{ URL::asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+<script src="{{ URL::asset('dist/js/adminlte.js') }}"></script>
+<script src="{{ URL::asset('dist/js/pages/dashboard.js') }}"></script>
+<script src="{{ URL::asset('dist/js/demo.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
