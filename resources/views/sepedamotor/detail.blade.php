@@ -22,19 +22,19 @@
     @if($jumlah > 0)
     <div class="container-fluid">
       <div class="row">
-        <div class="col-4">
+        <div class="col col-lg-4">
           <div class="row">
-            <div class="col">
-              <div class="card border-success mb-3">
+            <div class="col col-lg-12">
+              <div class="card border-success mb-3" style="width: auto;">
                 <div class="card-header text-center">Gambar {{ $nama }}</div>
-                <div class="card-body text-success text-center">
+                <div class="card-body text-center">
                   <img src="/images/motor/{{  $motor[0]['namagambar'] }}" class="img-thumbnail rounded"> 
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col">
+            <div class="col col-lg-12">
               <div class="card border-danger mb-3">
                 <div class="card-header text-center">Instance Atribute</div>
                 <div class="card-body text-decoration-none">
@@ -59,8 +59,8 @@
             </div>
           </div>
         </div>
-        <div class="col-8">
-          <div class="card border-info mb-3">
+        <div class="col col-lg-8">
+          <div class="card border-info mb-3" style="width: auto;">
             <div class="card-header text-center">Tentang {{ $nama }}</div>
             <div class="card-body text-info">
               <div class="row">
