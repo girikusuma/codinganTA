@@ -15,20 +15,12 @@
           <div class="container-fluid">
             <div class="row">
               @foreach($getMerek as $item)
-              <div class="col">
+              <div class="col col-lg-3">
                 <h4>{{ $item['merek'] }}</h4>
-              </div>
-              @endforeach
-            </div>
-          </div>
-          <div class="container-fluid">
-            <div class="row">
-              @foreach($getMerek as $count)
-              <div class="col">
-                @foreach($getDealer as $item)
-                  @if($item['merekDealer'] == $count['merek'])
-                  <a href="{{ route('dealer.detail', [$provinsi, $kabupaten, $item['id']]) }}" class="text-decoration-none text-muted">
-                    <p>{{ $item['id'] }}</p>
+                @foreach($getDealer as $key)
+                  @if($item['merek'] == $key['merekDealer'])
+                  <a href="{{ route('dealer.detail', [$provinsi, $kabupaten, $key['id']]) }}" class="text-decoration-none text-muted">
+                    <p>{{ $key['id'] }}</p>
                   </a>
                   @endif
                 @endforeach

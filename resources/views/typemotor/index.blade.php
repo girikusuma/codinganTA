@@ -12,15 +12,19 @@
         <hr>
       </div>
       <section class="content">
-        @foreach($hasiltype as $item)
-          <a href="{{ route('listtype.show', [$item['type']]) }}" style="color: black;">
-            <div class="card d-inline-block mr-2 text-white bg-dark mb-3" style="width: 18rem;">
-              <div class="card-body">
-                  <h3 class="card-title">{{ $item['type'] }}</h3>
+        <div class="row">
+          @foreach($hasiltype as $item)
+          <div class="col col-lg-3">
+            <a href="{{ route('listtype.show', [$item['type']]) }}" style="color: black;">
+              <div class="card d-inline-block mr-2 text-white bg-dark mb-3" style="width: 18rem;">
+                <div class="card-body">
+                    <h3 class="card-title">{{ $item['type'] }}</h3>
+                </div>
               </div>
-            </div>
-          </a>
-        @endforeach
+            </a>
+          </div>
+          @endforeach
+        </div>
       </section>
     </div>
   </div>

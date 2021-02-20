@@ -12,15 +12,19 @@
         <hr>
       </div>
       <section class="content">
-      @foreach($merek as $item)
-        <a href="{{ route('listmerek.show', [$item['namamerek']]) }}" style="color: black;">
-          <div class="card d-inline-block mr-2 text-white bg-dark mb-3" style="width: 18rem;">
-            <div class="card-body">
-                <h3 class="card-title">{{ $item['namamerek'] }}</h3>
-            </div>
+        <div class="row">
+          @foreach($merek as $item)
+          <div class="col col-lg-3">
+            <a href="{{ route('listmerek.show', [$item['namamerek']]) }}" style="color: black;">
+              <div class="card d-inline-block mr-2 text-white bg-dark mb-3" style="width: 18rem;">
+                <div class="card-body">
+                    <h3 class="card-title">{{ $item['namamerek'] }}</h3>
+                </div>
+              </div>
+            </a>
           </div>
-        </a>
-        @endforeach
+          @endforeach
+        </div>
       </section>
     </div>
   </div>

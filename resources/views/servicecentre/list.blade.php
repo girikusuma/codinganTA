@@ -13,26 +13,18 @@
         </div>
         <section class="content">
           <div class="container-fluid">
-            <div class="row">
+          <div class="row">
               @foreach($getMerek as $item)
-                <div class="col">
-                  <h4>{{ $item['merek'] }}</h4>
-                </div>
-              @endforeach
-            </div>
-          </div>
-          <div class="container-fluid">
-            <div class="row">
-              @foreach($getMerek as $count)
-                <div class="col">
-                  @foreach($getService as $item)
-                    @if($item['merekService'] == $count['merek'])
-                      <a href="{{ route('service.detail', [$provinsi, $kabupaten, $item['id']]) }}" class="text-decoration-none text-muted">
-                        <p>{{ $item['id'] }}</p>
-                      </a>
-                    @endif
-                  @endforeach
-                </div>
+              <div class="col col-lg-3">
+                <h4>{{ $item['merek'] }}</h4>
+                @foreach($getService as $key)
+                  @if($item['merek'] == $key['merekService'])
+                  <a href="{{ route('service.detail', [$provinsi, $kabupaten, $key['id']]) }}" class="text-decoration-none text-muted">
+                    <p>{{ $key['id'] }}</p>
+                  </a>
+                  @endif
+                @endforeach
+              </div>
               @endforeach
             </div>
           </div>
