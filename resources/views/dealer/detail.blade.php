@@ -40,6 +40,15 @@
                     <td>{{ $item['alamat'] }}</td>
                   </tr>
                   <tr>
+                    <td>Hari Buka</td>
+                    <td>:</td>
+                    <td>
+                      @foreach($dealer as $key)
+                        <div class="row">{{ $key['hariBuka'] }}</div>
+                      @endforeach
+                    </td>
+                  </tr>
+                  <tr>
                     <td>Jam Buka</td>
                     <td>:</td>
                     <td>{{ $item['jamBuka'] }} WITA</td>
@@ -54,6 +63,7 @@
                     <td>:</td>
                     <td>{{ $item['noTelp'] }}</td>
                   </tr>
+                  @break
                 @endforeach
               </tbody>
             </table>

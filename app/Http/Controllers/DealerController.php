@@ -74,7 +74,7 @@ class DealerController extends Controller
 
     public function detail($provinsi, $kabupaten, $id)
     {
-        $getDetail = $this->sparql->query("SELECT * WHERE {motor:".$id." motor:AdalahDealerDari ?merek. motor:".$id." motor:MemilikiAlamat ?alamat. motor:".$id." motor:MemilikiJamBuka ?jamBuka. motor:".$id." motor:MemilikiJamTutup ?jamTutup. motor:".$id." motor:MemilikiNoTelp ?noTelp}");
+        $getDetail = $this->sparql->query("SELECT * WHERE {motor:".$id." motor:AdalahDealerDari ?merek. motor:".$id." motor:MemilikiAlamat ?alamat. motor:".$id." motor:MemilikiJamBuka ?jamBuka. motor:".$id." motor:MemilikiJamTutup ?jamTutup. motor:".$id." motor:MemilikiNoTelp ?noTelp. motor:".$id." motor:MemilikiHariBuka ?hari}");
         $result = [];
         foreach($getDetail as $item){
             array_push($result, [
@@ -82,9 +82,11 @@ class DealerController extends Controller
                 'alamat'    => $this->parseData($item->alamat->getValue()),
                 'jamBuka'   => $this->parseData($item->jamBuka->getValue()),
                 'jamTutup'  => $this->parseData($item->jamTutup->getValue()),
-                'noTelp'    => $this->parseData($item->noTelp->getValue())
+                'noTelp'    => $this->parseData($item->noTelp->getValue()),
+                'hariBuka'  => $this->parseData($item->hari->getValue())
             ]);
         }
+        // dd($result);
         $data = [
             'dealer'    => $result,
             'id'        => $id
