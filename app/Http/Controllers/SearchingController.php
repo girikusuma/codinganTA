@@ -30,6 +30,7 @@ class SearchingController extends Controller
             $querydata = $this->sparql->query($sql);
 
             $resultMotor = [];
+            $resultDealer = [];
 
             foreach($querydata as $item){
                 array_push($resultMotor, [
@@ -43,8 +44,43 @@ class SearchingController extends Controller
             $getJenis = $request->cari_typemotor;
             $getTahun = $request->cari_tahun;
             $getVolume = $request->cari_volume;
+            $getLokasi = '';
 
             $jumlahMotor = count($resultMotor);
+            $jumlahDealer = 0;
+
+        } else if($request->has('cari_dealer')){ 
+            $status = 2;
+            $sql = 'SELECT * WHERE { ?dealer rdf:type motor:NamaDealer';
+            if($request->cari_merek_dealer != 'semua'){
+                $sql = $sql.'. ?dealer motor:AdalahDealerDari motor:'.$request->cari_merek_dealer;
+            }
+            if($request->cari_lokasi != 'semua'){
+                $sql = $sql.'. ?dealer motor:MemilikiLokasi motor:'.$request->cari_lokasi;
+            }
+            $sql = $sql.'. ?dealer motor:MemilikiNama ?nama}';
+
+            $querydata = $this->sparql->query($sql);
+
+            $resultMotor = [];
+            $resultDealer = [];
+
+            foreach($querydata as $item){
+                array_push($resultDealer, [
+                    'id'        => $this->parseData($item->dealer->getUri()),
+                    'nama'      => $this->parseData($item->nama->getValue())
+                ]);
+            }
+
+            $getMerek = $request->cari_merek_dealer;
+            $getTransmisi = '';
+            $getJenis = '';
+            $getTahun = '';
+            $getVolume = '';
+            $getLokasi = $request->cari_lokasi;
+
+            $jumlahMotor = 0;
+            $jumlahDealer = count($resultDealer);
 
         } else {
             $sql = '';
@@ -53,9 +89,12 @@ class SearchingController extends Controller
             $getJenis = '';
             $getTahun = '';
             $getVolume = '';
+            $getLokasi = '';
             $resultMotor = [];
+            $resultDealer = [];
             $status = 0;
             $jumlahMotor = 0;
+            $jumlahDealer = 0;
             $merek = "semua";
             $transmisi = "semua";
             $jenis = "semua";
@@ -67,12 +106,14 @@ class SearchingController extends Controller
         $typemotor = $this->sparql->query('SELECT * WHERE {?typemotor rdf:type motor:JenisMotor}');
         $tahun = $this->sparql->query('SELECT * WHERE {?tahun rdf:type motor:TahunProduksi}');
         $volume = $this->sparql->query('SELECT * WHERE {?volume rdf:type motor:VolumeSilinder}');
+        $lokasi = $this->sparql->query('SELECT * WHERE {?lokasi rdf:type motor:Kabupaten}');
         
         $resultMerek = [];
         $resultTransmisi = [];
         $resultType = [];
         $resultTahun = [];
         $resultVolume = [];
+        $resultLokasi = [];
         
         foreach($merek as $item){
             array_push($resultMerek, [
@@ -99,6 +140,11 @@ class SearchingController extends Controller
                 'hasilVolume' => $this->parseData($item->volume->getUri())
             ]);
         }
+        foreach($lokasi as $item){
+            array_push($resultLokasi, [
+                'hasilLokasi' => $this->parseData($item->lokasi->getUri())
+            ]);
+        }
         $data = [
             'getMerek'      => $resultMerek,
             'getTransmisi'  => $resultTransmisi,
@@ -106,14 +152,18 @@ class SearchingController extends Controller
             'getTahun'      => $resultTahun,
             'getVolume'     => $resultVolume,
             'getMotor'      => $resultMotor,
+            'getDealer'     => $resultDealer,
+            'getLokasi'     => $resultLokasi,
             'status'        => $status,
             'query'         => $sql,
-            'jumlah'        => $jumlahMotor,
+            'jumlahMotor'   => $jumlahMotor,
+            'jumlahDealer'  => $jumlahDealer,
             'merek'         => $getMerek,
             'transmisi'     => $getTransmisi,
             'jenis'         => $getJenis,
             'tahun'         => $getTahun,
-            'volume'        => $getVolume
+            'volume'        => $getVolume,
+            'lokasi'        => $getLokasi
         ];
 
         return view ('searching', $data);

@@ -40,7 +40,7 @@ Route::get('/listvolumesilinder/{hasilvolume}', 'VolumeController@show')->name('
 Route::get('/dealer', 'DealerController@index')->name('dealer.index');
 Route::get('/dealer/{hasilprovinsi}', 'DealerController@location')->name('dealer.location');
 Route::get('/dealer/{daerah}/{namakabupaten}', 'DealerController@show')->name('dealer.show');
-Route::get('/dealer/{provinsi}/{kabupaten}/{namadealer}', 'DealerController@detail')->name('dealer.detail');
+Route::get('/detail/dealer/{namadealer}', 'DealerController@detail')->name('dealer.detail');
 
 Route::get('/servicecentre', 'ServiceController@index')->name('service.index');
 Route::get('/servicecentre/{hasilprovinsi}', 'ServiceController@location')->name('service.location');
