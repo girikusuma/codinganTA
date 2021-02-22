@@ -8,7 +8,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
         <div class="col-sm-6">
-            <h1 class="m-0 text-dark">{{ $id }}</h1>
+            <h1 class="m-0 text-dark">{{ $dealer[0]['nama'] }}</h1>
         </div>
         </div>
     </div>
@@ -18,7 +18,7 @@
       <div class="col-lg-4">
         <div class="card" style="width: auto;">
           <div class="card-body">
-            <img class="card-img-top" src="/images/browsingcard.jpg" alt="Card image cap"> 
+            <img class="card-img-top" src="/images/dealer/{{ $dealer[0]['gambar'] }}" alt="Card image cap"> 
           </div>
         </div>
       </div>
@@ -42,11 +42,7 @@
                   <tr>
                     <td>Hari Buka</td>
                     <td>:</td>
-                    <td>
-                      @foreach($dealer as $key)
-                        <div class="row">{{ $key['hariBuka'] }}</div>
-                      @endforeach
-                    </td>
+                    <td>{{ $item['hariBuka'] }}</td>
                   </tr>
                   <tr>
                     <td>Jam Buka</td>

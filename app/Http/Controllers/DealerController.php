@@ -74,19 +74,20 @@ class DealerController extends Controller
 
     public function detail($provinsi, $kabupaten, $id)
     {
-        $getDetail = $this->sparql->query("SELECT * WHERE {motor:".$id." motor:AdalahDealerDari ?merek. motor:".$id." motor:MemilikiAlamat ?alamat. motor:".$id." motor:MemilikiJamBuka ?jamBuka. motor:".$id." motor:MemilikiJamTutup ?jamTutup. motor:".$id." motor:MemilikiNoTelp ?noTelp. motor:".$id." motor:MemilikiHariBuka ?hari}");
+        $getDetail = $this->sparql->query("SELECT * WHERE {motor:".$id." motor:AdalahDealerDari ?merek. motor:".$id." motor:MemilikiAlamat ?alamat. motor:".$id." motor:MemilikiJamBuka ?jamBuka. motor:".$id." motor:MemilikiJamTutup ?jamTutup. motor:".$id." motor:MemilikiNoTelp ?noTelp. motor:".$id." motor:MemilikiHariBuka ?hari. motor:".$id." motor:MemilikiNama ?nama. motor:".$id." motor:MemilikiGambar ?gambar}");
         $result = [];
         foreach($getDetail as $item){
             array_push($result, [
                 'merek'     => $this->parseData($item->merek->getUri()),
+                'nama'      => $this->parseData($item->nama->getValue()),
                 'alamat'    => $this->parseData($item->alamat->getValue()),
                 'jamBuka'   => $this->parseData($item->jamBuka->getValue()),
                 'jamTutup'  => $this->parseData($item->jamTutup->getValue()),
                 'noTelp'    => $this->parseData($item->noTelp->getValue()),
-                'hariBuka'  => $this->parseData($item->hari->getValue())
+                'hariBuka'  => $this->parseData($item->hari->getValue()),
+                'gambar'    => $this->parseData($item->gambar->getValue())
             ]);
         }
-        // dd($result);
         $data = [
             'dealer'    => $result,
             'id'        => $id
