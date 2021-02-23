@@ -45,7 +45,7 @@ Route::get('/detail/dealer/{namadealer}', 'DealerController@detail')->name('deal
 Route::get('/servicecentre', 'ServiceController@index')->name('service.index');
 Route::get('/servicecentre/{hasilprovinsi}', 'ServiceController@location')->name('service.location');
 Route::get('/servicecentre/{daerah}/{namakabupaten}', 'ServiceController@show')->name('service.show');
-Route::get('/servicecentre/{provinsi}/{kabupaten}/{namadealer}', 'ServiceController@detail')->name('service.detail');
+Route::get('/detail/servicecentre/{namaservice}', 'ServiceController@detail')->name('service.detail');
 
 Route::get('/searching', 'SearchingController@index')->name('searching.index');
 Route::get('/searching/getdata', 'SearchingController@getData')->name('searching.getData');

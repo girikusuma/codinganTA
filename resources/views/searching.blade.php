@@ -297,7 +297,7 @@
                                     @foreach($getService as $item)
                                     <tr>
                                         <th scope="row">{{ $loop->iteration }}</th>
-                                        <td><a href="{{ route('dealer.detail', [$item['id']]) }}" class="text-decoration-none text-muted">{{ $item['nama'] }}</a></td>
+                                        <td><a href="{{ route('service.detail', [$item['id']]) }}" class="text-decoration-none text-muted">{{ $item['nama'] }}</a></td>
                                     </tr>
                                     @endforeach
                                 </tbody>

@@ -19,7 +19,7 @@
                 <h4>{{ $item['merek'] }}</h4>
                 @foreach($getService as $key)
                   @if($item['merek'] == $key['merekService'])
-                  <a href="{{ route('service.detail', [$provinsi, $kabupaten, $key['id']]) }}" class="text-decoration-none text-muted">
+                  <a href="{{ route('service.detail', [$key['id']]) }}" class="text-decoration-none text-muted">
                     <p>{{ $key['id'] }}</p>
                   </a>
                   @endif
