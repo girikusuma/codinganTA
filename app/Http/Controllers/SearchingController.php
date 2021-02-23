@@ -31,6 +31,7 @@ class SearchingController extends Controller
 
             $resultMotor = [];
             $resultDealer = [];
+            $resultService = [];
 
             foreach($querydata as $item){
                 array_push($resultMotor, [
@@ -48,6 +49,7 @@ class SearchingController extends Controller
 
             $jumlahMotor = count($resultMotor);
             $jumlahDealer = 0;
+            $jumlahService = 0;
 
         } else if($request->has('cari_dealer')){ 
             $status = 2;
@@ -55,8 +57,8 @@ class SearchingController extends Controller
             if($request->cari_merek_dealer != 'semua'){
                 $sql = $sql.'. ?dealer motor:AdalahDealerDari motor:'.$request->cari_merek_dealer;
             }
-            if($request->cari_lokasi != 'semua'){
-                $sql = $sql.'. ?dealer motor:MemilikiLokasi motor:'.$request->cari_lokasi;
+            if($request->cari_lokasi_dealer != 'semua'){
+                $sql = $sql.'. ?dealer motor:MemilikiLokasi motor:'.$request->cari_lokasi_dealer;
             }
             $sql = $sql.'. ?dealer motor:MemilikiNama ?nama}';
 
@@ -64,6 +66,7 @@ class SearchingController extends Controller
 
             $resultMotor = [];
             $resultDealer = [];
+            $resultService = [];
 
             foreach($querydata as $item){
                 array_push($resultDealer, [
@@ -77,10 +80,46 @@ class SearchingController extends Controller
             $getJenis = '';
             $getTahun = '';
             $getVolume = '';
-            $getLokasi = $request->cari_lokasi;
+            $getLokasi = $request->cari_lokasi_dealer;
 
             $jumlahMotor = 0;
             $jumlahDealer = count($resultDealer);
+            $jumlahService = 0;
+
+        } else if($request->has('cari_service')){ 
+            $status = 3;
+            $sql = 'SELECT * WHERE { ?service rdf:type motor:NamaServiceCentre';
+            if($request->cari_merek_service != 'semua'){
+                $sql = $sql.'. ?service motor:AdalahServiceCentreDari motor:'.$request->cari_merek_service;
+            }
+            if($request->cari_lokasi_service != 'semua'){
+                $sql = $sql.'. ?service motor:MemilikiLokasi motor:'.$request->cari_lokasi_service;
+            }
+            $sql = $sql.'. ?service motor:MemilikiNama ?nama}';
+
+            $querydata = $this->sparql->query($sql);
+
+            $resultMotor = [];
+            $resultDealer = [];
+            $resultService = [];
+
+            foreach($querydata as $item){
+                array_push($resultService, [
+                    'id'        => $this->parseData($item->service->getUri()),
+                    'nama'      => $this->parseData($item->nama->getValue())
+                ]);
+            }
+
+            $getMerek = $request->cari_merek_service;
+            $getTransmisi = '';
+            $getJenis = '';
+            $getTahun = '';
+            $getVolume = '';
+            $getLokasi = $request->cari_lokasi_service;
+
+            $jumlahMotor = 0;
+            $jumlahDealer = 0;
+            $jumlahService = count($resultService);
 
         } else {
             $sql = '';
@@ -92,9 +131,11 @@ class SearchingController extends Controller
             $getLokasi = '';
             $resultMotor = [];
             $resultDealer = [];
+            $resultService = [];
             $status = 0;
             $jumlahMotor = 0;
             $jumlahDealer = 0;
+            $jumlahService = 0;
             $merek = "semua";
             $transmisi = "semua";
             $jenis = "semua";
@@ -153,11 +194,13 @@ class SearchingController extends Controller
             'getVolume'     => $resultVolume,
             'getMotor'      => $resultMotor,
             'getDealer'     => $resultDealer,
+            'getService'    => $resultService,
             'getLokasi'     => $resultLokasi,
             'status'        => $status,
             'query'         => $sql,
             'jumlahMotor'   => $jumlahMotor,
             'jumlahDealer'  => $jumlahDealer,
+            'jumlahService' => $jumlahService,
             'merek'         => $getMerek,
             'transmisi'     => $getTransmisi,
             'jenis'         => $getJenis,

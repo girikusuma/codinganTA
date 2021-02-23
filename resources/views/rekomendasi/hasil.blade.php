@@ -16,7 +16,7 @@
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-6">
+            <div class="col-lg-6">
                 <div class="card border-primary mb-3">
                     <div class="card-header text-bold">Data Kriteria</div>
                     <div class="card-body text-primary">
@@ -48,18 +48,18 @@
         </div>
         <div class="divider"></div>
         <div class="row">
-            <div class="col-8">
+            <div class="col-lg-8">
                 <div class="card border-warning mb-3">
                     <div class="card-header text-bold">Data Crips</div>
                     <div class="card-body  text-decoration-none">
                         <table class="table table-striped mb-5">
                             <thead>
                                 <tr>
-                                    <th scope="cole">#</th>
-                                    <th scope="cole">Kode Kriteria</th>
-                                    <th scope="cole">Nama Kriteria</th>
-                                    <th scope="cole">Crips</th>
-                                    <th scope="cole">Nilai</th>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Kode Kriteria</th>
+                                    <th scope="col">Nama Kriteria</th>
+                                    <th scope="col">Crips</th>
+                                    <th scope="col">Nilai</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -82,19 +82,19 @@
         </div>
         <div class="divider"></div>
         <div class="row">
-            <div class="col">
+            <div class="col-lg-12">
                 <div class="card border-secondary mb-3">
                     <div class="card-header text-bold">Data Alternatif</div>
                     <div class="card-body text-secondary">
-                        <table class="table table-striped mb-5">
+                        <table class="table table-striped mb-5 col-lg-12">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Nama Motor</th>
                                     <th scope="col">Harga</th>
-                                    <th scope="col">KapasitasBBM</th>
+                                    <th scope="col" style="font-size: 1.05vw;">KapasitasBBM</th>
                                     <th scope="col">Kecepatan</th>
-                                    <th scope="col">KonsumsiBBM</th>
+                                    <th scope="col" style="font-size: 1.05vw;">KonsumsiBBM</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -116,7 +116,7 @@
         </div>
         <div class="divider"></div>
         <div class="row">
-            <div class="col-6">
+            <div class="col-lg-6">
                 <div class="card border-success mb-3">
                     <div class="card-header text-bold">Data Nilai Alternatif</div>
                     <div class="card-body text-success">
@@ -150,7 +150,7 @@
         </div>
         <div class="divider"></div>
         <div class="row">
-            <div class="col">
+            <div class="col-lg-12">
                 <div class="card border-danger mb-3">
                     <div class="card-header text-bold">Hasil Normalisasi</div>
                     <div class="card-body text-danger">
@@ -159,10 +159,10 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Nama Motor</th>
-                                    <th scope="col">Kriteria 1</th>
-                                    <th scope="col">Kriteria 2</th>
-                                    <th scope="col">Kriteria 3</th>
-                                    <th scope="col">Kriteria 4</th>
+                                    <th scope="col">C1</th>
+                                    <th scope="col">C2</th>
+                                    <th scope="col">C3</th>
+                                    <th scope="col">C4</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -184,19 +184,19 @@
         </div>      
         <div class="divider"></div>
         <div class="row">
-            <div class="col">
+            <div class="col-lg-12">
                 <div class="card border-info mb-3">
                     <div class="card-header text-bold">Nilai Pembobotan</div>
                     <div class="card-body text-info">
-                        <table class="table table-striped mb-5">
+                        <table class="table table-striped mb-5 col-lg-12">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Nama Motor</th>
-                                    <th scope="col">Kriteria 1</th>
-                                    <th scope="col">Kriteria 2</th>
-                                    <th scope="col">Kriteria 3</th>
-                                    <th scope="col">Kriteria 4</th>
+                                    <th scope="col">C1</th>
+                                    <th scope="col">C2</th>
+                                    <th scope="col">C3</th>
+                                    <th scope="col">C4</th>
                                 </tr>
                             </thead>
                             <tbody>

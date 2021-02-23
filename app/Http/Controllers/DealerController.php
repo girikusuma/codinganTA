@@ -88,9 +88,11 @@ class DealerController extends Controller
                 'gambar'    => $this->parseData($item->gambar->getValue())
             ]);
         }
+        $jumlah = count($result);
         $data = [
             'dealer'    => $result,
-            'id'        => $id
+            'id'        => $id,
+            'jumlah'    => $jumlah
         ];
         return view('dealer/detail', $data);
     }
