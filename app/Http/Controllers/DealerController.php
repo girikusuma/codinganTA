@@ -64,7 +64,7 @@ class DealerController extends Controller
                 array_push($resultDealer, [
                     'id'            => $this->parseData($item->s->getUri()),
                     'merekDealer'   => $getDealer['merek'],
-                    'nama'          => $this->parseData($item->nama_>getValue())
+                    'nama'          => $this->parseData($item->nama->getValue())
                 ]);
             }
         }
