@@ -66,7 +66,7 @@
                                 @foreach($crips as $item)
                                     @foreach($item as $key)
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $key['iterasi'] }}</td>
                                             <td>{{ $key['kode'] }}</td>
                                             <td>{{ $key['nama'] }}</td>
                                             <td><= {{ $key['crips'] }}</td>
@@ -197,6 +197,7 @@
                                     <th scope="col">C2</th>
                                     <th scope="col">C3</th>
                                     <th scope="col">C4</th>
+                                    <th scope="col">Total</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -208,6 +209,7 @@
                                     <td>{{ $item[1] }}</td>
                                     <td>{{ $item[2] }}</td>
                                     <td>{{ $item[3] }}</td>
+                                    <td>{{ $item[5] }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

@@ -8,6 +8,7 @@ class DealerController extends Controller
 {
     public function index()
     {
+        //query untuk mengambil data provinsi dan menyimpan pada variabel result
         $provinsi = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:Provinsi}');
         $result = [];
         foreach($provinsi as $item){
@@ -22,7 +23,8 @@ class DealerController extends Controller
     }
 
     public function location($provinsi)
-    {
+    {   
+        //query untuk mengambil data kabupaten berdasarkan provinsi tertentu dan menyimpan pada variabel result
         $kabupaten = $this->sparql->query('SELECT * WHERE {?s motor:AdalahBagianDari motor:'.$provinsi.'}');
         $result = [];
         foreach($kabupaten as $item){
@@ -46,6 +48,7 @@ class DealerController extends Controller
 
     public function show($provinsi, $kabupaten)
     {
+        //query untuk mengambil data merek dan menyimpan pada variabel resultMerek
         $getMerek = $this->sparql->query('SELECT * WHERE {?merek rdf:type motor:MerkMotor}');
         $resultMerek = [];
         $resultDealer = [];
@@ -54,6 +57,7 @@ class DealerController extends Controller
                 'merek' => $this->parseData($item->merek->getUri())
             ]);
         }
+        //perulangan untuk mengambil data dealer berdasarkan merek tertentu dan daerah tertentu dan disimpan pada variabel resultDealer
         foreach($resultMerek as $getDealer){
             $Dealer = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:NamaDealer. ?s motor:MemilikiLokasi motor:'.$kabupaten.'. ?s motor:AdalahDealerDari motor:'.$getDealer['merek'].'}');
             foreach($Dealer as $item){
@@ -74,6 +78,7 @@ class DealerController extends Controller
 
     public function detail($id)
     {
+        //query untuk mengambil data pada satu dealer tertentu
         $getDetail = $this->sparql->query("SELECT * WHERE {motor:".$id." motor:AdalahDealerDari ?merek. motor:".$id." motor:MemilikiAlamat ?alamat. motor:".$id." motor:MemilikiJamBuka ?jamBuka. motor:".$id." motor:MemilikiJamTutup ?jamTutup. motor:".$id." motor:MemilikiNoTelp ?noTelp. motor:".$id." motor:MemilikiHariBuka ?hari. motor:".$id." motor:MemilikiNama ?nama. motor:".$id." motor:MemilikiGambar ?gambar}");
         $result = [];
         foreach($getDetail as $item){

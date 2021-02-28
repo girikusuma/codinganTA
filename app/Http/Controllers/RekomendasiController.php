@@ -236,8 +236,11 @@ class RekomendasiController extends Controller
 
         //menyimpan nilai crips total
         $getCripsData = [];
+        $iterasi = 0;
         for($i = 0; $i <$jumlahKriteria; $i++){
             for($j = 0; $j < 4; $j++){
+                $iterasi = $iterasi + 1;
+                $getCripsData[$i][$j]['iterasi'] = $iterasi;
                 $getCripsData[$i][$j]['kode'] = $kriteria[$i]['kode'];
                 $getCripsData[$i][$j]['nama'] = $kriteria[$i]['kriteria'];
                 $getCripsData[$i][$j]['crips'] = $crips[$i][$j];
@@ -329,10 +332,13 @@ class RekomendasiController extends Controller
 
     public function getRanking($data)
     {
+        //menghitung jumlah motor
         $jumlahMotor = count($data);
 
+        //query untuk mengambil data kriteria
         $query = $this->sparql->query("SELECT * WHERE {?kriteria rdf:type motor:NamaKriteria. ?kriteria motor:MemilikiBobot ?bobot}");
         
+        //menyimpan data kriteria pada variabel
         $bobotKriteria = [];
         foreach($query as $item){
             array_push($bobotKriteria, [
@@ -340,43 +346,54 @@ class RekomendasiController extends Controller
                 'bobot'     => floatval($this->parseData($item->bobot->getValue()))
             ]);
         }
+        //menghitung jumlah kriteria
         $jumlahKriteria = count($bobotKriteria);
 
         $hasilRekomendasi = [];
+        //mengalikan nilai pada data motor dengan bobot pada kriteria
         for($i = 0; $i < $jumlahMotor; $i++){
             for($j = 0; $j < $jumlahKriteria; $j++){
                 $hasilRekomendasi[$i][$j] = $data[$i][$j] * $bobotKriteria[$j]['bobot'];
             }
         }
+        //menyimpan nama dan menghitung total pada masing-masing alternatif motor
         for($x = 0; $x < $jumlahMotor; $x++){
             $hasilRekomendasi[$x][$jumlahKriteria] = $data[$x][4];
+        }
+        $tempTotal = 0;
+        for($i = 0; $i < $jumlahMotor; $i++){
+            for($j = 0; $j < $jumlahKriteria; $j++){
+                $tempTotal = $tempTotal + $hasilRekomendasi[$i][$j];
+            }
+            $hasilRekomendasi[$i][5] = $tempTotal;
+            $tempTotal = 0;
         }
         return $hasilRekomendasi;
     }
 
     public function getResultSAW($data)
     {
+        //menghitung jumlah motor
         $jumlahMotor = count($data);
-
+        
+        //query untuk mengambil nama kriteria
         $query = $this->sparql->query("SELECT * WHERE {?kriteria rdf:type motor:NamaKriteria}");
 
+        //menyimpan data kriteria dan menghitung jumlah kriteria
         $kriteria = [];
         foreach($query as $item){
             array_push($kriteria, $this->parseData($item->kriteria->getUri()));
         }
         $jumlahKriteria = count($kriteria);
 
+        //menyimpan data nama dan nilai pada variabel hasilSAW dari variabel data
         $hasilSAW = [];
         for($i = 0; $i <$jumlahMotor; $i++){
-            $tempHasil = 0;
-            for($j = 0; $j < $jumlahKriteria; $j++){
-                $tempHasil = $tempHasil + $data[$i][$j];
-            }
-            array_push($hasilSAW, [
-                'nama'  => $data[$i][4],
-                'nilai' => $tempHasil
-            ]);
+            $hasilSAW[$i]['nama'] = $data[$i][4];
+            $hasilSAW[$i]['nilai'] = $data[$i][5];
         }
+
+        //melakukan sorting dengan menggunakan bubblesort
         for($j = 0; $j < $jumlahMotor; $j++){
             for($i = 0; $i <$jumlahMotor; $i++){
                 if(($i+1) < ($jumlahMotor)){
