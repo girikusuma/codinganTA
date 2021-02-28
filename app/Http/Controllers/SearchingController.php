@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 class SearchingController extends Controller
 {
     public function index(Request $request){
+        //untuk mengetahui apakan terdapat request dari user
         if($request->has('cari')){
             $status = 1;
+            //untuk membangun query berdasarkan kriteria filter motor
             $sql = 'SELECT * WHERE { ?motor rdf:type motor:NamaUnit';
             if($request->cari_merek != 'semua'){
                 $sql = $sql.'. ?motor motor:AdalahMerkDari motor:'.$request->cari_merek;
@@ -33,6 +35,7 @@ class SearchingController extends Controller
             $resultDealer = [];
             $resultService = [];
 
+            //meyimpan data nama dan id motor
             foreach($querydata as $item){
                 array_push($resultMotor, [
                     'id'        => $this->parseData($item->motor->getUri()),
@@ -53,6 +56,7 @@ class SearchingController extends Controller
 
         } else if($request->has('cari_dealer')){ 
             $status = 2;
+            //untuk membangun query berdasarkan kriteria filter dealer
             $sql = 'SELECT * WHERE { ?dealer rdf:type motor:NamaDealer';
             if($request->cari_merek_dealer != 'semua'){
                 $sql = $sql.'. ?dealer motor:AdalahDealerDari motor:'.$request->cari_merek_dealer;
@@ -68,6 +72,7 @@ class SearchingController extends Controller
             $resultDealer = [];
             $resultService = [];
 
+            //meyimpan data nama dan id dealer
             foreach($querydata as $item){
                 array_push($resultDealer, [
                     'id'        => $this->parseData($item->dealer->getUri()),
@@ -88,6 +93,7 @@ class SearchingController extends Controller
 
         } else if($request->has('cari_service')){ 
             $status = 3;
+            //untuk membangun query berdasarkan kriteria filter service center
             $sql = 'SELECT * WHERE { ?service rdf:type motor:NamaServiceCentre';
             if($request->cari_merek_service != 'semua'){
                 $sql = $sql.'. ?service motor:AdalahServiceCentreDari motor:'.$request->cari_merek_service;
@@ -103,6 +109,7 @@ class SearchingController extends Controller
             $resultDealer = [];
             $resultService = [];
 
+            //meyimpan data nama dan id service center
             foreach($querydata as $item){
                 array_push($resultService, [
                     'id'        => $this->parseData($item->service->getUri()),
@@ -142,6 +149,7 @@ class SearchingController extends Controller
             $tahun = "semua";
             $volume = "semua";
         }
+        //melakukan query untuk mengambil data merek, transmisi, type, tahun, volume, dan lokasi
         $merek = $this->sparql->query('SELECT * WHERE {?merek rdf:type motor:MerkMotor}');
         $transmisi = $this->sparql->query('SELECT * WHERE {?transmisi rdf:type motor:Transmisi}');
         $typemotor = $this->sparql->query('SELECT * WHERE {?typemotor rdf:type motor:JenisMotor}');

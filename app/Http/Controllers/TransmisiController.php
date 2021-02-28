@@ -9,6 +9,7 @@ class TransmisiController extends Controller
     
     public function index()
     {
+        //query untuk mengambil data transmisi motor dan disimpan pada variabel result
         $transmisi = $this->sparql->query("SELECT * WHERE {?s rdf:type motor:Transmisi}");
         $result = [];
         foreach($transmisi as $item){
@@ -24,6 +25,7 @@ class TransmisiController extends Controller
 
     public function show($transmisi)
     {
+        //query untuk mengambil data motor berdasarkan transmisi tertentu dan disimpan pada variabel resul
         $getnama = $this->sparql->query("SELECT * WHERE {?s motor:AdalahJenisTransmisi motor:".$transmisi.". ?s motor:MemilikiNama ?n. ?s motor:MemilikiGambar ?gambar}");
         $result = [];
         $jumlah = 0;

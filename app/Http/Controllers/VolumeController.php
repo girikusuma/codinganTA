@@ -9,6 +9,7 @@ class VolumeController extends Controller
     
     public function index()
     {
+        //query untuk mengambil data volume silinder motor dan disimpan pada variabel result
         $volume = $this->sparql->query("SELECT * WHERE {?s rdf:type motor:VolumeSilinder}");
         $result = [];
         foreach($volume as $item){
@@ -24,6 +25,7 @@ class VolumeController extends Controller
 
     public function show($volume)
     {
+        //query untuk mengambil data motor berdasarkan volume silinder tertentu dan disimpan pada variabel result
         $getnama = $this->sparql->query("SELECT * WHERE {?s motor:MemilikiVolumeSilinder motor:".$volume.". ?s motor:MemilikiNama ?n. ?s motor:MemilikiGambar ?gambar}");
         $result = [];
         $jumlah = 0;

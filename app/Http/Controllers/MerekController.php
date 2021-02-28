@@ -9,6 +9,7 @@ class MerekController extends Controller
 
     public function index()
     {
+        //query untuk mengambil data merek motor dan disimpan pada variabel result
         $merek = $this->sparql->query("SELECT * WHERE {?s rdf:type motor:MerkMotor}");
         $result = [];
         foreach($merek as $item){
@@ -25,6 +26,7 @@ class MerekController extends Controller
     
     public function show($merek)
     {
+        //query untuk mengambil data motor berdasarkan merek tertentu dan disimpan pada variabel result
         $getnama = $this->sparql->query("SELECT * WHERE {?s motor:AdalahMerkDari motor:".$merek.". ?s motor:MemilikiNama ?n. ?s motor:MemilikiGambar ?gambar}");
         $result = [];
         $jumlah = 0;

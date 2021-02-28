@@ -10,7 +10,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class MotorController extends Controller
 {
     public function menu()
-    {   $motor = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:NamaUnit. ?s motor:MemilikiNama ?o}');
+    {   
+        //query untuk mengambil data motor, merek, transmisi, type, tahun, dan volume
+        $motor = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:NamaUnit. ?s motor:MemilikiNama ?o}');
         $merek = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:MerkMotor}');
         $transmisi = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:Transmisi}');
         $type = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:JenisMotor}');
@@ -48,6 +50,7 @@ class MotorController extends Controller
     
     public function index()
     {
+        //query untuk mengambil data motor dan disimpan pada variabel result
         $motor = $this->sparql->query("SELECT * WHERE {?s rdf:type motor:NamaUnit. ?s motor:MemilikiNama ?o. ?s motor:MemilikiGambar ?gambar}");
 
         $result = [];
@@ -82,12 +85,14 @@ class MotorController extends Controller
 
     public function show($idmotor)
     {
+        //query untuk mengambil data nama motor
         $getnama = $this->sparql->query("SELECT * WHERE {motor:".$idmotor." motor:MemilikiNama ?n}");
 
         foreach($getnama as $i){
             $nama = $this->parseData($i->n->getValue());
         }
 
+        //query untuk mengambil semua data pad satu motor
         $sql = $this->sparql->query("SELECT * WHERE {motor:".$idmotor." motor:AdalahJenisTransmisi ?t. motor:".$idmotor." motor:AdalahMerkDari ?m. motor:".$idmotor." motor:MemilikiSistemBahanBakar ?sb. motor:".$idmotor." motor:MemilikiJenis ?j. motor:".$idmotor." motor:MemilikiVolumeSilinder ?v . motor:".$idmotor." motor:MemilikiTahunProduksi ?tp. motor:".$idmotor." motor:MemilikiTingkatKonsumsiBahanBakar ?konsumsi. motor:".$idmotor." motor:MemilikiKecepatan ?kecepatan. motor:".$idmotor." motor:MemilikiKapasitasBahanBakar ?kapasitas. motor:".$idmotor." motor:MemilikiDimensiLebar ?L. motor:".$idmotor." motor:MemilikiDimensiTinggi ?T. motor:".$idmotor." motor:MemilikiDimensiPanjang ?P. motor:".$idmotor." motor:MemilikiHarga ?harga. motor:".$idmotor." motor:MemilikiGambar ?gambar}");
         $jumlah = 0;
         foreach($sql as $item){
