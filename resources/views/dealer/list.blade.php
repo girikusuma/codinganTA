@@ -20,7 +20,7 @@
                 @foreach($getDealer as $key)
                   @if($item['merek'] == $key['merekDealer'])
                   <a href="{{ route('dealer.detail', [$key['id']]) }}" class="text-decoration-none text-muted">
-                    <p>{{ $key['id'] }}</p>
+                    <p>{{ $key['nama'] }}</p>
                   </a>
                   @endif
                 @endforeach

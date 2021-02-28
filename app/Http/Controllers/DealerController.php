@@ -59,11 +59,12 @@ class DealerController extends Controller
         }
         //perulangan untuk mengambil data dealer berdasarkan merek tertentu dan daerah tertentu dan disimpan pada variabel resultDealer
         foreach($resultMerek as $getDealer){
-            $Dealer = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:NamaDealer. ?s motor:MemilikiLokasi motor:'.$kabupaten.'. ?s motor:AdalahDealerDari motor:'.$getDealer['merek'].'}');
+            $Dealer = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:NamaDealer. ?s motor:MemilikiLokasi motor:'.$kabupaten.'. ?s motor:AdalahDealerDari motor:'.$getDealer['merek'].'. ?s motor:MemilikiNama ?nama}');
             foreach($Dealer as $item){
                 array_push($resultDealer, [
                     'id'            => $this->parseData($item->s->getUri()),
-                    'merekDealer'   => $getDealer['merek']
+                    'merekDealer'   => $getDealer['merek'],
+                    'nama'          => $this->parseData($item->nama_>getValue())
                 ]);
             }
         }
