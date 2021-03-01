@@ -26,6 +26,12 @@
       background: #BBB;
       margin: 1rem 0;
     }
+    .table-scroll {
+      display:block;
+      width: 35rem;
+      height : 20rem;
+      overflow-y : scroll;
+    }
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
