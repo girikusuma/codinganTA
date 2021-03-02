@@ -49,7 +49,3 @@ Route::get('/searching/getdata', 'SearchingController@getData')->name('searching
 Route::get('/rekomendasi', 'RekomendasiController@index')->name('rekomendasi.index');
 Route::post('/rekomendasi/result', 'RekomendasiController@getSAW')->name('rekomendasi.result');
 Route::post('/rekomendasi/hasil', 'RekomendasiController@getSAWcheck')->name('rekomendasi.hasil');
-
-Route::get('/coba', 'CobaController@index')->name('coba.index');
-Route::get('/coba/getdata', 'CobaController@getData')->name('coba.getData');
-Route::post('/coba/filterdata', 'CobaController@filterData')->name('coba.filterData');

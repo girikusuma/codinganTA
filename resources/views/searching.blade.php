@@ -109,7 +109,7 @@
           <div class="row">
               <div class="col">
                 <div class="form-group" id="filter_merek_dealer">
-                  <div class="text-nowrap font-weight-bold" style="width: 8rem;">Dealer dengan Merek</div>
+                  <div class="text-nowrap font-weight-bold" style="width: 8rem;">Dealer</div>
                   <div class="input-group mb-3">
                       <select class="custom-select cari" id="cari_merek_dealer" name="cari_merek_dealer">
                           <option value="semua">Pilih...</option>

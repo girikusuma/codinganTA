@@ -30,7 +30,7 @@ class ServiceController extends Controller
         foreach($kabupaten as $item){
             $nama = $this->parseData($item->s->getUri());
             $jumlah = 0;
-            $getNamaMotor = $this->sparql->query('SELECT * WHERE {?s motor:MemilikiLokasi motor:'.$nama.'. ?s rdf:type motor:NamaServiceCentre}');
+            $getNamaMotor = $this->sparql->query('SELECT * WHERE {?s motor:MemilikiLokasi motor:'.$nama.'. ?s rdf:type motor:ServiceCenter}');
             foreach($getNamaMotor as $motor){
                 $jumlah = $jumlah + 1;
             }
@@ -49,7 +49,7 @@ class ServiceController extends Controller
     public function show($provinsi, $kabupaten)
     {
         //query untuk mengambil data merek dan menyimpan pada variabel resultMerek
-        $getMerek = $this->sparql->query('SELECT * WHERE {?merek rdf:type motor:MerkMotor}');
+        $getMerek = $this->sparql->query('SELECT * WHERE {?merek rdf:type motor:Merek}');
         $resultMerek = [];
         $resultService = [];
         foreach($getMerek as $item){
@@ -59,11 +59,12 @@ class ServiceController extends Controller
         }
         //perulangan untuk mengambil data service center berdasarkan merek tertentu dan daerah tertentu dan disimpan pada variabel resultService
         foreach($resultMerek as $getService){
-            $Service = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:NamaServiceCentre. ?s motor:MemilikiLokasi motor:'.$kabupaten.'. ?s motor:AdalahServiceCentreDari motor:'.$getService['merek'].'}');
+            $Service = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:ServiceCenter. ?s motor:MemilikiLokasi motor:'.$kabupaten.'. ?s motor:AdalahServiceCentreDari motor:'.$getService['merek'].'. ?s motor:MemilikiNama ?nama}');
             foreach($Service as $item){
                 array_push($resultService, [
                     'id'            => $this->parseData($item->s->getUri()),
-                    'merekService'   => $getService['merek']
+                    'merekService'  => $getService['merek'],
+                    'nama'          => $this->parseData($item->nama->getValue())
                 ]);
             }
         }

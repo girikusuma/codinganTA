@@ -9,7 +9,7 @@
         <div class="row mb-2">
           @if($jumlah > 0)
           <div class="col-sm-6">
-              <h1 class="m-0 text-dark">{{ $id }}</h1>
+              <h1 class="m-0 text-dark">{{ $service[0]['nama'] }}</h1>
           </div>
           @endif
         </div>
@@ -21,7 +21,7 @@
       <div class="col-lg-4">
         <div class="card" style="width: auto;">
           <div class="card-body">
-            <img class="card-img-top" src="/images/browsingcard.jpg" alt="Card image cap"> 
+            <img class="card-img-top" src="/images/dealer-dan-service/{{ $service[0]['gambar'] }}" alt="Card image cap"> 
           </div>
         </div>
       </div>

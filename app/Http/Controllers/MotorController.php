@@ -12,8 +12,8 @@ class MotorController extends Controller
     public function menu()
     {   
         //query untuk mengambil data motor, merek, transmisi, type, tahun, dan volume
-        $motor = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:NamaUnit. ?s motor:MemilikiNama ?o}');
-        $merek = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:MerkMotor}');
+        $motor = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:Motor. ?s motor:MemilikiNama ?o}');
+        $merek = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:Merek}');
         $transmisi = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:Transmisi}');
         $type = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:JenisMotor}');
         $tahun = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:TahunProduksi}');
@@ -51,7 +51,7 @@ class MotorController extends Controller
     public function index()
     {
         //query untuk mengambil data motor dan disimpan pada variabel result
-        $motor = $this->sparql->query("SELECT * WHERE {?s rdf:type motor:NamaUnit. ?s motor:MemilikiNama ?o. ?s motor:MemilikiGambar ?gambar}");
+        $motor = $this->sparql->query("SELECT * WHERE {?s rdf:type motor:Motor. ?s motor:MemilikiNama ?o. ?s motor:MemilikiGambar ?gambar}");
 
         $result = [];
         foreach($motor as $item){
@@ -92,7 +92,7 @@ class MotorController extends Controller
             $nama = $this->parseData($i->n->getValue());
         }
 
-        //query untuk mengambil semua data pad satu motor
+        //query untuk mengambil semua data pada satu motor
         $sql = $this->sparql->query("SELECT * WHERE {motor:".$idmotor." motor:AdalahJenisTransmisi ?t. motor:".$idmotor." motor:AdalahMerkDari ?m. motor:".$idmotor." motor:MemilikiSistemBahanBakar ?sb. motor:".$idmotor." motor:MemilikiJenis ?j. motor:".$idmotor." motor:MemilikiVolumeSilinder ?v . motor:".$idmotor." motor:MemilikiTahunProduksi ?tp. motor:".$idmotor." motor:MemilikiTingkatKonsumsiBahanBakar ?konsumsi. motor:".$idmotor." motor:MemilikiKecepatan ?kecepatan. motor:".$idmotor." motor:MemilikiKapasitasBahanBakar ?kapasitas. motor:".$idmotor." motor:MemilikiDimensiLebar ?L. motor:".$idmotor." motor:MemilikiDimensiTinggi ?T. motor:".$idmotor." motor:MemilikiDimensiPanjang ?P. motor:".$idmotor." motor:MemilikiHarga ?harga. motor:".$idmotor." motor:MemilikiGambar ?gambar}");
         $jumlah = 0;
         foreach($sql as $item){

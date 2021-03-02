@@ -21,7 +21,7 @@
       <div class="col-lg-4">
         <div class="card" style="width: auto;">
           <div class="card-body">
-            <img class="card-img-top" src="/images/dealer/{{ $dealer[0]['gambar'] }}" alt="Card image cap"> 
+            <img class="card-img-top" src="/images/dealer-dan-service/{{ $dealer[0]['gambar'] }}" alt="Card image cap"> 
           </div>
         </div>
       </div>

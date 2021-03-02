@@ -11,7 +11,7 @@ class SearchingController extends Controller
         if($request->has('cari')){
             $status = 1;
             //untuk membangun query berdasarkan kriteria filter motor
-            $sql = 'SELECT * WHERE { ?motor rdf:type motor:NamaUnit';
+            $sql = 'SELECT * WHERE { ?motor rdf:type motor:Motor';
             if($request->cari_merek != 'semua'){
                 $sql = $sql.'. ?motor motor:AdalahMerkDari motor:'.$request->cari_merek;
             }
@@ -57,7 +57,7 @@ class SearchingController extends Controller
         } else if($request->has('cari_dealer')){ 
             $status = 2;
             //untuk membangun query berdasarkan kriteria filter dealer
-            $sql = 'SELECT * WHERE { ?dealer rdf:type motor:NamaDealer';
+            $sql = 'SELECT * WHERE { ?dealer rdf:type motor:Dealer';
             if($request->cari_merek_dealer != 'semua'){
                 $sql = $sql.'. ?dealer motor:AdalahDealerDari motor:'.$request->cari_merek_dealer;
             }
@@ -94,7 +94,7 @@ class SearchingController extends Controller
         } else if($request->has('cari_service')){ 
             $status = 3;
             //untuk membangun query berdasarkan kriteria filter service center
-            $sql = 'SELECT * WHERE { ?service rdf:type motor:NamaServiceCentre';
+            $sql = 'SELECT * WHERE { ?service rdf:type motor:ServiceCenter';
             if($request->cari_merek_service != 'semua'){
                 $sql = $sql.'. ?service motor:AdalahServiceCentreDari motor:'.$request->cari_merek_service;
             }
@@ -150,9 +150,9 @@ class SearchingController extends Controller
             $volume = "semua";
         }
         //melakukan query untuk mengambil data merek, transmisi, type, tahun, volume, dan lokasi
-        $merek = $this->sparql->query('SELECT * WHERE {?merek rdf:type motor:MerkMotor}');
+        $merek = $this->sparql->query('SELECT * WHERE {?merek rdf:type motor:Merek}');
         $transmisi = $this->sparql->query('SELECT * WHERE {?transmisi rdf:type motor:Transmisi}');
-        $typemotor = $this->sparql->query('SELECT * WHERE {?typemotor rdf:type motor:JenisMotor}');
+        $typemotor = $this->sparql->query('SELECT * WHERE {?typemotor rdf:type motor:Type}');
         $tahun = $this->sparql->query('SELECT * WHERE {?tahun rdf:type motor:TahunProduksi}');
         $volume = $this->sparql->query('SELECT * WHERE {?volume rdf:type motor:VolumeSilinder}');
         $lokasi = $this->sparql->query('SELECT * WHERE {?lokasi rdf:type motor:Kabupaten}');
@@ -218,32 +218,5 @@ class SearchingController extends Controller
         ];
 
         return view ('searching', $data);
-    }
-
-    public function getData()
-    {
-        $merek = '?merek';
-        $transmisi = '?transmisi';
-        $typemotor = '?typemotor';
-        $tahun = '?tahun';
-        $volume = '?volume';
-
-        $query = $this->sparql->query("SELECT * WHERE {?motor motor:AdalahMerkDari ".$merek.". ?motor motor:AdalahJenisTransmisi ".$transmisi.". ?motor motor:MemilikiTahunProduksi ".$tahun.". ?motor motor:MemilikiJenis ".$typemotor.". ?motor motor:MemilikiVolumeSilinder ".$volume.". ?motor motor:MemilikiNama ?nama}");
-        $data = [];
-        foreach($query as $item){
-            array_push($data, [
-                'nama'      => $this->parseData($item->nama->getValue()),
-                'merek'     => $this->parseData($item->merek->getUri()),
-                'transmisi' => $this->parseData($item->transmisi->getUri()),
-                'type'      => $this->parseData($item->typemotor->getUri()),
-                'tahun'     => $this->parseData($item->tahun->getUri()),
-                'volume'    => $this->parseData($item->volume->getUri())
-            ]);
-        }
-
-        return response()->json([
-            'error'   => false,
-            'data'    => $data
-        ]);
     }
 }

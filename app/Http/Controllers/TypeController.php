@@ -9,7 +9,7 @@ class TypeController extends Controller
     public function index()
     {
         //query untuk mengambil data type motor dan disimpan pada variabel result
-        $type = $this->sparql->query("SELECT * WHERE {?s rdf:type motor:JenisMotor}");
+        $type = $this->sparql->query("SELECT * WHERE {?s rdf:type motor:Type}");
         $result = [];
         foreach($type as $item){
             array_push($result, [

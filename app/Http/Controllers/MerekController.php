@@ -10,7 +10,7 @@ class MerekController extends Controller
     public function index()
     {
         //query untuk mengambil data merek motor dan disimpan pada variabel result
-        $merek = $this->sparql->query("SELECT * WHERE {?s rdf:type motor:MerkMotor}");
+        $merek = $this->sparql->query("SELECT * WHERE {?s rdf:type motor:Merek}");
         $result = [];
         foreach($merek as $item){
             array_push($result, [

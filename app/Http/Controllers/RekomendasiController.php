@@ -9,9 +9,9 @@ class RekomendasiController extends Controller
     public function index()
     {
         //query untuk mengambil data dari fuseki untuk select option
-        $merek = $this->sparql->query('SELECT * WHERE {?merek rdf:type motor:MerkMotor}');
+        $merek = $this->sparql->query('SELECT * WHERE {?merek rdf:type motor:Merek}');
         $transmisi = $this->sparql->query('SELECT * WHERE {?transmisi rdf:type motor:Transmisi}');
-        $typemotor = $this->sparql->query('SELECT * WHERE {?typemotor rdf:type motor:JenisMotor}');
+        $typemotor = $this->sparql->query('SELECT * WHERE {?typemotor rdf:type motor:Type}');
         $tahun = $this->sparql->query('SELECT * WHERE {?tahun rdf:type motor:TahunProduksi}');
         $volume = $this->sparql->query('SELECT * WHERE {?volume rdf:type motor:VolumeSilinder}');
         
@@ -48,7 +48,7 @@ class RekomendasiController extends Controller
             ]);
         }
 
-        $dataMotor = $this->sparql->query("SELECT * WHERE {?motor rdf:type motor:NamaUnit. ?motor motor:MemilikiNama ?nama}");
+        $dataMotor = $this->sparql->query("SELECT * WHERE {?motor rdf:type motor:Motor. ?motor motor:MemilikiNama ?nama}");
         $resultMotor = [];
         foreach($dataMotor as $item){
             array_push($resultMotor, [
@@ -72,7 +72,7 @@ class RekomendasiController extends Controller
     public function getSAW(Request $request)
     {
         //query untuk mengambil data sepeda motor dari fuseki server berdasarkan kriteria yang dipilih
-        $sql = "SELECT * WHERE {?motor rdf:type motor:NamaUnit";
+        $sql = "SELECT * WHERE {?motor rdf:type motor:Motor";
 
         if($request->merek != 'semua'){
             $sql = $sql." .?motor motor:AdalahMerkDari motor:".$request->merek;
@@ -158,7 +158,7 @@ class RekomendasiController extends Controller
         $resultMotor = [];
         $jumlahMotor = count($request->motor);
         for($x = 0; $x < $jumlahMotor; $x++){
-            $query = $this->sparql->query('SELECT * WHERE {motor:'.$request->motor[$x].' rdf:type motor:NamaUnit. motor:'.$request->motor[$x].' motor:MemilikiHarga ?harga. motor:'.$request->motor[$x].' motor:MemilikiTingkatKonsumsiBahanBakar ?tingkatbbm. motor:'.$request->motor[$x].' motor:MemilikiKecepatan ?kecepatan. motor:'.$request->motor[$x].' motor:MemilikiKapasitasBahanBakar ?kapasitas. motor:'.$request->motor[$x].' motor:MemilikiNama ?nama}');
+            $query = $this->sparql->query('SELECT * WHERE {motor:'.$request->motor[$x].' rdf:type motor:Motor. motor:'.$request->motor[$x].' motor:MemilikiHarga ?harga. motor:'.$request->motor[$x].' motor:MemilikiTingkatKonsumsiBahanBakar ?tingkatbbm. motor:'.$request->motor[$x].' motor:MemilikiKecepatan ?kecepatan. motor:'.$request->motor[$x].' motor:MemilikiKapasitasBahanBakar ?kapasitas. motor:'.$request->motor[$x].' motor:MemilikiNama ?nama}');
             foreach($query as $item){
                 array_push($resultMotor, [
                     0 => $this->parseData($item->nama->getValue()),
@@ -218,7 +218,7 @@ class RekomendasiController extends Controller
     public function getCrips($kriteria)
     {
         //query untuk mengambil data seluruh sepeda motor
-        $query = $this->sparql->query("SELECT * WHERE {?motor rdf:type motor:NamaUnit. ?motor motor:MemilikiHarga ?harga. ?motor motor:MemilikiTingkatKonsumsiBahanBakar ?tingkatbbm. ?motor motor:MemilikiKecepatan ?kecepatan. ?motor motor:MemilikiKapasitasBahanBakar ?kapasitas}");
+        $query = $this->sparql->query("SELECT * WHERE {?motor rdf:type motor:Motor. ?motor motor:MemilikiHarga ?harga. ?motor motor:MemilikiTingkatKonsumsiBahanBakar ?tingkatbbm. ?motor motor:MemilikiKecepatan ?kecepatan. ?motor motor:MemilikiKapasitasBahanBakar ?kapasitas}");
         $motor = [];
         //meyimpan data sepeda motor pada variabel $motor
         foreach($query as $item){
