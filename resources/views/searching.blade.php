@@ -279,7 +279,7 @@
             </div>
           </div>
           @elseif($status == 3)
-          <div class="text-nowrap font-weight-bold mt-3" id="hasil_dealer"><h2>Hasil Pencarian</h2></div>
+          <div class="text-nowrap font-weight-bold mt-3" id="hasil_service"><h2>Hasil Pencarian</h2></div>
             <div class="row">
                 <div class="col"  id="hasil_service_tabel">
                     @if($jumlahService > 0)
