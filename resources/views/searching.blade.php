@@ -20,7 +20,7 @@
         <select name="filter_output" id="filter_output" class="custom-select col-lg-4">
           <option value="">Pilih</option>
           <option value="motor">Motor</option>
-          <option value="dealer">Delaer</option>
+          <option value="dealer">Dealer</option>
           <option value="service">Service Center</option>
         </select>
         <input type="hidden" id="sts" value="{{ $status }}">
