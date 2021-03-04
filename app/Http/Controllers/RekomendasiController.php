@@ -147,7 +147,8 @@ class RekomendasiController extends Controller
             'hasilSAW'      => $hasilSAW,
             'bobot'         => $getKriteria,
             'crips'         => $cripsData,
-            'alternatif'    => $nilaiAlternatif
+            'alternatif'    => $nilaiAlternatif,
+            'jumlah'        => $jumlah
         ];
         
         return view('rekomendasi/hasil', $data);
@@ -157,6 +158,7 @@ class RekomendasiController extends Controller
     {
         $resultMotor = [];
         $jumlahMotor = count($request->motor);
+        //mengambil data motor dari request dan menyimpan ke sebuah array
         for($x = 0; $x < $jumlahMotor; $x++){
             $query = $this->sparql->query('SELECT * WHERE {motor:'.$request->motor[$x].' rdf:type motor:Motor. motor:'.$request->motor[$x].' motor:MemilikiHarga ?harga. motor:'.$request->motor[$x].' motor:MemilikiTingkatKonsumsiBahanBakar ?tingkatbbm. motor:'.$request->motor[$x].' motor:MemilikiKecepatan ?kecepatan. motor:'.$request->motor[$x].' motor:MemilikiKapasitasBahanBakar ?kapasitas. motor:'.$request->motor[$x].' motor:MemilikiNama ?nama}');
             foreach($query as $item){
@@ -209,7 +211,8 @@ class RekomendasiController extends Controller
             'hasilSAW'      => $hasilSAW,
             'bobot'         => $getKriteria,
             'crips'         => $cripsData,
-            'alternatif'    => $nilaiAlternatif
+            'alternatif'    => $nilaiAlternatif,
+            'jumlah'        => $jumlah
         ];
         
         return view('rekomendasi/hasil', $data);

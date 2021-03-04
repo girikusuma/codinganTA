@@ -87,7 +87,7 @@
         <form action="{{ route('rekomendasi.hasil') }}" method="POST" id="form_checked" class="mt-4">
           @csrf
           <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-4">
               <div class="card">
                 <div class="card-header">Pilih Motor</div>
                 <div class="card-body" id="boxes">
@@ -146,7 +146,7 @@
             total += 1;
       });
       console.log(total);
-      if(total > 0){
+      if(total > 1){
         document.getElementById("btn_post").disabled = false;
       } else {
         document.getElementById("btn_post").disabled = true;

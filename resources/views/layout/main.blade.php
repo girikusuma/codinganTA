@@ -28,7 +28,7 @@
     }
     .table-scroll {
       display:block;
-      width: 35rem;
+      width: 22rem;
       height : 20rem;
       overflow-y : scroll;
     }
@@ -52,6 +52,9 @@
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="{{ route('rekomendasi.index') }}" class="nav-link">Rekomendasi</a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="{{ route('info') }}" class="nav-link">Info</a>
       </li>
     </ul>
   </nav>

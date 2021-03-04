@@ -13,6 +13,7 @@
 
 Route::get('/', 'PagesController@home')->name('home');
 Route::get('/browsing', 'PagesController@browsing')->name('browsing');
+Route::get('/info', 'PagesController@info')->name('info');
 
 Route::get('/sepedamotor', 'MotorController@menu')->name('sepedamotor');
 Route::get('/listmotor', 'MotorController@index')->name('listmotor.index');

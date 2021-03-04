@@ -13,4 +13,8 @@ class PagesController extends Controller
     public function browsing(){
         return view ('browsing');
     }
+
+    public function info(){
+        return view ('info');
+    }
 }

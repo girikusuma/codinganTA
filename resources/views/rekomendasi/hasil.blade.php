@@ -15,6 +15,7 @@
       </div>
     </div>
     <div class="container-fluid">
+        @if($jumlah > 2)
         <div class="row">
             <div class="col-lg-6">
                 <div class="card border-primary mb-3">
@@ -254,6 +255,9 @@
                 </div>
             </div>
         </div>
+        @else
+            <h3>Data sepeda motor dengan kriteria tersebut tidak ada atau kurang dari 2</h3>
+        @endif
     </div>
 </div>
 @endsection
