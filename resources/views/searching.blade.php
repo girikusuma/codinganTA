@@ -30,7 +30,7 @@
             <p class="card-text">Pilih output terlebih dahulu!!!</p>
           </div>
         </div>
-        <form action="{{ route('searching.index') }}" method="GET">
+        <form action="{{ route('searching.index') }}" method="GET" id="form_cari_motor">
           <div class="row">
               <div class="col">
                 <div class="form-group" id="filter_merek_motor">
@@ -105,7 +105,7 @@
             </div>
           </div>
         </form>
-        <form action="{{ route('searching.index') }}" method="GET">
+        <form action="{{ route('searching.index') }}" method="GET" id="form_cari_dealer">
           <div class="row">
               <div class="col">
                 <div class="form-group" id="filter_merek_dealer">
@@ -139,7 +139,7 @@
             </div>
           </div>
         </form>
-        <form action="{{ route('searching.index') }}" method="GET">
+        <form action="{{ route('searching.index') }}" method="GET" id="form_cari_service">
           <div class="row">
               <div class="col">
                 <div class="form-group" id="filter_merek_service">
@@ -174,6 +174,7 @@
           </div>
         </form>
         @if($status == 1)
+        <div id="form_hasil_motor">
           <div class="text-nowrap font-weight-bold mt-3" id="hasil_motor"><h2>Hasil Pencarian</h2></div>
             <div class="row">
                 <div class="col"  id="hasil_motor_tabel">
@@ -227,7 +228,9 @@
               </div>
             </div>
           </div>
-          @elseif($status == 2)
+        </div>
+        @elseif($status == 2)
+        <div id="form_hasil_dealer">
           <div class="text-nowrap font-weight-bold mt-3" id="hasil_dealer"><h2>Hasil Pencarian</h2></div>
             <div class="row">
                 <div class="col"  id="hasil_dealer_tabel">
@@ -278,7 +281,9 @@
               </div>
             </div>
           </div>
-          @elseif($status == 3)
+        </div>
+        @elseif($status == 3)
+        <div id="form_hasil_service">
           <div class="text-nowrap font-weight-bold mt-3" id="hasil_service"><h2>Hasil Pencarian</h2></div>
             <div class="row">
                 <div class="col"  id="hasil_service_tabel">
@@ -329,6 +334,7 @@
               </div>
             </div>
           </div>
+        </div>
         @elseif($status == 0)
           <div class="row">
             <div class="col">
@@ -357,125 +363,50 @@
 
   if(document.getElementById("sts").value == 0){
     $('#filter_none').show();
-    $('#filter_merek_motor').hide();
-    $('#filter_transmisi_motor').hide();
-    $('#filter_type_motor').hide();
-    $('#filter_tahun_motor').hide();
-    $('#filter_volume_motor').hide();
-    $('#filter_tombol_motor').hide();
-    $('#hasil_motor').hide();
-    $('#hasil_motor_tabel').hide();
-    $('#hasil_motor_query').hide();
-    $('#filter_merek_dealer').hide();
-    $('#filter_lokasi_dealer').hide();
-    $('#filter_tombol_dealer').hide();
-    $('#hasil_dealer').hide();
-    $('#hasil_dealer_tabel').hide();
-    $('#hasil_dealer_query').hide();
-    $('#filter_merek_service').hide();
-    $('#filter_lokasi_service').hide();
-    $('#filter_tombol_service').hide();
-    $('#hasil_service').hide();
-    $('#hasil_service_tabel').hide();
-    $('#hasil_service_query').hide();
+    $('#form_cari_motor').hide();
+    $('#form_hasil_motor').hide();
+    $('#form_cari_dealer').hide();
+    $('#form_hasil_dealer').hide();
+    $('#form_cari_service').hide();
+    $('#form_hasil_service').hide();
   }
 
   $("#filter_output").change(function() {
     if ($(this).val() == "motor") {
-      $('#filter_merek_motor').show();
-      $('#filter_transmisi_motor').show();
-      $('#filter_type_motor').show();
-      $('#filter_tahun_motor').show();
-      $('#filter_volume_motor').show();
-      $('#filter_tombol_motor').show();
-      $('#hasil_motor').show();
-      $('#hasil_motor_tabel').show();
-      $('#hasil_motor_query').show();
-      $('#filter_merek_dealer').hide();
-      $('#filter_lokasi_dealer').hide();
-      $('#filter_tombol_dealer').hide();
-      $('#hasil_dealer').hide();
-      $('#hasil_dealer_tabel').hide();
-      $('#hasil_dealer_query').hide();
-      $('#filter_merek_service').hide();
-      $('#filter_lokasi_service').hide();
-      $('#filter_tombol_service').hide();
-      $('#hasil_service').hide();
-      $('#hasil_service_tabel').hide();
-      $('#hasil_service_query').hide();
+      $('#form_cari_motor').show();
+      $('#form_hasil_motor').show();
+      $('#form_cari_dealer').hide();
+      $('#form_hasil_dealer').hide();
+      $('#form_cari_service').hide();
+      $('#form_hasil_service').hide();
       $('#filter_none').hide();
 
     } else if ($(this).val() == "dealer") {
-      $('#filter_merek_dealer').show();
-      $('#filter_lokasi_dealer').show();
-      $('#filter_tombol_dealer').show();
-      $('#hasil_dealer').show();
-      $('#hasil_dealer_tabel').show();
-      $('#hasil_dealer_query').show();
-      $('#filter_merek_motor').hide();
-      $('#filter_transmisi_motor').hide();
-      $('#filter_type_motor').hide();
-      $('#filter_tahun_motor').hide();
-      $('#filter_volume_motor').hide();
-      $('#filter_tombol_motor').hide();
-      $('#hasil_motor').hide();
-      $('#hasil_motor_tabel').hide();
-      $('#hasil_motor_query').hide();
-      $('#filter_merek_service').hide();
-      $('#filter_lokasi_service').hide();
-      $('#filter_tombol_service').hide();
-      $('#hasil_service').hide();
-      $('#hasil_service_tabel').hide();
-      $('#hasil_service_query').hide();
+      $('#form_cari_dealer').show();
+      $('#form_hasil_dealer').show();
+      $('#form_cari_motor').hide();
+      $('#form_hasil_motor').hide();
+      $('#form_cari_service').hide();
+      $('#form_hasil_service').hide();
       $('#filter_none').hide();
 
     } else if ($(this).val() == "service") {
-      $('#filter_merek_service').show();
-      $('#filter_lokasi_service').show();
-      $('#filter_tombol_service').show();
-      $('#hasil_service').show();
-      $('#hasil_service_tabel').show();
-      $('#hasil_service_query').show();
-      $('#filter_merek_motor').hide();
-      $('#filter_transmisi_motor').hide();
-      $('#filter_type_motor').hide();
-      $('#filter_tahun_motor').hide();
-      $('#filter_volume_motor').hide();
-      $('#filter_tombol_motor').hide();
-      $('#hasil_motor').hide();
-      $('#hasil_motor_tabel').hide();
-      $('#hasil_motor_query').hide();
-      $('#filter_merek_dealer').hide();
-      $('#filter_lokasi_dealer').hide();
-      $('#filter_tombol_dealer').hide();
-      $('#hasil_dealer').hide();
-      $('#hasil_dealer_tabel').hide();
-      $('#hasil_dealer_query').hide();
+      $('#form_cari_service').show();
+      $('#form_hasil_service').show();
+      $('#form_cari_motor').hide();
+      $('#form_hasil_motor').hide();
+      $('#form_cari_dealer').hide();
+      $('#form_hasil_dealer').hide();
       $('#filter_none').hide();
 
     } else {
       $('#filter_none').show();
-      $('#filter_merek_motor').hide();
-      $('#filter_transmisi_motor').hide();
-      $('#filter_type_motor').hide();
-      $('#filter_tahun_motor').hide();
-      $('#filter_volume_motor').hide();
-      $('#filter_tombol_motor').hide();
-      $('#hasil_motor').hide();
-      $('#hasil_motor_tabel').hide();
-      $('#hasil_motor_query').hide();
-      $('#filter_merek_dealer').hide();
-      $('#filter_lokasi_dealer').hide();
-      $('#filter_tombol_dealer').hide();
-      $('#hasil_dealer').hide();
-      $('#hasil_dealer_tabel').hide();
-      $('#hasil_dealer_query').hide();
-      $('#filter_merek_service').hide();
-      $('#filter_lokasi_service').hide();
-      $('#filter_tombol_service').hide();
-      $('#hasil_service').hide();
-      $('#hasil_service_tabel').hide();
-      $('#hasil_service_query').hide();
+      $('#form_cari_motor').hide();
+      $('#form_hasil_motor').hide();
+      $('#form_cari_dealer').hide();
+      $('#form_hasil_dealer').hide();
+      $('#form_cari_service').hide();
+      $('#form_hasil_service').hide();
 
     }
   });
@@ -501,18 +432,10 @@
     document.getElementById("cari_tahun").value = tahun;
     document.getElementById("cari_volume").value = volume;
     
-    $('#filter_merek_dealer').hide();
-    $('#filter_lokasi_dealer').hide();
-    $('#filter_tombol_dealer').hide();
-    $('#hasil_dealer').hide();
-    $('#hasil_dealer_tabel').hide();
-    $('#hasil_dealer_query').hide();
-    $('#filter_merek_service').hide();
-    $('#filter_lokasi_service').hide();
-    $('#filter_tombol_service').hide();
-    $('#hasil_service').hide();
-    $('#hasil_service_tabel').hide();
-    $('#hasil_service_query').hide();
+    $('#form_cari_dealer').hide();
+    $('#form_hasil_dealer').hide();
+    $('#form_cari_service').hide();
+    $('#form_hasil_service').hide();
     $('#filter_none').hide();
   } else if (filter == "dealer") {
     var merek = document.getElementById("merek_dealer").value;
@@ -521,21 +444,10 @@
     document.getElementById("cari_merek_dealer").value = merek;
     document.getElementById("cari_lokasi_dealer").value = lokasi;
 
-    $('#filter_merek_motor').hide();
-    $('#filter_transmisi_motor').hide();
-    $('#filter_type_motor').hide();
-    $('#filter_tahun_motor').hide();
-    $('#filter_volume_motor').hide();
-    $('#filter_tombol_motor').hide();
-    $('#hasil_motor').hide();
-    $('#hasil_motor_tabel').hide();
-    $('#hasil_motor_query').hide();
-    $('#filter_merek_service').hide();
-    $('#filter_lokasi_service').hide();
-    $('#filter_tombol_service').hide();
-    $('#hasil_service').hide();
-    $('#hasil_service_tabel').hide();
-    $('#hasil_service_query').hide();
+    $('#form_cari_motor').hide();
+    $('#form_hasil_motor').hide();
+    $('#form_cari_service').hide();
+    $('#form_hasil_service').hide();
     $('#filter_none').hide();
   } else if (filter == "service") {
     var merek = document.getElementById("merek_service").value;
@@ -544,45 +456,19 @@
     document.getElementById("cari_merek_service").value = merek;
     document.getElementById("cari_lokasi_service").value = lokasi;
 
-    $('#filter_merek_dealer').hide();
-    $('#filter_lokasi_dealer').hide();
-    $('#filter_tombol_dealer').hide();
-    $('#hasil_dealer').hide();
-    $('#hasil_dealer_tabel').hide();
-    $('#hasil_dealer_query').hide();
-    $('#filter_merek_motor').hide();
-    $('#filter_transmisi_motor').hide();
-    $('#filter_type_motor').hide();
-    $('#filter_tahun_motor').hide();
-    $('#filter_volume_motor').hide();
-    $('#filter_tombol_motor').hide();
-    $('#hasil_motor').hide();
-    $('#hasil_motor_tabel').hide();
-    $('#hasil_motor_query').hide();
+    $('#form_cari_dealer').hide();
+    $('#form_hasil_dealer').hide();
+    $('#form_cari_motor').hide();
+    $('#form_hasil_motor').hide();
     $('#filter_none').hide();
   } else {
     $('#filter_none').show();
-    $('#filter_merek_motor').hide();
-    $('#filter_transmisi_motor').hide();
-    $('#filter_type_motor').hide();
-    $('#filter_tahun_motor').hide();
-    $('#filter_volume_motor').hide();
-    $('#filter_tombol_motor').hide();
-    $('#hasil_motor').hide();
-    $('#hasil_motor_tabel').hide();
-    $('#hasil_motor_query').hide();
-    $('#filter_merek_dealer').hide();
-    $('#filter_lokasi_dealer').hide();
-    $('#filter_tombol_dealer').hide();
-    $('#hasil_dealer').hide();
-    $('#hasil_dealer_tabel').hide();
-    $('#hasil_dealer_query').hide();
-    $('#filter_merek_service').hide();
-    $('#filter_lokasi_service').hide();
-    $('#filter_tombol_service').hide();
-    $('#hasil_service').hide();
-    $('#hasil_service_tabel').hide();
-    $('#hasil_service_query').hide();
+    $('#form_cari_motor').hide();
+    $('#form_hasil_motor').hide();
+    $('#form_cari_dealer').hide();
+    $('#form_hasil_dealer').hide();
+    $('#form_cari_service').hide();
+    $('#form_hasil_service').hide();
   }
 </script>
 @endsection

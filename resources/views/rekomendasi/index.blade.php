@@ -81,10 +81,10 @@
             </div>
           </div>
           <div id="tombol_filter">
-            <input type="submit" name="cari" value="Lihat Rekomendasi" class="btn btn-primary">
+            <input type="submit" name="cari_filter" value="Lihat Rekomendasi" class="btn btn-primary">
           </div>
         </form>
-        <form action="{{ route('rekomendasi.hasil') }}" method="POST" id="form_checked" class="mt-4">
+        <form action="{{ route('rekomendasi.result') }}" method="POST" id="form_checked" class="mt-4">
           @csrf
           <div class="row">
             <div class="col-lg-4">
@@ -108,7 +108,7 @@
                     </tbody>
                   </table>
                 </div>
-                <input type="submit" name="lihat_rekomendasi" id="btn_post" value="Lihat Rekomendasi" class="btn btn-primary disable">
+                <input type="submit" name="cari_checkbox" id="btn_post" value="Lihat Rekomendasi" class="btn btn-primary disable">
               </div>
             </div>
           </div>

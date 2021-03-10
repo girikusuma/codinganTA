@@ -71,96 +71,33 @@ class RekomendasiController extends Controller
 
     public function getSAW(Request $request)
     {
-        //query untuk mengambil data sepeda motor dari fuseki server berdasarkan kriteria yang dipilih
-        $sql = "SELECT * WHERE {?motor rdf:type motor:Motor";
+        if($request->has('cari_filter')){
+            //query untuk mengambil data sepeda motor dari fuseki server berdasarkan kriteria yang dipilih
+            $sql = "SELECT * WHERE {?motor rdf:type motor:Motor";
 
-        if($request->merek != 'semua'){
-            $sql = $sql." .?motor motor:AdalahMerkDari motor:".$request->merek;
-        }
-        if($request->transmisi != 'semua'){
-            $sql = $sql." .?motor motor:AdalahJenisTransmisi motor:".$request->transmisi;
-        }
-        if($request->typemotor != 'semua'){
-            $sql = $sql." .?motor motor:MemilikiJenis motor:".$request->typemotor;
-        }
-        if($request->tahun != 'semua'){
-            $sql = $sql." .?motor motor:MemilikiTahunProduksi motor:".$request->tahun;
-        }
-        if($request->volume != 'semua'){
-            $sql = $sql." .?motor motor:MemilikiVolumeSilinder motor:".$request->volume;
-        }
-        
-        $sql = $sql.". ?motor motor:MemilikiHarga ?harga. ?motor motor:MemilikiTingkatKonsumsiBahanBakar ?tingkatbbm. ?motor motor:MemilikiKecepatan ?kecepatan. ?motor motor:MemilikiKapasitasBahanBakar ?kapasitas. ?motor motor:MemilikiNama ?nama}";
+            if($request->merek != 'semua'){
+                $sql = $sql." .?motor motor:AdalahMerkDari motor:".$request->merek;
+            }
+            if($request->transmisi != 'semua'){
+                $sql = $sql." .?motor motor:AdalahJenisTransmisi motor:".$request->transmisi;
+            }
+            if($request->typemotor != 'semua'){
+                $sql = $sql." .?motor motor:MemilikiJenis motor:".$request->typemotor;
+            }
+            if($request->tahun != 'semua'){
+                $sql = $sql." .?motor motor:MemilikiTahunProduksi motor:".$request->tahun;
+            }
+            if($request->volume != 'semua'){
+                $sql = $sql." .?motor motor:MemilikiVolumeSilinder motor:".$request->volume;
+            }
+            
+            $sql = $sql.". ?motor motor:MemilikiHarga ?harga. ?motor motor:MemilikiTingkatKonsumsiBahanBakar ?tingkatbbm. ?motor motor:MemilikiKecepatan ?kecepatan. ?motor motor:MemilikiKapasitasBahanBakar ?kapasitas. ?motor motor:MemilikiNama ?nama}";
 
-        $resultMotor = [];
-        
-        $query = $this->sparql->query($sql);
+            $resultMotor = [];
+            
+            $query = $this->sparql->query($sql);
 
-        //menyimpan data sepeda motor pada variabel $resultMotor
-        foreach($query as $item){
-            array_push($resultMotor, [
-                0 => $this->parseData($item->nama->getValue()),
-                1 => intval($this->parseData($item->harga->getValue())),
-                2 => floatval($this->parseData($item->kapasitas->getValue())),
-                3 => floatval($this->parseData($item->kecepatan->getValue())),
-                4 => floatval($this->parseData($item->tingkatbbm->getValue()))
-            ]);
-        }
-        $jumlah = count($resultMotor);
-
-        //query untuk mengambil data kriteria dari fuseki server
-        $query = $this->sparql->query("SELECT * WHERE {?kriteria rdf:type motor:NamaKriteria. ?kriteria motor:MemilikiBobot ?bobot. ?kriteria motor:AdalahJenisKriteria ?jenis}");
-        
-        //menyimpan data kriteria pada variabel $getKriteria
-        $getKriteria = [];
-        $kode = 1;
-        foreach($query as $item){
-            array_push($getKriteria, [
-                'kriteria'  => $this->parseData($item->kriteria->getUri()),
-                'jenis'     => $this->parseData($item->jenis->getUri()),
-                'bobot'     => floatval($this->parseData($item->bobot->getValue())),
-                'kode'      => "C".($kode)
-            ]);
-            $kode += 1;
-        }
-
-        //memanggil fungsi getCrips untuk memberi nilai pada table Data Crips
-        $cripsData = $this->getCrips($getKriteria);
-
-        //memanggil fungsi getNilaiLaternatif untuk memberi nilai pada tabel Data Nilai Alternatif
-        $nilaiAlternatif = $this->getNilaiAlternatif($getKriteria, $resultMotor, $cripsData);
-        
-        //memanggil fungsi getNormalisasi untuk memberi nilai pada tabel Hasil Normalisasi
-        $normalisasi = $this->getNormalisasi($getKriteria, $nilaiAlternatif, $jumlah);
-
-        //memanggil fungsi getRanking untuk memberi nilai pada tabel Nilai Pembobotan
-        $rankingData = $this->getRanking($normalisasi);
-
-        //memanggil fungsi getResultSAW untuk memberi nilai pada tabel Hasil Simple Additive Weighting
-        $hasilSAW = $this->getResultSAW($rankingData);
-
-        //menyimpan semua variabel pada variabel $data
-        $data = [
-            'motor'         => $resultMotor,
-            'normalisasi'   => $normalisasi,
-            'ranking'       => $rankingData,
-            'hasilSAW'      => $hasilSAW,
-            'bobot'         => $getKriteria,
-            'crips'         => $cripsData,
-            'alternatif'    => $nilaiAlternatif,
-            'jumlah'        => $jumlah
-        ];
-        
-        return view('rekomendasi/hasil', $data);
-    }
-
-    public function getSAWcheck(Request $request)
-    {
-        $resultMotor = [];
-        $jumlahMotor = count($request->motor);
-        //mengambil data motor dari request dan menyimpan ke sebuah array
-        for($x = 0; $x < $jumlahMotor; $x++){
-            $query = $this->sparql->query('SELECT * WHERE {motor:'.$request->motor[$x].' rdf:type motor:Motor. motor:'.$request->motor[$x].' motor:MemilikiHarga ?harga. motor:'.$request->motor[$x].' motor:MemilikiTingkatKonsumsiBahanBakar ?tingkatbbm. motor:'.$request->motor[$x].' motor:MemilikiKecepatan ?kecepatan. motor:'.$request->motor[$x].' motor:MemilikiKapasitasBahanBakar ?kapasitas. motor:'.$request->motor[$x].' motor:MemilikiNama ?nama}');
+            //menyimpan data sepeda motor pada variabel $resultMotor
             foreach($query as $item){
                 array_push($resultMotor, [
                     0 => $this->parseData($item->nama->getValue()),
@@ -170,7 +107,24 @@ class RekomendasiController extends Controller
                     4 => floatval($this->parseData($item->tingkatbbm->getValue()))
                 ]);
             }
+        } else {
+            $resultMotor = [];
+            $jumlahMotor = count($request->motor);
+            //mengambil data motor dari request dan menyimpan ke sebuah array
+            for($x = 0; $x < $jumlahMotor; $x++){
+                $query = $this->sparql->query('SELECT * WHERE {motor:'.$request->motor[$x].' rdf:type motor:Motor. motor:'.$request->motor[$x].' motor:MemilikiHarga ?harga. motor:'.$request->motor[$x].' motor:MemilikiTingkatKonsumsiBahanBakar ?tingkatbbm. motor:'.$request->motor[$x].' motor:MemilikiKecepatan ?kecepatan. motor:'.$request->motor[$x].' motor:MemilikiKapasitasBahanBakar ?kapasitas. motor:'.$request->motor[$x].' motor:MemilikiNama ?nama}');
+                foreach($query as $item){
+                    array_push($resultMotor, [
+                        0 => $this->parseData($item->nama->getValue()),
+                        1 => intval($this->parseData($item->harga->getValue())),
+                        2 => floatval($this->parseData($item->kapasitas->getValue())),
+                        3 => floatval($this->parseData($item->kecepatan->getValue())),
+                        4 => floatval($this->parseData($item->tingkatbbm->getValue()))
+                    ]);
+                }
+            }
         }
+        
         $jumlah = count($resultMotor);
 
         //query untuk mengambil data kriteria dari fuseki server
@@ -188,6 +142,7 @@ class RekomendasiController extends Controller
             ]);
             $kode += 1;
         }
+
         //memanggil fungsi getCrips untuk memberi nilai pada table Data Crips
         $cripsData = $this->getCrips($getKriteria);
 

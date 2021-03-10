@@ -16,7 +16,12 @@
     </div>
     <div class="container-fluid">
         @if($jumlah > 2)
-        <div class="row">
+        <div class="row mb-4" id="lihat_detail">
+            <div class="col">
+                <input class="btn btn-primary" type="submit" value="Lihat Detail">
+            </div>
+        </div>
+        <div class="row" id="card_kriteria">
             <div class="col-lg-6">
                 <div class="card border-primary mb-3">
                     <div class="card-header text-bold">Data Kriteria</div>
@@ -46,9 +51,9 @@
                     </div>
                 </div>
             </div>
+            <div class="divider"></div>
         </div>
-        <div class="divider"></div>
-        <div class="row">
+        <div class="row" id="card_crips">
             <div class="col-lg-8">
                 <div class="card border-warning mb-3">
                     <div class="card-header text-bold">Data Crips</div>
@@ -80,9 +85,9 @@
                     </div>
                 </div>
             </div>
+            <div class="divider"></div>
         </div>
-        <div class="divider"></div>
-        <div class="row">
+        <div class="row" id="card_alternatif">
             <div class="col-lg-12">
                 <div class="card border-secondary mb-3">
                     <div class="card-header text-bold">Data Alternatif</div>
@@ -114,9 +119,9 @@
                     </div>
                 </div>
             </div>
+            <div class="divider"></div>
         </div>
-        <div class="divider"></div>
-        <div class="row">
+        <div class="row" id="card_nilai_alternatif">
             <div class="col-lg-6">
                 <div class="card border-success mb-3">
                     <div class="card-header text-bold">Data Nilai Alternatif</div>
@@ -148,9 +153,9 @@
                     </div>
                 </div>
             </div>
+            <div class="divider"></div>
         </div>
-        <div class="divider"></div>
-        <div class="row">
+        <div class="row" id="card_normalisasi">
             <div class="col-lg-12">
                 <div class="card border-danger mb-3">
                     <div class="card-header text-bold">Hasil Normalisasi</div>
@@ -182,9 +187,9 @@
                     </div>
                 </div>
             </div>
+            <div class="divider"></div>
         </div>      
-        <div class="divider"></div>
-        <div class="row">
+        <div class="row" id="card_pembobotan">
             <div class="col-lg-12">
                 <div class="card border-info mb-3">
                     <div class="card-header text-bold">Nilai Pembobotan</div>
@@ -218,9 +223,9 @@
                     </div>
                 </div>
             </div>
+            <div class="divider"></div>
         </div>
-        <div class="divider"></div>
-        <div class="row">
+        <div class="row" id="card_hasil">
             <div class="col">
                 <div class="card border-dark mb-3">
                     <div class="card-header text-bold">Hasil Simple Additive Weighting</div>
@@ -260,4 +265,30 @@
         @endif
     </div>
 </div>
+@endsection
+@section('js')
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<script>
+    $('#lihat_detail').show();
+    $('#card_pembobotan').show();
+    $('#card_hasil').show();
+    $('#card_kriteria').hide();
+    $('#card_crips').hide();
+    $('#card_alternatif').hide();
+    $('#card_nilai_alternatif').hide();
+    $('#card_normalisasi').hide();
+
+    $("#lihat_detail").click(function() {
+      $('#lihat_detail').hide();
+      $('#card_pembobotan').show();
+      $('#card_hasil').show();
+      $('#card_kriteria').show();
+      $('#card_crips').show();
+      $('#card_alternatif').show();
+      $('#card_nilai_alternatif').show();
+      $('#card_normalisasi').show();
+    });
+</script>
 @endsection
