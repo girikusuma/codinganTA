@@ -15,7 +15,7 @@ class MotorController extends Controller
         $motor = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:Motor. ?s motor:MemilikiNama ?o}');
         $merek = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:Merek}');
         $transmisi = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:Transmisi}');
-        $type = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:JenisMotor}');
+        $type = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:Type}');
         $tahun = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:TahunProduksi}');
         $volume = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:VolumeSilinder}');
         $jumlahMotor = $jumlahMerek = $jumlahTransmisi = $jumlahType = $jumlahTahun = $jumlahVolume = 0;
