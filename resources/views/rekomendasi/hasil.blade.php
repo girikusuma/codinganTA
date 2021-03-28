@@ -97,21 +97,21 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Nama Motor</th>
-                                    <th scope="col">Harga</th>
                                     <th scope="col" style="font-size: 1.05vw;">KapasitasBBM</th>
                                     <th scope="col">Kecepatan</th>
                                     <th scope="col" style="font-size: 1.05vw;">KonsumsiBBM</th>
+                                    <th scope="col">Harga</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($motor as $item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item[0] }}</td>
-                                    <td>Rp. {{ $item[1] }}</td>
-                                    <td>{{ $item[2] }} Liter</td>
-                                    <td>{{ $item[3] }} km/jam</td>
-                                    <td>{{ $item[4] }} km/Liter</td>
+                                    <td>{{ $item['nama'] }}</td>
+                                    <td>{{ $item['KapasitasBBM'] }} Liter</td>
+                                    <td>{{ $item['Kecepatan'] }} km/jam</td>
+                                    <td>{{ $item['KonsumsiBBM'] }} km/Liter</td>
+                                    <td>Rp. {{ $item['Harga'] }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -142,10 +142,10 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item['nama'] }}</td>
-                                    <td>{{ $item[0] }}</td>
-                                    <td>{{ $item[1] }}</td>
-                                    <td>{{ $item[2] }}</td>
-                                    <td>{{ $item[3] }}</td>
+                                    <td>{{ $item['KapasitasBBM'] }}</td>
+                                    <td>{{ $item['Kecepatan'] }}</td>
+                                    <td>{{ $item['KonsumsiBBM'] }}</td>
+                                    <td>{{ $item['Harga'] }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -175,11 +175,11 @@
                                 @foreach($normalisasi as $item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item[4] }}</td>
-                                    <td>{{ $item[0] }}</td>
-                                    <td>{{ $item[1] }}</td>
-                                    <td>{{ $item[2] }}</td>
-                                    <td>{{ $item[3] }}</td>
+                                    <td>{{ $item['nama'] }}</td>
+                                    <td>{{ $item['KapasitasBBM'] }}</td>
+                                    <td>{{ $item['Kecepatan'] }}</td>
+                                    <td>{{ $item['KonsumsiBBM'] }}</td>
+                                    <td>{{ $item['Harga'] }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -210,12 +210,12 @@
                                 @foreach($ranking as $item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item[4] }}</td>
-                                    <td>{{ $item[0] }}</td>
-                                    <td>{{ $item[1] }}</td>
-                                    <td>{{ $item[2] }}</td>
-                                    <td>{{ $item[3] }}</td>
-                                    <td>{{ $item[5] }}</td>
+                                    <td>{{ $item['nama'] }}</td>
+                                    <td>{{ $item['KapasitasBBM'] }}</td>
+                                    <td>{{ $item['Kecepatan'] }}</td>
+                                    <td>{{ $item['KonsumsiBBM'] }}</td>
+                                    <td>{{ $item['Harga'] }}</td>
+                                    <td>{{ $item['total'] }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
