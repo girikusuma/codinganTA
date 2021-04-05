@@ -103,11 +103,11 @@
                         @endfor
                         </td>
                       </tr>
-                      <tr>
+                      <!-- <tr>
                         <td class="col">Sistem Bahan Bakar</td>
                         <td>:</td>
                         <td>{{ $motor[0]['sistem'] }}</td>
-                      </tr>
+                      </tr> -->
                       <tr>
                         <td class="col">Volume Silinder</td>
                         <td>:</td>

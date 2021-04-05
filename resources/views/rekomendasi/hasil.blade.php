@@ -131,10 +131,10 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Nama Motor</th>
-                                    <th scope="col">C1</th>
-                                    <th scope="col">C2</th>
-                                    <th scope="col">C3</th>
-                                    <th scope="col">C4</th>
+                                    <th scope="col" style="font-size: 1.05vw;">KapasitasBBM</th>
+                                    <th scope="col">Kecepatan</th>
+                                    <th scope="col" style="font-size: 1.05vw;">KonsumsiBBM</th>
+                                    <th scope="col">Harga</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -165,10 +165,10 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Nama Motor</th>
-                                    <th scope="col">C1</th>
-                                    <th scope="col">C2</th>
-                                    <th scope="col">C3</th>
-                                    <th scope="col">C4</th>
+                                    <th scope="col" style="font-size: 1.05vw;">KapasitasBBM</th>
+                                    <th scope="col">Kecepatan</th>
+                                    <th scope="col" style="font-size: 1.05vw;">KonsumsiBBM</th>
+                                    <th scope="col">Harga</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -198,11 +198,11 @@
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Nama Motor</th>
-                                    <th scope="col">C1</th>
-                                    <th scope="col">C2</th>
-                                    <th scope="col">C3</th>
-                                    <th scope="col">C4</th>
+                                   <th scope="col">Nama Motor</th>
+                                    <th scope="col" style="font-size: 1.05vw;">KapasitasBBM</th>
+                                    <th scope="col">Kecepatan</th>
+                                    <th scope="col" style="font-size: 1.05vw;">KonsumsiBBM</th>
+                                    <th scope="col">Harga</th>
                                     <th scope="col">Total</th>
                                 </tr>
                             </thead>

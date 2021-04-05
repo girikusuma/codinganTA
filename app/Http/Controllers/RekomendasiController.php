@@ -195,7 +195,7 @@ class RekomendasiController extends Controller
 
         //inisialisasi variabel array $crips
         $crips = [];
-        //cek maxmin harga harga dan mencari nilai crips harga => $crips[0]
+        //cek maxmin harga harga dan mencari nilai crips harga
         $arrayHarga = [];
         for($x = 0; $x < $jumlahMotor; $x++){
             $arrayHarga[$x] = $motor[$x]['Harga'];
@@ -210,7 +210,7 @@ class RekomendasiController extends Controller
             $tempHarga = $crips["Harga"][$x];
         }
 
-        //cek maxmin kapasitas dan mencari nilai crips kapasitas => $crips[1]
+        //cek maxmin kapasitas dan mencari nilai crips kapasitas
         $arrayKapasitas = [];
         for($x = 0; $x < $jumlahMotor; $x++){
             $arrayKapasitas[$x] = $motor[$x]['KapasitasBBM'];
@@ -225,7 +225,7 @@ class RekomendasiController extends Controller
             $tempKapasitas = $crips['KapasitasBBM'][$x];
         }
 
-        //cek maxmin kecepatan dan mencari nilai crips kecepatan => $crips[2]
+        //cek maxmin kecepatan dan mencari nilai crips kecepatan
         $arrayKecepatan = [];
         for($x = 0; $x < $jumlahMotor; $x++){
             $arrayKecepatan[$x] = $motor[$x]['Kecepatan'];
@@ -240,7 +240,7 @@ class RekomendasiController extends Controller
             $tempKecepatan = $crips['Kecepatan'][$x];
         }
 
-        //cek maxmin konsumsi dan mencari nilai crips konsumsi => $crips[3]
+        //cek maxmin konsumsi dan mencari nilai crips konsumsi
         $arrayKonsumsi = [];
         for($x = 0; $x < $jumlahMotor; $x++){
             $arrayKonsumsi[$x] = $motor[$x]['KonsumsiBBM'];
@@ -344,7 +344,7 @@ class RekomendasiController extends Controller
                 }
             }
         }
-
+        
         //perhitungan rating normalisasi
         $ratingNormalisasi = array();
 
@@ -358,12 +358,12 @@ class RekomendasiController extends Controller
                 }
             }
         }
-  
+        
         //menambahkan nama motor pada array ratingNormalisasi
         for($x = 0; $x < $jumlahMotor; $x++){
             $ratingNormalisasi[$x]['nama'] = $data[$x]['nama'];
         }
-
+        
         return $ratingNormalisasi;
     }
 
