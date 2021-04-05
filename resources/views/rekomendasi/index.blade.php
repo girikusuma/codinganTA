@@ -31,7 +31,7 @@
               <select class="custom-select" id="merek" name="merek">
                 <option value="semua">Pilih...</option>
               @foreach($getMerek as $item)
-                <option value="{{ $item['hasilMerek'] }}">{{ $item['hasilMerek'] }}</option>
+                <option value="{{ $item['hasilMerek'] }}">{{ $item['namaMerek'] }}</option>
               @endforeach
               </select>
             </div>
@@ -42,7 +42,7 @@
                 <select class="custom-select" id="transmisi" name="transmisi">
                     <option value="semua">Pilih...</option>
                     @foreach($getTransmisi as $item)
-                      <option value="{{ $item['hasilTransmisi'] }}">{{ $item['hasilTransmisi'] }}</option>
+                      <option value="{{ $item['hasilTransmisi'] }}">{{ $item['namaTransmisi'] }}</option>
                     @endforeach
                 </select>
             </div>
@@ -53,7 +53,7 @@
                 <select class="custom-select" id="typemotor" name="typemotor">
                     <option value="semua">Pilih...</option>
                     @foreach($getType as $item)
-                      <option value="{{ $item['hasilType'] }}">{{ $item['hasilType'] }}</option>
+                      <option value="{{ $item['hasilType'] }}">{{ $item['namaType'] }}</option>
                     @endforeach
                 </select>
             </div>
@@ -64,7 +64,7 @@
                 <select class="custom-select" id="tahun" name="tahun">
                     <option value="semua">Pilih...</option>
                     @foreach($getTahun as $item)
-                      <option value="{{ $item['hasilTahun'] }}">{{ $item['hasilTahun'] }}</option>
+                      <option value="{{ $item['hasilTahun'] }}">{{ $item['namaTahun'] }}</option>
                     @endforeach
                 </select>
             </div>
@@ -75,7 +75,7 @@
                 <select class="custom-select" id="volume" name="volume">
                     <option value="semua">Pilih...</option>
                     @foreach($getVolume as $item)
-                      <option value="{{ $item['hasilVolume'] }}">{{ $item['hasilVolume'] }}</option>
+                      <option value="{{ $item['hasilVolume'] }}">{{ $item['namaVolume'] }}</option>
                     @endforeach
                 </select>
             </div>

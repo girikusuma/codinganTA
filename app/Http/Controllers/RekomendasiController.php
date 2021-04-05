@@ -9,11 +9,11 @@ class RekomendasiController extends Controller
     public function index()
     {
         //query untuk mengambil data dari fuseki untuk select option
-        $merek = $this->sparql->query('SELECT * WHERE {?merek rdf:type motor:Merek}');
-        $transmisi = $this->sparql->query('SELECT * WHERE {?transmisi rdf:type motor:Transmisi}');
-        $typemotor = $this->sparql->query('SELECT * WHERE {?typemotor rdf:type motor:Type}');
-        $tahun = $this->sparql->query('SELECT * WHERE {?tahun rdf:type motor:TahunProduksi}');
-        $volume = $this->sparql->query('SELECT * WHERE {?volume rdf:type motor:VolumeSilinder}');
+        $merek = $this->sparql->query('SELECT * WHERE {?merek rdf:type motor:Merek. ?merek motor:MemilikiNama ?nama} ORDER BY ?merek');
+        $transmisi = $this->sparql->query('SELECT * WHERE {?transmisi rdf:type motor:Transmisi.  ?transmisi motor:MemilikiNama ?nama} ORDER BY ?transmisi');
+        $typemotor = $this->sparql->query('SELECT * WHERE {?typemotor rdf:type motor:Type.  ?typemotor motor:MemilikiNama ?nama} ORDER BY ?typemotor');
+        $tahun = $this->sparql->query('SELECT * WHERE {?tahun rdf:type motor:TahunProduksi.  ?tahun motor:MemilikiNama ?nama} ORDER BY ?tahun');
+        $volume = $this->sparql->query('SELECT * WHERE {?volume rdf:type motor:VolumeSilinder.  ?volume motor:MemilikiNama ?nama} ORDER BY ?volume');
         
         $resultMerek = [];
         $resultTransmisi = [];
@@ -24,27 +24,32 @@ class RekomendasiController extends Controller
         //mengambl data dari fuseki server
         foreach($merek as $item){
             array_push($resultMerek, [
-                'hasilMerek' => $this->parseData($item->merek->getUri())
+                'hasilMerek' => $this->parseData($item->merek->getUri()),
+                'namaMerek'  => $this->parseData($item->nama->getValue())
             ]);
         }
         foreach($transmisi as $item){
             array_push($resultTransmisi, [
-                'hasilTransmisi' => $this->parseData($item->transmisi->getUri())
+                'hasilTransmisi' => $this->parseData($item->transmisi->getUri()),
+                'namaTransmisi'  => $this->parseData($item->nama->getValue())
             ]);
         }
         foreach($typemotor as $item){
             array_push($resultType, [
-                'hasilType' => $this->parseData($item->typemotor->getUri())
+                'hasilType' => $this->parseData($item->typemotor->getUri()),
+                'namaType'  => $this->parseData($item->nama->getValue())
             ]);
         }
         foreach($tahun as $item){
             array_push($resultTahun, [
-                'hasilTahun' => $this->parseData($item->tahun->getUri())
+                'hasilTahun' => $this->parseData($item->tahun->getUri()),
+                'namaTahun'  => $this->parseData($item->nama->getValue())
             ]);
         }
         foreach($volume as $item){
             array_push($resultVolume, [
-                'hasilVolume' => $this->parseData($item->volume->getUri())
+                'hasilVolume' => $this->parseData($item->volume->getUri()),
+                'namaVolume'  => $this->parseData($item->nama->getValue())
             ]);
         }
 
@@ -128,7 +133,7 @@ class RekomendasiController extends Controller
         $jumlah = count($resultMotor);
 
         //query untuk mengambil data kriteria dari fuseki server
-        $query = $this->sparql->query("SELECT * WHERE {?kriteria rdf:type motor:NamaKriteria. ?kriteria motor:MemilikiBobot ?bobot. ?kriteria motor:AdalahJenisKriteria ?jenis}");
+        $query = $this->sparql->query("SELECT * WHERE {?kriteria rdf:type motor:NamaKriteria. ?kriteria motor:MemilikiBobot ?bobot. ?kriteria motor:AdalahJenisKriteria ?jenis} ORDER BY ?kriteria");
         
         //menyimpan data kriteria pada variabel $getKriteria
         $getKriteria = [];
@@ -351,10 +356,10 @@ class RekomendasiController extends Controller
         for($i = 0; $i < $jumlahKriteria; $i++){
             for($j = 0; $j < $jumlahMotor; $j++){
                 if($kriteria[$i]['jenis'] == 'Cost'){
-                    $ratingNormalisasi[$j][$kriteria[$i]['kriteria']] = $MaxMin[$kriteria[$i]['kriteria']] / $data[$j][$kriteria[$i]['kriteria']];
+                    $ratingNormalisasi[$j][$kriteria[$i]['kriteria']] = number_format($MaxMin[$kriteria[$i]['kriteria']] / $data[$j][$kriteria[$i]['kriteria']], 2);
                 }
                 else {
-                    $ratingNormalisasi[$j][$kriteria[$i]['kriteria']] = $data[$j][$kriteria[$i]['kriteria']] / $MaxMin[$kriteria[$i]['kriteria']];
+                    $ratingNormalisasi[$j][$kriteria[$i]['kriteria']] = number_format($data[$j][$kriteria[$i]['kriteria']] / $MaxMin[$kriteria[$i]['kriteria']], 2);
                 }
             }
         }
@@ -390,7 +395,7 @@ class RekomendasiController extends Controller
         //mengalikan nilai pada data motor dengan bobot pada kriteria
         for($i = 0; $i < $jumlahMotor; $i++){
             for($j = 0; $j < $jumlahKriteria; $j++){
-                $hasilRekomendasi[$i][$bobotKriteria[$j]['kriteria']] = $data[$i][$bobotKriteria[$j]['kriteria']] * $bobotKriteria[$j]['bobot'];
+                $hasilRekomendasi[$i][$bobotKriteria[$j]['kriteria']] = number_format($data[$i][$bobotKriteria[$j]['kriteria']] * $bobotKriteria[$j]['bobot'], 2);
             }
         }
         //menyimpan nama dan menghitung total pada masing-masing alternatif motor
@@ -402,7 +407,7 @@ class RekomendasiController extends Controller
             for($j = 0; $j < $jumlahKriteria; $j++){
                 $tempTotal = $tempTotal + $hasilRekomendasi[$i][$bobotKriteria[$j]['kriteria']];
             }
-            $hasilRekomendasi[$i]['total'] = $tempTotal;
+            $hasilRekomendasi[$i]['total'] = number_format($tempTotal, 2);
             $tempTotal = 0;
         }
         return $hasilRekomendasi;
