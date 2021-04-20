@@ -9,11 +9,12 @@ class ServiceController extends Controller
     public function index()
     {
         //query untuk mengambil data provinsi dan menyimpan pada variabel result
-        $provinsi = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:Provinsi}');
+        $provinsi = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:Provinsi. ?s motor:MemilikiNama ?nama} ORDER BY ?s');
         $result = [];
         foreach($provinsi as $item){
             array_push($result, [
-                'provinsi' => $this->parseData($item->s->getUri())
+                'provinsi' => $this->parseData($item->s->getUri()),
+                'nama'      => $this->parseData($item->nama->getValue())
             ]);
         }
         $data = [
@@ -25,12 +26,13 @@ class ServiceController extends Controller
     public function location($provinsi)
     {
         //query untuk mengambil data kabupaten berdasarkan provinsi tertentu dan menyimpan pada variabel result
-        $kabupaten = $this->sparql->query('SELECT * WHERE {?s motor:AdalahBagianDari motor:'.$provinsi.'}');
+        $kabupaten = $this->sparql->query('SELECT * WHERE {?s motor:AdalahBagianDari motor:'.$provinsi.'. ?s motor:MemilikiNama ?nama} ORDER BY ?s');
         $result = [];
         foreach($kabupaten as $item){
             $nama = $this->parseData($item->s->getUri());
+            $n = $this->parseData($item->nama->getValue());
             $jumlah = 0;
-            $getNamaMotor = $this->sparql->query('SELECT * WHERE {?s motor:MemilikiLokasi motor:'.$nama.'. ?s rdf:type motor:ServiceCenter}');
+            $getNamaMotor = $this->sparql->query('SELECT * WHERE {?s motor:MemilikiLokasi motor:'.$nama.'. ?s rdf:type motor:ServiceCenter} ORDER BY ?s');
             foreach($getNamaMotor as $motor){
                 $jumlah = $jumlah + 1;
             }
@@ -49,17 +51,18 @@ class ServiceController extends Controller
     public function show($provinsi, $kabupaten)
     {
         //query untuk mengambil data merek dan menyimpan pada variabel resultMerek
-        $getMerek = $this->sparql->query('SELECT * WHERE {?merek rdf:type motor:Merek}');
+        $getMerek = $this->sparql->query('SELECT * WHERE {?merek rdf:type motor:Merek. ?merek motor:MemilikiNama ?nama} ORDER BY ?merek');
         $resultMerek = [];
         $resultService = [];
         foreach($getMerek as $item){
             array_push($resultMerek, [
-                'merek' => $this->parseData($item->merek->getUri())
+                'merek' => $this->parseData($item->merek->getUri()),
+                'nama'  => $this->parseData($item->nama->getValue())
             ]);
         }
         //perulangan untuk mengambil data service center berdasarkan merek tertentu dan daerah tertentu dan disimpan pada variabel resultService
         foreach($resultMerek as $getService){
-            $Service = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:ServiceCenter. ?s motor:MemilikiLokasi motor:'.$kabupaten.'. ?s motor:AdalahServiceCentreDari motor:'.$getService['merek'].'. ?s motor:MemilikiNama ?nama}');
+            $Service = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:ServiceCenter. ?s motor:MemilikiLokasi motor:'.$kabupaten.'. ?s motor:AdalahServiceCentreDari motor:'.$getService['merek'].'. ?s motor:MemilikiNama ?nama} ORDER BY ?s');
             foreach($Service as $item){
                 array_push($resultService, [
                     'id'            => $this->parseData($item->s->getUri()),

@@ -10,11 +10,12 @@ class TahunController extends Controller
     public function index()
     {
         //query untuk mengambil data tahun motor dan disimpan pada variabel result
-        $tahun = $this->sparql->query("SELECT * WHERE {?s rdf:type motor:TahunProduksi}");
+        $tahun = $this->sparql->query("SELECT * WHERE {?s rdf:type motor:TahunProduksi. ?s motor:MemilikiNama ?nama} ORDER BY ?s");
         $result = [];
         foreach($tahun as $item){
             array_push($result, [
-                'tahun' => $this->parseData($item->s->getUri())
+                'tahun' => $this->parseData($item->s->getUri()),
+                'nama'  => $this->parseData($item->nama->getValue())
             ]);
         }
         $data = [
@@ -26,7 +27,7 @@ class TahunController extends Controller
     public function show($tahun)
     {
         //query untuk mengambil data motor berdasarkan tahun tertentu dan disimpan pada variabel result
-        $getnama = $this->sparql->query("SELECT * WHERE {?s motor:MemilikiTahunProduksi motor:".$tahun.". ?s motor:MemilikiNama ?n. ?s motor:MemilikiGambar ?gambar}");
+        $getnama = $this->sparql->query("SELECT * WHERE {?s motor:MemilikiTahunProduksi motor:".$tahun.". ?s motor:MemilikiNama ?n. ?s motor:MemilikiGambar ?gambar} ORDER BY ?s");
         $result = [];
         $jumlah = 0;
         foreach($getnama as $item){

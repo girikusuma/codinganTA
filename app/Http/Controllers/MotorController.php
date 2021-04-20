@@ -12,12 +12,12 @@ class MotorController extends Controller
     public function menu()
     {   
         //query untuk mengambil data motor, merek, transmisi, type, tahun, dan volume
-        $motor = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:Motor. ?s motor:MemilikiNama ?o}');
-        $merek = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:Merek}');
-        $transmisi = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:Transmisi}');
-        $type = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:Type}');
-        $tahun = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:TahunProduksi}');
-        $volume = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:VolumeSilinder}');
+        $motor = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:Motor. ?s motor:MemilikiNama ?o} ORDER BY ?s');
+        $merek = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:Merek. ?s motor:MemilikiNama ?o } ORDER BY ?s');
+        $transmisi = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:Transmisi. ?s motor:MemilikiNama ?o} ORDER BY ?s');
+        $type = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:Type. ?s motor:MemilikiNama ?o} ORDER BY ?s');
+        $tahun = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:TahunProduksi. ?s motor:MemilikiNama ?o} ORDER BY ?s');
+        $volume = $this->sparql->query('SELECT * WHERE {?s rdf:type motor:VolumeSilinder.?s motor:MemilikiNama ?o} ORDER BY ?s');
         $jumlahMotor = $jumlahMerek = $jumlahTransmisi = $jumlahType = $jumlahTahun = $jumlahVolume = 0;
         foreach($motor as $item){
             $jumlahMotor = $jumlahMotor + 1;

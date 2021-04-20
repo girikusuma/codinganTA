@@ -92,47 +92,44 @@ class RekomendasiController extends Controller
             if($request->tahun != 'semua'){
                 $sql = $sql." .?motor motor:MemilikiTahunProduksi motor:".$request->tahun;
             }
-            // if($request->volume != 'semua'){
-            //     $sql = $sql." .?motor motor:MemilikiVolumeSilinder motor:".$request->volume;
-            // }
+            if($request->volume != 'semua'){
+                $sql = $sql." .?motor motor:MemilikiVolumeSilinder motor:".$request->volume;
+            }
             
-            $sql = $sql.". ?motor motor:MemilikiHarga ?harga. ?motor motor:MemilikiTingkatKonsumsiBahanBakar ?tingkatbbm. ?motor motor:MemilikiVolumeSilinder ?volume. ?motor motor:MemilikiKapasitasBahanBakar ?kapasitas. ?motor motor:MemilikiNama ?nama}";
+            $sql = $sql.". ?motor motor:MemilikiHarga ?harga. ?motor motor:MemilikiTingkatKonsumsiBahanBakar ?tingkatbbm. ?motor motor:MemilikiKecepatan ?kecepatan. ?motor motor:MemilikiKapasitasBahanBakar ?kapasitas. ?motor motor:MemilikiNama ?nama}";
 
             $resultMotor = [];
             
             $query = $this->sparql->query($sql);
 
             //menyimpan data sepeda motor pada variabel $resultMotor
-            $kodeAlternatif = 1;
             foreach($query as $item){
                 array_push($resultMotor, [
-                    'nama'              => $this->parseData($item->nama->getValue()),
-                    'Harga'             => intval($this->parseData($item->harga->getValue())),
-                    'KapasitasBBM'      => floatval($this->parseData($item->kapasitas->getValue())),
-                    'VolumeSilinder'    => $this->parseData($item->volume->getUri()),
-                    'KonsumsiBBM'       => floatval($this->parseData($item->tingkatbbm->getValue())),
-                    'kode'              => "A".$kodeAlternatif
+                    'nama'          => $this->parseData($item->nama->getValue()),
+                    'Harga'         => intval($this->parseData($item->harga->getValue())),
+                    'KapasitasBBM'  => floatval($this->parseData($item->kapasitas->getValue())),
+                    'Kecepatan'     => floatval($this->parseData($item->kecepatan->getValue())),
+                    'KonsumsiBBM'   => floatval($this->parseData($item->tingkatbbm->getValue()))
                 ]);
-                $kodeAlternatif = $kodeAlternatif + 1;
             }
         } else {
             $resultMotor = [];
             $jumlahMotor = count($request->motor);
             //mengambil data motor dari request dan menyimpan ke sebuah array
             for($x = 0; $x < $jumlahMotor; $x++){
-                $query = $this->sparql->query('SELECT * WHERE {motor:'.$request->motor[$x].' rdf:type motor:Motor. motor:'.$request->motor[$x].' motor:MemilikiHarga ?harga. motor:'.$request->motor[$x].' motor:MemilikiTingkatKonsumsiBahanBakar ?tingkatbbm. motor:'.$request->motor[$x].' motor:MemilikiVolumeSilinder ?volume. motor:'.$request->motor[$x].' motor:MemilikiKapasitasBahanBakar ?kapasitas. motor:'.$request->motor[$x].' motor:MemilikiNama ?nama}');
+                $query = $this->sparql->query('SELECT * WHERE {motor:'.$request->motor[$x].' rdf:type motor:Motor. motor:'.$request->motor[$x].' motor:MemilikiHarga ?harga. motor:'.$request->motor[$x].' motor:MemilikiTingkatKonsumsiBahanBakar ?tingkatbbm. motor:'.$request->motor[$x].' motor:MemilikiKecepatan ?kecepatan. motor:'.$request->motor[$x].' motor:MemilikiKapasitasBahanBakar ?kapasitas. motor:'.$request->motor[$x].' motor:MemilikiNama ?nama}');
                 foreach($query as $item){
                     array_push($resultMotor, [
-                        'nama'              => $this->parseData($item->nama->getValue()),
-                        'Harga'             => intval($this->parseData($item->harga->getValue())),
-                        'KapasitasBBM'      => floatval($this->parseData($item->kapasitas->getValue())),
-                        'VolumeSilinder'    => $this->parseData($item->volume->getValue()),
-                        'KonsumsiBBM'       => floatval($this->parseData($item->tingkatbbm->getValue())),
-                        'kode'              => "A".$x+1
+                        'nama'          => $this->parseData($item->nama->getValue()),
+                        'Harga'         => intval($this->parseData($item->harga->getValue())),
+                        'KapasitasBBM'  => floatval($this->parseData($item->kapasitas->getValue())),
+                        'Kecepatan'     => floatval($this->parseData($item->kecepatan->getValue())),
+                        'KonsumsiBBM'   => floatval($this->parseData($item->tingkatbbm->getValue()))
                     ]);
                 }
             }
         }
+        
         $jumlah = count($resultMotor);
 
         //query untuk mengambil data kriteria dari fuseki server
@@ -184,27 +181,18 @@ class RekomendasiController extends Controller
     public function getCrips($kriteria)
     {
         //query untuk mengambil data seluruh sepeda motor
-        $query = $this->sparql->query("SELECT * WHERE {?motor rdf:type motor:Motor. ?motor motor:MemilikiHarga ?harga. ?motor motor:MemilikiTingkatKonsumsiBahanBakar ?tingkatbbm. ?motor motor:MemilikiVolumeSilinder ?volume. ?motor motor:MemilikiKapasitasBahanBakar ?kapasitas}");
+        $query = $this->sparql->query("SELECT * WHERE {?motor rdf:type motor:Motor. ?motor motor:MemilikiHarga ?harga. ?motor motor:MemilikiTingkatKonsumsiBahanBakar ?tingkatbbm. ?motor motor:MemilikiKecepatan ?kecepatan. ?motor motor:MemilikiKapasitasBahanBakar ?kapasitas}");
         $motor = [];
         //meyimpan data sepeda motor pada variabel $motor
         foreach($query as $item){
             array_push($motor, [
-                'motor'             => $this->parseData($item->motor->getUri()),
-                'Harga'             => intval($this->parseData($item->harga->getValue())),
-                'KapasitasBBM'      => floatval($this->parseData($item->kapasitas->getValue())),
-                'VolumeSilinder'    => $this->parseData($item->volume->getUri()),
-                'KonsumsiBBM'       => floatval($this->parseData($item->tingkatbbm->getValue()))
+                'motor'         => $this->parseData($item->motor->getUri()),
+                'Harga'         => intval($this->parseData($item->harga->getValue())),
+                'KapasitasBBM'  => floatval($this->parseData($item->kapasitas->getValue())),
+                'Kecepatan'     => floatval($this->parseData($item->kecepatan->getValue())),
+                'KonsumsiBBM'   => floatval($this->parseData($item->tingkatbbm->getValue()))
             ]);
         }
-
-        $query2 = $this->sparql->query("SELECT * WHERE {?volume rdf:type motor:VolumeSilinder} ORDER BY ?volume");
-        $VolumeS = [];
-        foreach($query2 as $item){
-            array_push($VolumeS, [
-                'id'    => $this->parseData($item->volume->getUri())
-            ]);
-        }
-        $jumlahVolume = count($VolumeS);
 
         //menghitung jumlah motor dan kriteria
         $jumlahKriteria = count($kriteria);
@@ -219,10 +207,10 @@ class RekomendasiController extends Controller
         }
         $maxHarga = max($arrayHarga);
         $minHarga = min($arrayHarga);
-        $rasio = ($maxHarga - $minHarga)/$jumlahVolume;
+        $rasio = ($maxHarga - $minHarga)/4;
 
         $tempHarga = $minHarga;
-        for($x = 0; $x < $jumlahVolume; $x++){
+        for($x = 0; $x < 4; $x++){
             $crips['Harga'][$x] = $tempHarga + $rasio;
             $tempHarga = $crips["Harga"][$x];
         }
@@ -234,18 +222,27 @@ class RekomendasiController extends Controller
         }
         $maxKapasitas = max($arrayKapasitas);
         $minKapasitas = min($arrayKapasitas);
-        $rasio = ($maxKapasitas - $minKapasitas)/$jumlahVolume;
+        $rasio = ($maxKapasitas - $minKapasitas)/4;
 
         $tempKapasitas = $minKapasitas;
-        for($x = 0; $x < $jumlahVolume; $x++){
+        for($x = 0; $x < 4; $x++){
             $crips['KapasitasBBM'][$x] = $tempKapasitas + $rasio;
             $tempKapasitas = $crips['KapasitasBBM'][$x];
         }
 
-        //nilai crips volume
-        $arrayVolume = [];
-        for($x = 0; $x < $jumlahVolume; $x++){
-            $crips['VolumeSilinder'][$x] = $VolumeS[$x]['id'];
+        //cek maxmin kecepatan dan mencari nilai crips kecepatan
+        $arrayKecepatan = [];
+        for($x = 0; $x < $jumlahMotor; $x++){
+            $arrayKecepatan[$x] = $motor[$x]['Kecepatan'];
+        }
+        $maxKecepatan = max($arrayKecepatan);
+        $minKecepatan = min($arrayKecepatan);
+        $rasio = ($maxKecepatan - $minKecepatan)/4;
+
+        $tempKecepatan = $minKecepatan;
+        for($x = 0; $x < 4; $x++){
+            $crips['Kecepatan'][$x] = $tempKecepatan + $rasio;
+            $tempKecepatan = $crips['Kecepatan'][$x];
         }
 
         //cek maxmin konsumsi dan mencari nilai crips konsumsi
@@ -255,41 +252,33 @@ class RekomendasiController extends Controller
         }
         $maxKonsumsi = max($arrayKonsumsi);
         $minKonsumsi = min($arrayKonsumsi);
-        $rasio = ($maxKonsumsi - $minKonsumsi)/$jumlahVolume;
+        $rasio = ($maxKonsumsi - $minKonsumsi)/4;
 
         $tempKonsumsi = $minKonsumsi;
-        for($x = 0; $x < $jumlahVolume; $x++){
+        for($x = 0; $x < 4; $x++){
             $crips['KonsumsiBBM'][$x] = $tempKonsumsi + $rasio;
             $tempKonsumsi = $crips['KonsumsiBBM'][$x];
         }
 
         //memberi nilai crips
-        $arrayValueCrips = [];
-        for($i = 0; $i < $jumlahVolume; $i++){
-            $r = 100 / $jumlahVolume;
-            $tempR = 0;
-            for($j = 0; $j < $jumlahVolume; $j++){
-                $arrayValueCrips[$i][$j] = $tempR + $r;
-                $tempR = $arrayValueCrips[$i][$j];
-            }
-        }
+        $arrayValueCrips = array(
+            array(25, 50, 75, 100),
+            array(25, 50, 75, 100),
+            array(25, 50, 75, 100),
+            array(25, 50, 75, 100)
+        );
         
         //menyimpan nilai crips total
         $getCripsData = [];
         $iterasi = 0;
         for($i = 0; $i <$jumlahKriteria; $i++){
-            for($j = 0; $j < $jumlahVolume; $j++){
+            for($j = 0; $j < 4; $j++){
                 $iterasi = $iterasi + 1;
                 $getCripsData[$kriteria[$i]['kriteria']][$j]['iterasi'] = $iterasi;
                 $getCripsData[$kriteria[$i]['kriteria']][$j]['kode'] = $kriteria[$i]['kode'];
                 $getCripsData[$kriteria[$i]['kriteria']][$j]['nama'] = $kriteria[$i]['kriteria'];
                 $getCripsData[$kriteria[$i]['kriteria']][$j]['crips'] = $crips[$kriteria[$i]['kriteria']][$j];
                 $getCripsData[$kriteria[$i]['kriteria']][$j]['nilai'] = $arrayValueCrips[$i][$j];
-                if($kriteria[$i]['kriteria'] == "VolumeSilinder"){
-                    $getCripsData[$kriteria[$i]['kriteria']][$j]['text'] = $crips[$kriteria[$i]['kriteria']][$j];
-                } else {
-                    $getCripsData[$kriteria[$i]['kriteria']][$j]['text'] = "<= ".$crips[$kriteria[$i]['kriteria']][$j];                    
-                }
             }
         }
         return $getCripsData;
@@ -297,43 +286,28 @@ class RekomendasiController extends Controller
 
     public function getNilaiAlternatif($kriteria, $motor, $crips)
     {
-        $query2 = $this->sparql->query("SELECT * WHERE {?volume rdf:type motor:VolumeSilinder} ORDER BY ?volume");
-        $VolumeS = [];
-        foreach($query2 as $item){
-            array_push($VolumeS, [
-                'id'    => $this->parseData($item->volume->getUri())
-            ]);
-        }
-        $jumlahVolume = count($VolumeS);
+        //dd($crips);
         //menghitung jumlah motor dan kriteria
         $jumlahMotor = count($motor);
         $jumlahKriteria = count($kriteria);
-        
+
         //memberi nilai nilai alternatif sepeda motor
         $getNilaiAlternatif = [];
         for($i = 0; $i <$jumlahMotor; $i++){
             for($j = 0; $j < $jumlahKriteria; $j++) {
-                for($k = 0; $k < $jumlahVolume; $k++){
+                for($k = 0; $k < 4; $k++){
                     $getNilaiAlternatif[$i]['nama'] = $motor[$i]['nama'];
-                    $getNilaiAlternatif[$i]['kode'] = $motor[$i]['kode'];
                 }
             }
         }
         for($i = 0; $i < $jumlahMotor; $i++){
+            $getNilaiAlternatif[$i]['nama'] = $motor[$i]['nama'];
             for($j = 0; $j < $jumlahKriteria; $j++){
-                if(strcmp($kriteria[$j]['kriteria'], 'VolumeSilinder') == 1){
-                    for($m = 0; $m < $jumlahVolume; $m++){
-                        if($motor[$i][$kriteria[$j]['kriteria']] == $VolumeS[$m]){
-                            $getNilaiAlternatif[$i][$kriteria[$j]['kriteria']] = $crips[$kriteria[$j]['kriteria']][$m]['nilai'];
-                            break;
-                        }
-                    }
-                } else {
-                    for($k = 0; $k < $jumlahVolume; $k++){
-                        if($motor[$i][$kriteria[$j]['kriteria']] <= $crips[$kriteria[$j]['kriteria']][$k]['crips']){
-                            $getNilaiAlternatif[$i][$kriteria[$j]['kriteria']] = $crips[$kriteria[$j]['kriteria']][$k]['nilai'];
-                            break;
-                        }
+                for($k = 0; $k < 4; $k++){
+                    if($motor[$i][$kriteria[$j]['kriteria']] <= $crips[$kriteria[$j]['kriteria']][$k]['crips'])
+                    {
+                        $getNilaiAlternatif[$i][$kriteria[$j]['kriteria']] = $crips[$kriteria[$j]['kriteria']][$k]['nilai'];
+                        break;
                     }
                 }
             }
@@ -350,7 +324,7 @@ class RekomendasiController extends Controller
         $MaxMin = [];
         foreach($kriteria as $item){
             if($item['jenis'] == 'Cost'){
-                $MaxMin[$item['kriteria']] = 9999999999;
+                $MaxMin[$item['kriteria']] = 99999999;
             } else {
                 $MaxMin[$item['kriteria']] = 0;
             }
@@ -421,7 +395,7 @@ class RekomendasiController extends Controller
         //mengalikan nilai pada data motor dengan bobot pada kriteria
         for($i = 0; $i < $jumlahMotor; $i++){
             for($j = 0; $j < $jumlahKriteria; $j++){
-                $hasilRekomendasi[$i][$bobotKriteria[$j]['kriteria']] = $data[$i][$bobotKriteria[$j]['kriteria']] * $bobotKriteria[$j]['bobot'];
+                $hasilRekomendasi[$i][$bobotKriteria[$j]['kriteria']] = number_format($data[$i][$bobotKriteria[$j]['kriteria']] * $bobotKriteria[$j]['bobot'], 2);
             }
         }
         //menyimpan nama dan menghitung total pada masing-masing alternatif motor
@@ -433,7 +407,7 @@ class RekomendasiController extends Controller
             for($j = 0; $j < $jumlahKriteria; $j++){
                 $tempTotal = $tempTotal + $hasilRekomendasi[$i][$bobotKriteria[$j]['kriteria']];
             }
-            $hasilRekomendasi[$i]['total'] = $tempTotal;
+            $hasilRekomendasi[$i]['total'] = number_format($tempTotal, 2);
             $tempTotal = 0;
         }
         return $hasilRekomendasi;

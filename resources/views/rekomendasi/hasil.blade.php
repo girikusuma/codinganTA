@@ -75,7 +75,7 @@
                                             <td>{{ $key['iterasi'] }}</td>
                                             <td>{{ $key['kode'] }}</td>
                                             <td>{{ $key['nama'] }}</td>
-                                            <td><= {{ $key['crips'] }}</td>
+                                            <td>{{ $key['text'] }}</td>
                                             <td>{{ $key['nilai'] }}</td>
                                         </tr>
                                     @endforeach
@@ -99,8 +99,8 @@
                                     <th scope="col">Nama Motor</th>
                                     <th scope="col">Harga</th>
                                     <th scope="col" style="font-size: 1.05vw;">KapasitasBBM</th>
-                                    <th scope="col">Kecepatan</th>
                                     <th scope="col" style="font-size: 1.05vw;">KonsumsiBBM</th>
+                                    <th scope="col">VolumeSilinder</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -110,8 +110,8 @@
                                     <td>{{ $item['nama'] }}</td>
                                     <td>Rp. {{ $item['Harga'] }}</td>
                                     <td>{{ $item['KapasitasBBM'] }} Liter</td>
-                                    <td>{{ $item['Kecepatan'] }} km/jam</td>
                                     <td>{{ $item['KonsumsiBBM'] }} km/Liter</td>
+                                    <td>{{ $item['VolumeSilinder'] }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -133,8 +133,8 @@
                                     <th scope="col">Nama Motor</th>
                                     <th scope="col">Harga</th>
                                     <th scope="col" style="font-size: 1.05vw;">KapasitasBBM</th>
-                                    <th scope="col">Kecepatan</th>
                                     <th scope="col" style="font-size: 1.05vw;">KonsumsiBBM</th>
+                                    <th scope="col">VolumeSilinder</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -144,8 +144,8 @@
                                     <td>{{ $item['nama'] }}</td>
                                     <td>{{ $item['Harga'] }}</td>
                                     <td>{{ $item['KapasitasBBM'] }}</td>
-                                    <td>{{ $item['Kecepatan'] }}</td>
                                     <td>{{ $item['KonsumsiBBM'] }}</td>
+                                    <td>{{ $item['VolumeSilinder'] }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -167,8 +167,8 @@
                                     <th scope="col">Nama Motor</th>
                                     <th scope="col">Harga</th>
                                     <th scope="col" style="font-size: 1.05vw;">KapasitasBBM</th>
-                                    <th scope="col">Kecepatan</th>
                                     <th scope="col" style="font-size: 1.05vw;">KonsumsiBBM</th>
+                                    <th scope="col">VolumeSilinder</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -178,8 +178,8 @@
                                     <td>{{ $item['nama'] }}</td>
                                     <td>{{ $item['Harga'] }}</td>
                                     <td>{{ $item['KapasitasBBM'] }}</td>
-                                    <td>{{ $item['Kecepatan'] }}</td>
                                     <td>{{ $item['KonsumsiBBM'] }}</td>
+                                    <td>{{ $item['VolumeSilinder'] }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -201,8 +201,8 @@
                                    <th scope="col">Nama Motor</th>
                                     <th scope="col">Harga</th>
                                     <th scope="col" style="font-size: 1.05vw;">KapasitasBBM</th>
-                                    <th scope="col">Kecepatan</th>
                                     <th scope="col" style="font-size: 1.05vw;">KonsumsiBBM</th>
+                                    <th scope="col">VolumeSilinder</th>
                                     <th scope="col">Total</th>
                                 </tr>
                             </thead>
@@ -213,8 +213,8 @@
                                     <td>{{ $item['nama'] }}</td>
                                     <td>{{ $item['Harga'] }}</td>
                                     <td>{{ $item['KapasitasBBM'] }}</td>
-                                    <td>{{ $item['Kecepatan'] }}</td>
                                     <td>{{ $item['KonsumsiBBM'] }}</td>
+                                    <td>{{ $item['VolumeSilinder'] }}</td>
                                     <td>{{ $item['total'] }}</td>
                                 </tr>
                                 @endforeach

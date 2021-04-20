@@ -10,11 +10,13 @@ class MerekController extends Controller
     public function index()
     {
         //query untuk mengambil data merek motor dan disimpan pada variabel result
-        $merek = $this->sparql->query("SELECT * WHERE {?s rdf:type motor:Merek}");
+        $merek = $this->sparql->query("SELECT * WHERE {?s rdf:type motor:Merek. ?s motor:MemilikiNama ?o. ?s motor:MemilikiGambar ?gambar} ORDER BY ?s");
         $result = [];
         foreach($merek as $item){
             array_push($result, [
-                'namamerek' => $this->parseData($item->s->getUri())
+                'namamerek' => $this->parseData($item->s->getUri()),
+                'nama'      => $this->parseData($item->o->getValue()),
+                'gambar'    => $this->parseData($item->gambar->getValue())
             ]);
         }
         $data = [
@@ -27,7 +29,7 @@ class MerekController extends Controller
     public function show($merek)
     {
         //query untuk mengambil data motor berdasarkan merek tertentu dan disimpan pada variabel result
-        $getnama = $this->sparql->query("SELECT * WHERE {?s motor:AdalahMerkDari motor:".$merek.". ?s motor:MemilikiNama ?n. ?s motor:MemilikiGambar ?gambar}");
+        $getnama = $this->sparql->query("SELECT * WHERE {?s motor:AdalahMerkDari motor:".$merek.". ?s motor:MemilikiNama ?n. ?s motor:MemilikiGambar ?gambar} ORDER BY ?s");
         $result = [];
         $jumlah = 0;
         foreach($getnama as $item){

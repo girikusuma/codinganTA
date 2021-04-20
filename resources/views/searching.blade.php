@@ -39,7 +39,7 @@
                       <select class="custom-select cari" id="cari_merek" name="cari_merek">
                           <option value="semua">Pilih...</option>
                           @foreach($getMerek as $item)
-                            <option value="{{ $item['hasilMerek'] }}">{{ $item['hasilMerek'] }}</option>
+                            <option value="{{ $item['hasilMerek'] }}">{{ $item['namamerek'] }}</option>
                           @endforeach
                       </select>
                   </div>
@@ -52,7 +52,7 @@
                       <select class="custom-select cari" id="cari_transmisi" name="cari_transmisi">
                           <option value="semua">Pilih...</option>
                           @foreach($getTransmisi as $item)
-                            <option value="{{ $item['hasilTransmisi'] }}">{{ $item['hasilTransmisi'] }}</option>
+                            <option value="{{ $item['hasilTransmisi'] }}">{{ $item['namatransmisi'] }}</option>
                           @endforeach
                       </select>
                   </div>
@@ -65,7 +65,7 @@
                       <select class="custom-select cari" id="cari_typemotor" name="cari_typemotor">
                           <option value="semua">Pilih...</option>
                           @foreach($getType as $item)
-                            <option value="{{ $item['hasilType'] }}">{{ $item['hasilType'] }}</option>
+                            <option value="{{ $item['hasilType'] }}">{{ $item['namatype'] }}</option>
                           @endforeach
                       </select>
                   </div>
@@ -80,7 +80,7 @@
                       <select class="custom-select cari" id="cari_tahun" name="cari_tahun">
                           <option value="semua">Pilih...</option>
                           @foreach($getTahun as $item)
-                            <option value="{{ $item['hasilTahun'] }}">{{ $item['hasilTahun'] }}</option>
+                            <option value="{{ $item['hasilTahun'] }}">{{ $item['namatahun'] }}</option>
                           @endforeach
                       </select>
                   </div>
@@ -93,7 +93,7 @@
                       <select class="custom-select cari" id="cari_volume" name="cari_volume">
                           <option value="semua">Pilih...</option>
                           @foreach($getVolume as $item)
-                            <option value="{{ $item['hasilVolume'] }}">{{ $item['hasilVolume'] }}</option>
+                            <option value="{{ $item['hasilVolume'] }}">{{ $item['namavolume'] }}</option>
                           @endforeach
                       </select>
                   </div>
@@ -114,7 +114,7 @@
                       <select class="custom-select cari" id="cari_merek_dealer" name="cari_merek_dealer">
                           <option value="semua">Pilih...</option>
                           @foreach($getMerek as $item)
-                            <option value="{{ $item['hasilMerek'] }}">{{ $item['hasilMerek'] }}</option>
+                            <option value="{{ $item['hasilMerek'] }}">{{ $item['namamerek'] }}</option>
                           @endforeach
                       </select>
                   </div>
@@ -127,7 +127,7 @@
                       <select class="custom-select cari" id="cari_lokasi_dealer" name="cari_lokasi_dealer">
                           <option value="semua">Pilih...</option>
                           @foreach($getLokasi as $item)
-                            <option value="{{ $item['hasilLokasi'] }}">{{ $item['hasilLokasi'] }}</option>
+                            <option value="{{ $item['hasilLokasi'] }}">{{ $item['namalokasi'] }}</option>
                           @endforeach
                       </select>
                   </div>
@@ -148,7 +148,7 @@
                       <select class="custom-select cari" id="cari_merek_service" name="cari_merek_service">
                           <option value="semua">Pilih...</option>
                           @foreach($getMerek as $item)
-                            <option value="{{ $item['hasilMerek'] }}">{{ $item['hasilMerek'] }}</option>
+                            <option value="{{ $item['hasilMerek'] }}">{{ $item['namamerek'] }}</option>
                           @endforeach
                       </select>
                   </div>
@@ -161,7 +161,7 @@
                       <select class="custom-select cari" id="cari_lokasi_service" name="cari_lokasi_service">
                           <option value="semua">Pilih...</option>
                           @foreach($getLokasi as $item)
-                            <option value="{{ $item['hasilLokasi'] }}">{{ $item['hasilLokasi'] }}</option>
+                            <option value="{{ $item['hasilLokasi'] }}">{{ $item['namalokasi'] }}</option>
                           @endforeach
                       </select>
                   </div>

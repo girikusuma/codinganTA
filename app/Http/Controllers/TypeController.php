@@ -9,11 +9,12 @@ class TypeController extends Controller
     public function index()
     {
         //query untuk mengambil data type motor dan disimpan pada variabel result
-        $type = $this->sparql->query("SELECT * WHERE {?s rdf:type motor:Type}");
+        $type = $this->sparql->query("SELECT * WHERE {?s rdf:type motor:Type. ?s motor:MemilikiNama ?nama} ORDER BY ?s");
         $result = [];
         foreach($type as $item){
             array_push($result, [
-                'type' => $this->parseData($item->s->getUri())
+                'type' => $this->parseData($item->s->getUri()),
+                'nama'  => $this->parseData($item->nama->getValue())
             ]);
         }
         $data = [
@@ -25,7 +26,7 @@ class TypeController extends Controller
     public function show($type)
     {
         //query untuk mengambil data motor berdasarkan type tertentu dan disimpan pada variabel result
-        $getnama = $this->sparql->query("SELECT * WHERE {?s motor:MemilikiJenis motor:".$type.". ?s motor:MemilikiNama ?n. ?s motor:MemilikiGambar ?gambar}");
+        $getnama = $this->sparql->query("SELECT * WHERE {?s motor:MemilikiJenis motor:".$type.". ?s motor:MemilikiNama ?n. ?s motor:MemilikiGambar ?gambar} ORDER BY ?s");
         $result = [];
         $jumlah = 0;
         foreach($getnama as $item){

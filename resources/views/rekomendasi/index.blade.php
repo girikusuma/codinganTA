@@ -69,7 +69,7 @@
                 </select>
             </div>
           </div>
-          <div class="form-group" id="filter_volume_motor">
+          <!-- <div class="form-group" id="filter_volume_motor">
             <div class="text-nowrap font-weight-bold" style="width: 8rem;">Volume Silinder</div>
             <div class="input-group mb-3">
                 <select class="custom-select" id="volume" name="volume">
@@ -79,7 +79,7 @@
                     @endforeach
                 </select>
             </div>
-          </div>
+          </div> -->
           <div id="tombol_filter">
             <input type="submit" name="cari_filter" value="Lihat Rekomendasi" class="btn btn-primary">
           </div>

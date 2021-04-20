@@ -150,12 +150,12 @@ class SearchingController extends Controller
             $volume = "semua";
         }
         //melakukan query untuk mengambil data merek, transmisi, type, tahun, volume, dan lokasi
-        $merek = $this->sparql->query('SELECT * WHERE {?merek rdf:type motor:Merek}');
-        $transmisi = $this->sparql->query('SELECT * WHERE {?transmisi rdf:type motor:Transmisi}');
-        $typemotor = $this->sparql->query('SELECT * WHERE {?typemotor rdf:type motor:Type}');
-        $tahun = $this->sparql->query('SELECT * WHERE {?tahun rdf:type motor:TahunProduksi}');
-        $volume = $this->sparql->query('SELECT * WHERE {?volume rdf:type motor:VolumeSilinder}');
-        $lokasi = $this->sparql->query('SELECT * WHERE {?lokasi rdf:type motor:Kabupaten}');
+        $merek = $this->sparql->query('SELECT * WHERE {?merek rdf:type motor:Merek. ?merek motor:MemilikiNama ?nama} ORDER BY ?merek');
+        $transmisi = $this->sparql->query('SELECT * WHERE {?transmisi rdf:type motor:Transmisi. ?transmisi motor:MemilikiNama ?nama} ORDER BY ?transmisi');
+        $typemotor = $this->sparql->query('SELECT * WHERE {?typemotor rdf:type motor:Type. ?typemotor motor:MemilikiNama ?nama} ORDER BY ?typemotor');
+        $tahun = $this->sparql->query('SELECT * WHERE {?tahun rdf:type motor:TahunProduksi. ?tahun motor:MemilikiNama ?nama} ORDER BY ?tahun');
+        $volume = $this->sparql->query('SELECT * WHERE {?volume rdf:type motor:VolumeSilinder. ?volume motor:MemilikiNama ?nama} ORDER BY ?volume');
+        $lokasi = $this->sparql->query('SELECT * WHERE {?lokasi rdf:type motor:Kabupaten. ?lokasi motor:MemilikiNama ?nama} ORDER BY ?lokasi');
         
         $resultMerek = [];
         $resultTransmisi = [];
@@ -166,32 +166,38 @@ class SearchingController extends Controller
         
         foreach($merek as $item){
             array_push($resultMerek, [
-                'hasilMerek' => $this->parseData($item->merek->getUri())
+                'hasilMerek' => $this->parseData($item->merek->getUri()),
+                'namamerek'  => $this->parseData($item->nama->getValue())
             ]);
         }
         foreach($transmisi as $item){
             array_push($resultTransmisi, [
-                'hasilTransmisi' => $this->parseData($item->transmisi->getUri())
+                'hasilTransmisi' => $this->parseData($item->transmisi->getUri()),
+                'namatransmisi'  => $this->parseData($item->nama->getValue())
             ]);
         }
         foreach($typemotor as $item){
             array_push($resultType, [
-                'hasilType' => $this->parseData($item->typemotor->getUri())
+                'hasilType' => $this->parseData($item->typemotor->getUri()),
+                'namatype'  => $this->parseData($item->nama->getValue())
             ]);
         }
         foreach($tahun as $item){
             array_push($resultTahun, [
-                'hasilTahun' => $this->parseData($item->tahun->getUri())
+                'hasilTahun' => $this->parseData($item->tahun->getUri()),
+                'namatahun'  => $this->parseData($item->nama->getValue())
             ]);
         }
         foreach($volume as $item){
             array_push($resultVolume, [
-                'hasilVolume' => $this->parseData($item->volume->getUri())
+                'hasilVolume' => $this->parseData($item->volume->getUri()),
+                'namavolume'  => $this->parseData($item->nama->getValue())
             ]);
         }
         foreach($lokasi as $item){
             array_push($resultLokasi, [
-                'hasilLokasi' => $this->parseData($item->lokasi->getUri())
+                'hasilLokasi' => $this->parseData($item->lokasi->getUri()),
+                'namalokasi'  => $this->parseData($item->nama->getValue())
             ]);
         }
         $data = [
