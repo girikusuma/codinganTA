@@ -25,61 +25,80 @@
       <div class="container-fluid">
         <form action="{{ route('rekomendasi.result') }}" method="POST" id="form_filter" class="mt-4">
           @csrf
-          <div class="form-group" id="filter_merek_motor">
-            <div class="text-nowrap font-weight-bold" style="width: 8rem;">Merek Motor</div>
-            <div class="input-group mb-3">
-              <select class="custom-select" id="merek" name="merek">
-                <option value="semua">Pilih...</option>
-              @foreach($getMerek as $item)
-                <option value="{{ $item['hasilMerek'] }}">{{ $item['namaMerek'] }}</option>
-              @endforeach
-              </select>
+          <div class="row">
+            <div class="col">
+              <div class="form-group" id="filter_merek_motor">
+                <div class="text-nowrap font-weight-bold" style="width: 8rem;">Merek Motor</div>
+                <div class="input-group mb-3">
+                  <select class="custom-select" id="merek" name="merek">
+                    <option value="semua">Pilih...</option>
+                  @foreach($getMerek as $item)
+                    <option value="{{ $item['hasilMerek'] }}">{{ $item['namaMerek'] }}</option>
+                  @endforeach
+                  </select>
+                </div>
+              </div>
+              <div class="form-group" id="filter_transmisi_motor">
+                <div class="text-nowrap font-weight-bold" style="width: 8rem;">Jenis Transmisi</div>
+                <div class="input-group mb-3">
+                    <select class="custom-select" id="transmisi" name="transmisi">
+                        <option value="semua">Pilih...</option>
+                        @foreach($getTransmisi as $item)
+                          <option value="{{ $item['hasilTransmisi'] }}">{{ $item['namaTransmisi'] }}</option>
+                        @endforeach
+                    </select>
+                </div>
+              </div>
+              <div class="form-group" id="filter_type_motor">
+                <div class="text-nowrap font-weight-bold" style="width: 8rem;">Type Motor</div>
+                <div class="input-group mb-3">
+                    <select class="custom-select" id="typemotor" name="typemotor">
+                        <option value="semua">Pilih...</option>
+                        @foreach($getType as $item)
+                          <option value="{{ $item['hasilType'] }}">{{ $item['namaType'] }}</option>
+                        @endforeach
+                    </select>
+                </div>
+              </div>
+              <div class="form-group" id="filter_tahun_motor">
+                <div class="text-nowrap font-weight-bold" style="width: 8rem;">Tahun Produksi</div>
+                <div class="input-group mb-3">
+                    <select class="custom-select" id="tahun" name="tahun">
+                        <option value="semua">Pilih...</option>
+                        @foreach($getTahun as $item)
+                          <option value="{{ $item['hasilTahun'] }}">{{ $item['namaTahun'] }}</option>
+                        @endforeach
+                    </select>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <div class="text-nowrap font-weight-bold" style="width: 8rem;">Bobot Harga</div>
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" id="Harga" name="Harga" placeholder="Masukan Bobot Harga" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="text-nowrap font-weight-bold" style="width: 8rem;">Bobot Kapasitas BBM</div>
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" id="KapasitasBBM" name="KapasitasBBM" placeholder="Masukan Bobot Kapasitas BBM" required>
+                </div>  
+              </div>
+              <div class="form-group">
+                <div class="text-nowrap font-weight-bold" style="width: 8rem;">Bobot Konsumsi Bahan Bakar</div>
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" id="KonsumsiBBM" name="KonsumsiBBM" placeholder="Masukan Bobot Konsumsi Bahan Bakar" required>
+                </div> 
+              </div>
+              <div class="form-group">
+                <div class="text-nowrap font-weight-bold" style="width: 8rem;">Bobot Volume Silinder</div>
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" id="VolumeSilinder" name="VolumeSilinder" placeholder="Masukan Bobot Volume Silinder" required>
+                </div> 
+              </div>
             </div>
           </div>
-          <div class="form-group" id="filter_transmisi_motor">
-            <div class="text-nowrap font-weight-bold" style="width: 8rem;">Jenis Transmisi</div>
-            <div class="input-group mb-3">
-                <select class="custom-select" id="transmisi" name="transmisi">
-                    <option value="semua">Pilih...</option>
-                    @foreach($getTransmisi as $item)
-                      <option value="{{ $item['hasilTransmisi'] }}">{{ $item['namaTransmisi'] }}</option>
-                    @endforeach
-                </select>
-            </div>
-          </div>
-          <div class="form-group" id="filter_type_motor">
-            <div class="text-nowrap font-weight-bold" style="width: 8rem;">Type Motor</div>
-            <div class="input-group mb-3">
-                <select class="custom-select" id="typemotor" name="typemotor">
-                    <option value="semua">Pilih...</option>
-                    @foreach($getType as $item)
-                      <option value="{{ $item['hasilType'] }}">{{ $item['namaType'] }}</option>
-                    @endforeach
-                </select>
-            </div>
-          </div>
-          <div class="form-group" id="filter_tahun_motor">
-            <div class="text-nowrap font-weight-bold" style="width: 8rem;">Tahun Produksi</div>
-            <div class="input-group mb-3">
-                <select class="custom-select" id="tahun" name="tahun">
-                    <option value="semua">Pilih...</option>
-                    @foreach($getTahun as $item)
-                      <option value="{{ $item['hasilTahun'] }}">{{ $item['namaTahun'] }}</option>
-                    @endforeach
-                </select>
-            </div>
-          </div>
-          <!-- <div class="form-group" id="filter_volume_motor">
-            <div class="text-nowrap font-weight-bold" style="width: 8rem;">Volume Silinder</div>
-            <div class="input-group mb-3">
-                <select class="custom-select" id="volume" name="volume">
-                    <option value="semua">Pilih...</option>
-                    @foreach($getVolume as $item)
-                      <option value="{{ $item['hasilVolume'] }}">{{ $item['namaVolume'] }}</option>
-                    @endforeach
-                </select>
-            </div>
-          </div> -->
           <div id="tombol_filter">
             <input type="submit" name="cari_filter" value="Lihat Rekomendasi" class="btn btn-primary">
           </div>
@@ -109,6 +128,32 @@
                   </table>
                 </div>
                 <input type="submit" name="cari_checkbox" id="btn_post" value="Lihat Rekomendasi" class="btn btn-primary disable">
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <div class="text-nowrap font-weight-bold" style="width: 8rem;">Bobot Harga</div>
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" id="Harga" name="Harga" placeholder="Masukan Bobot Harga" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="text-nowrap font-weight-bold" style="width: 8rem;">Bobot Kapasitas BBM</div>
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" id="KapasitasBBM" name="KapasitasBBM" placeholder="Masukan Bobot Kapasitas BBM" required>
+                </div>  
+              </div>
+              <div class="form-group">
+                <div class="text-nowrap font-weight-bold" style="width: 8rem;">Bobot Konsumsi Bahan Bakar</div>
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" id="KonsumsiBBM" name="KonsumsiBBM" placeholder="Masukan Bobot Konsumsi Bahan Bakar" required>
+                </div> 
+              </div>
+              <div class="form-group">
+                <div class="text-nowrap font-weight-bold" style="width: 8rem;">Bobot Volume Silinder</div>
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" id="VolumeSilinder" name="VolumeSilinder" placeholder="Masukan Bobot Volume Silinder" required>
+                </div> 
               </div>
             </div>
           </div>

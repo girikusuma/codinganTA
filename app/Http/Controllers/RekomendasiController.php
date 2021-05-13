@@ -92,9 +92,6 @@ class RekomendasiController extends Controller
             if($request->tahun != 'semua'){
                 $sql = $sql." .?motor motor:MemilikiTahunProduksi motor:".$request->tahun;
             }
-            // if($request->volume != 'semua'){
-            //     $sql = $sql." .?motor motor:MemilikiVolumeSilinder motor:".$request->volume;
-            // }
             
             $sql = $sql.". ?motor motor:MemilikiHarga ?harga. ?motor motor:MemilikiTingkatKonsumsiBahanBakar ?tingkatbbm. ?motor motor:MemilikiVolumeSilinder ?volume. ?motor motor:MemilikiKapasitasBahanBakar ?kapasitas. ?motor motor:MemilikiNama ?nama}";
 
@@ -115,6 +112,51 @@ class RekomendasiController extends Controller
                 ]);
                 $kodeAlternatif = $kodeAlternatif + 1;
             }
+
+            //query untuk mengambil data kriteria dari fuseki server
+            $sqlkriteria = $this->sparql->query("SELECT * WHERE {?kriteria rdf:type motor:NamaKriteria. ?kriteria motor:AdalahJenisKriteria ?jenis} ORDER BY ?kriteria");
+            
+            //menyimpan data kriteria pada variabel $getKriteria
+            $getKriteria = [];
+            $kode = 1;
+            foreach($sqlkriteria as $item){
+                if($this->parseData($item->kriteria->getUri()) == "Harga"){
+                    array_push($getKriteria, [
+                        'kriteria'  => $this->parseData($item->kriteria->getUri()),
+                        'jenis'     => $this->parseData($item->jenis->getUri()),
+                        'bobot'     => floatval($request->Harga),
+                        'kode'      => "C".$kode
+                    ]);
+                    $kode += 1;
+                }
+                else if($this->parseData($item->kriteria->getUri()) == "KapasitasBBM"){
+                    array_push($getKriteria, [
+                        'kriteria'  => $this->parseData($item->kriteria->getUri()),
+                        'jenis'     => $this->parseData($item->jenis->getUri()),
+                        'bobot'     => floatval($request->KapasitasBBM),
+                        'kode'      => "C".$kode
+                    ]);
+                    $kode += 1;
+                }
+                else if($this->parseData($item->kriteria->getUri()) == "KonsumsiBBM"){
+                    array_push($getKriteria, [
+                        'kriteria'  => $this->parseData($item->kriteria->getUri()),
+                        'jenis'     => $this->parseData($item->jenis->getUri()),
+                        'bobot'     => floatval($request->KonsumsiBBM),
+                        'kode'      => "C".$kode
+                    ]);
+                    $kode += 1;
+                }
+                else if($this->parseData($item->kriteria->getUri()) == "VolumeSilinder"){
+                    array_push($getKriteria, [
+                        'kriteria'  => $this->parseData($item->kriteria->getUri()),
+                        'jenis'     => $this->parseData($item->jenis->getUri()),
+                        'bobot'     => floatval($request->VolumeSilinder),
+                        'kode'      => "C".$kode
+                    ]);
+                    $kode += 1;
+                }
+            }
         } else {
             $resultMotor = [];
             $jumlahMotor = count($request->motor);
@@ -126,30 +168,58 @@ class RekomendasiController extends Controller
                         'nama'              => $this->parseData($item->nama->getValue()),
                         'Harga'             => intval($this->parseData($item->harga->getValue())),
                         'KapasitasBBM'      => floatval($this->parseData($item->kapasitas->getValue())),
-                        'VolumeSilinder'    => $this->parseData($item->volume->getValue()),
+                        'VolumeSilinder'    => $this->parseData($item->volume->getUri()),
                         'KonsumsiBBM'       => floatval($this->parseData($item->tingkatbbm->getValue())),
-                        'kode'              => "A".$x+1
+                        'kode'              => "A".($x+1)
                     ]);
+                }
+            }
+            //query untuk mengambil data kriteria dari fuseki server
+            $sqlkriteria = $this->sparql->query("SELECT * WHERE {?kriteria rdf:type motor:NamaKriteria. ?kriteria motor:AdalahJenisKriteria ?jenis} ORDER BY ?kriteria");
+            
+            //menyimpan data kriteria pada variabel $getKriteria
+            $getKriteria = [];
+            $kode = 1;
+            foreach($sqlkriteria as $item){
+                if($this->parseData($item->kriteria->getUri()) == "Harga"){
+                    array_push($getKriteria, [
+                        'kriteria'  => $this->parseData($item->kriteria->getUri()),
+                        'jenis'     => $this->parseData($item->jenis->getUri()),
+                        'bobot'     => floatval($request->Harga),
+                        'kode'      => "C".$kode
+                    ]);
+                    $kode += 1;
+                }
+                else if($this->parseData($item->kriteria->getUri()) == "KapasitasBBM"){
+                    array_push($getKriteria, [
+                        'kriteria'  => $this->parseData($item->kriteria->getUri()),
+                        'jenis'     => $this->parseData($item->jenis->getUri()),
+                        'bobot'     => floatval($request->KapasitasBBM),
+                        'kode'      => "C".$kode
+                    ]);
+                    $kode += 1;
+                }
+                else if($this->parseData($item->kriteria->getUri()) == "KonsumsiBBM"){
+                    array_push($getKriteria, [
+                        'kriteria'  => $this->parseData($item->kriteria->getUri()),
+                        'jenis'     => $this->parseData($item->jenis->getUri()),
+                        'bobot'     => floatval($request->KonsumsiBBM),
+                        'kode'      => "C".$kode
+                    ]);
+                    $kode += 1;
+                }
+                else if($this->parseData($item->kriteria->getUri()) == "VolumeSilinder"){
+                    array_push($getKriteria, [
+                        'kriteria'  => $this->parseData($item->kriteria->getUri()),
+                        'jenis'     => $this->parseData($item->jenis->getUri()),
+                        'bobot'     => floatval($request->VolumeSilinder),
+                        'kode'      => "C".$kode
+                    ]);
+                    $kode += 1;
                 }
             }
         }
         $jumlah = count($resultMotor);
-
-        //query untuk mengambil data kriteria dari fuseki server
-        $query = $this->sparql->query("SELECT * WHERE {?kriteria rdf:type motor:NamaKriteria. ?kriteria motor:MemilikiBobot ?bobot. ?kriteria motor:AdalahJenisKriteria ?jenis} ORDER BY ?kriteria");
-        
-        //menyimpan data kriteria pada variabel $getKriteria
-        $getKriteria = [];
-        $kode = 1;
-        foreach($query as $item){
-            array_push($getKriteria, [
-                'kriteria'  => $this->parseData($item->kriteria->getUri()),
-                'jenis'     => $this->parseData($item->jenis->getUri()),
-                'bobot'     => floatval($this->parseData($item->bobot->getValue())),
-                'kode'      => "C".$kode
-            ]);
-            $kode += 1;
-        }
 
         //memanggil fungsi getCrips untuk memberi nilai pada table Data Crips
         $cripsData = $this->getCrips($getKriteria);
@@ -161,7 +231,7 @@ class RekomendasiController extends Controller
         $normalisasi = $this->getNormalisasi($getKriteria, $nilaiAlternatif, $jumlah);
 
         //memanggil fungsi getRanking untuk memberi nilai pada tabel Nilai Pembobotan
-        $rankingData = $this->getRanking($normalisasi);
+        $rankingData = $this->getRanking($normalisasi, $getKriteria);
 
         //memanggil fungsi getResultSAW untuk memberi nilai pada tabel Hasil Simple Additive Weighting
         $hasilSAW = $this->getResultSAW($rankingData);
@@ -398,22 +468,11 @@ class RekomendasiController extends Controller
         return $ratingNormalisasi;
     }
 
-    public function getRanking($data)
+    public function getRanking($data, $bobotKriteria)
     {
         //menghitung jumlah motor
         $jumlahMotor = count($data);
 
-        //query untuk mengambil data kriteria
-        $query = $this->sparql->query("SELECT * WHERE {?kriteria rdf:type motor:NamaKriteria. ?kriteria motor:MemilikiBobot ?bobot}");
-        
-        //menyimpan data kriteria pada variabel
-        $bobotKriteria = [];
-        foreach($query as $item){
-            array_push($bobotKriteria, [
-                'kriteria'  => $this->parseData($item->kriteria->getUri()),
-                'bobot'     => floatval($this->parseData($item->bobot->getValue()))
-            ]);
-        }
         //menghitung jumlah kriteria
         $jumlahKriteria = count($bobotKriteria);
 
